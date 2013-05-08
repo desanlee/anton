@@ -17,27 +17,27 @@
 	<% end %>
 </ul>
 
+<% if @selectsystem != nil then %>
+	<% if current_user == System.find_by_id(@selectsystem).user then %>
+		<hr>
+		<%= form_tag controller: "systems", action: "selecttype" do %>
+			<%= hidden_field_tag(:devicecate, @selectcate) %>
+			<%= hidden_field_tag(:system, @selectsystem) %>
+			<div class="span10">
+				<div class="span"><%= select_tag 'devicetype', options_from_collection_for_select( @devicetypes, :id, :name, @selecttype ), onchange: "this.form.submit();" %></div>
+			</div>
+		<% end %>
 
-<% if current_user == System.find_by_id(@selectsystem).user then %>
-	<hr>
-	<%= form_tag controller: "systems", action: "selecttype" do %>
-		<%= hidden_field_tag(:devicecate, @selectcate) %>
-		<%= hidden_field_tag(:system, @selectsystem) %>
-		<div class="span10">
-			<div class="span"><%= select_tag 'devicetype', options_from_collection_for_select( @devicetypes, :id, :name, @selecttype ), onchange: "this.form.submit();" %></div>
-		</div>
-	<% end %>
-
-	<%= form_tag controller: "systems", action: "adddevice" do %>
-		<%= hidden_field_tag(:devicecate, @selectcate) %>
-		<%= hidden_field_tag(:system, @selectsystem) %>
-		<%= hidden_field_tag(:devicetype, @selecttype) %>
-		<div class="span10">
-			<div class="span"><%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :name) %></div>
-			<div class="span"><%= text_field_tag :maxnum, "Max Quantity", class: "textsize4" %></div>
-			<div class="span"><%= text_area_tag :note, "Note...", class: "textsize26" %></div>
-			<div class="span"><%= submit_tag "Add In" %></div>
-		</div>
-	<% end %>
-
-<% end %>
+		<%= form_tag controller: "systems", action: "adddevice" do %>
+			<%= hidden_field_tag(:devicecate, @selectcate) %>
+			<%= hidden_field_tag(:system, @selectsystem) %>
+			<%= hidden_field_tag(:devicetype, @selecttype) %>
+			<div class="span10">
+				<div class="span"><%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :name) %></div>
+				<div class="span"><%= text_field_tag :maxnum, "Max Quantity", class: "textsize4" %></div>
+				<div class="span"><%= text_area_tag :note, "Note...", class: "textsize26" %></div>
+				<div class="span"><%= submit_tag "Add In" %></div>
+			</div>
+		<% end %>
+	<% end %>	
+<% end %>										
