@@ -8,7 +8,7 @@ class DevicesController < ApplicationController
   
   def index
 	if @selectcate == nil then @selectcate = 'Hardware' end
-	if @selecttype == nil then @selecttype = Devicetype.first.id end
+	if @selecttype == nil then @selecttype = Devicetype.first.id if Devicetype.first != nil end
 	
     @catelist = self.catelist
 	@typelist = Devicetype.find_all_by_devicecate(@selectcate)

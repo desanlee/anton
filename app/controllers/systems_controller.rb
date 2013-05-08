@@ -5,7 +5,7 @@ class SystemsController < ApplicationController
   
   def index
 	if @selectcate == nil then @selectcate = 'Hardware' end
-	if @selectsystem == nil then @selectsystem = System.first.id end
+	if @selectsystem == nil then @selectsystem = System.first.id if System.first != nil end
 	
 	@devicetypes = Devicetype.find_all_by_devicecate(@selectcate)
 	@selecttype = @devicetypes.first.id if @selecttype == nil
