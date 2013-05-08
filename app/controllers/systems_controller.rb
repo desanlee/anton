@@ -8,7 +8,7 @@ class SystemsController < ApplicationController
 	if @selectsystem == nil then @selectsystem = System.first.id if System.first != nil end
 	
 	@devicetypes = Devicetype.find_all_by_devicecate(@selectcate)
-	@selecttype = @devicetypes.first.id if @selecttype == nil
+	if @selecttype == nil then @selecttype = @devicetypes.first.id if @devicetypes.first != nil end
 	@devices = Device.find_all_by_devicetype_id_and_user_id(@selecttype, current_user.id)
 	
     @catelist = self.catelist
