@@ -5,7 +5,7 @@ class SysconfigsController < ApplicationController
 	@systems = System.all
 	@users = User.all
 	@devicetypes = Devicetype.find_all_by_devicecate("Hardware")
-	if @selecttype == nil then @selecttype = @devicetypes.first.id end
+	if @selecttype == nil then @selecttype = @devicetypes.first.id if @devicetypes.first != nil end
 	@devices = Device.find_all_by_devicetype_id(@selecttype)
 	
 	if current_user.lead? then 
