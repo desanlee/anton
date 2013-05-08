@@ -1,0 +1,13 @@
+<div class="row">
+	<div class="bkgrd span12">
+		<%= render 'achivements/header_list' %>
+	</div>
+
+	<div class="bkgrd span12">
+		<% if current_user.engineer? then %>
+			<%= render 'achivements/engineer' %>
+		<% else %>
+			<%= render 'achivements/lead' %>
+		<% end %>
+	</div>
+</div>

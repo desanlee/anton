@@ -1,0 +1,18 @@
+<h2>All Users</h2><hr>
+
+<%= form_tag controller: "priviledges", action: "selectuser" do %>
+
+	<% if @users != nil then if @users.count != 0 then %>
+		<% @users.each do |t| %>
+			<div class="row">
+				<%= radio_button_tag "selectuser", t.id, if @selectuser.to_i == t.id then true else false end, onchange: "this.form.submit();", class: "span3"  %><%= t.email %>
+			</div>
+		<% end %>
+	<% else %>
+		<h2><br>No SUTs existed</h2>
+	<% end %>
+	<% else %>
+		<h2><br>No SUTs existed</h2>
+	<% end %>
+
+<% end %>

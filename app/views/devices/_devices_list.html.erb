@@ -1,0 +1,33 @@
+<h2>Device List</h2><hr>
+
+<ul>
+	<% if @devicelist != nil then if @devicelist.count != 0 then %>
+		<% @devicelist.each do |d| %>
+			<li>
+				<div class="span3"><%= d.name %></div>
+				<div class="span3">count number is: <%= d.countnum %></div>
+				<div class="span1 offset1"><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" %></div>
+			</li>
+		<% end %>
+			<% else %>
+			<h2><br>No devices existed</h2>
+		<% end %>
+	<% else %>
+		<h2><br>No Devices Existed Currently</h2>
+	<% end %>
+</ul>
+
+<hr>
+<h2>Add New Device In</h2>
+<%= form_tag controller: "devices", action: "adddevice" do %>
+	<%= hidden_field_tag(:devicecate, @selectcate) %>
+	<%= hidden_field_tag(:devicetype, @selecttype) %>
+	<div class="row">
+		<div class="span5">Dev Name: <%= text_field_tag :name,"Can not be blank", class: "textsize8 toright" %></div>
+		<div class="span5">Count Number: <%= text_field_tag :count,"0", class: "textsize2 toright" %></div>
+		<div class="span5">Model: <%= text_field_tag :model,"", class: "textsize8 toright" %></div>
+		<div class="span5">PN: <%= text_field_tag :pn,"", class: "textsize8 toright" %></div>
+		<div class="span10">Note: <%= text_area_tag :note, "", class: "textsize24 toright" %></div>
+	</div>
+	<div><%= submit_tag "Add" , :class => "submit" %></div>
+<% end %>

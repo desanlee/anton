@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  sysconfig_id: 1
+  testcase_id: 1
+  user_id: 1
+  result: MyString
+  bug: MyString
+  note: MyString
+
+two:
+  sysconfig_id: 1
+  testcase_id: 1
+  user_id: 1
+  result: MyString
+  bug: MyString
+  note: MyString

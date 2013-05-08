@@ -1,0 +1,32 @@
+<h2>Testcases in Stage</h2><hr>
+
+<%= form_tag controller: "testcases", action: "selecttype" do %>
+	<%= hidden_field_tag(:casecate, @selectcate) %>
+	<%= hidden_field_tag(:casetype, @selecttype) %>
+
+	<% if @typelist != nil then if @typelist.count != 0 then %>
+		<% @typelist.each do |t| %>
+			<div class="row">
+				<%= radio_button_tag "selecttype", t.id, if @selecttype.to_i == t.id then true else false end, onchange: "this.form.submit();", class: "span3"  %><%= t.name %>
+				<%= link_to "delete", t, method: :delete, data: { confirm: "Sure?" }, class: "span toright" if current_user.root? %>
+			</div>
+		<% end %>
+	<% else %>
+		<h2><br>No types existed</h2>
+	<% end %>
+	<% else %>
+		<h2><br>No types existed</h2>
+	<% end %>
+
+<% end %>
+
+<% if current_user.root? then %>
+<hr>
+<%= form_tag controller: "testcases", action: "addtype" do |t| %>
+	<%= hidden_field_tag(:casecate, @selectcate) %>
+	<%= hidden_field_tag(:casetype, @selecttype) %>
+	<div><%= text_field_tag :name, "Type Name" %></div>
+	<div><%= text_area_tag :note, "Note..." %></div>
+	<div><%= submit_tag "Add Type" , :class => "submit" %></div>
+<% end %>
+<% end %>

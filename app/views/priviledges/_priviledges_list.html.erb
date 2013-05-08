@@ -1,0 +1,27 @@
+<h2>Selected user has following charactors</h2><hr>
+
+<ul>
+	<% if @priviledges != nil then if @priviledges.count != 0 then %>
+		<% @priviledges.each do |p| %>
+			<li>
+				<div class="span3"><%= p.charactor %></div>
+				<div class="span toright"><%= link_to "remove", p, method: :delete, data: { confirm: "Sure?" }, class: "toright" %></div>
+			</li>
+		<% end %>
+			<% else %>
+			<h2><br>No priviledges for selected user existed</h2>
+		<% end %>
+	<% else %>
+		<h2><br>ERROR: priviledges is nil/h2>
+	<% end %>
+</ul>
+<br>
+<hr>
+<%= form_tag controller: "priviledges", action: "addcharactor" do %>
+	<%= hidden_field_tag(:selectuser, @selectuser) %>
+	<div class="span10">
+		<div class="span"><%= select_tag 'selectcharactor', options_for_select( @charactors, @charactors ) %></div>
+	</div>
+	<div><%= submit_tag "Add" , :class => "submit" %></div>
+<% end %>
+<br>

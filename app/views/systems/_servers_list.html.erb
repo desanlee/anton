@@ -1,0 +1,35 @@
+<h2>Systems List</h2><hr>
+
+<%= form_tag controller: "systems", action: "selectsystem" do %>
+	<%= hidden_field_tag(:devicecate, @selectcate) %>
+	<%= hidden_field_tag(:system, @selectsystem) %>
+
+	<% if @systemlist != nil then if @systemlist.count != 0 then %>
+		<% @systemlist.each do |s| %>
+			<div class="row">
+				<%= radio_button_tag "selectsystem", s.id, if @selectsystem.to_i == s.id then true else false end, onchange: "this.form.submit();" , class: "span3" %><%= s.name %>
+				<%= link_to "delete", s, method: :delete, data: { confirm: "Sure?" }, class: "span toright"  if s.user == current_user %>
+			</div>
+		<% end %>
+	<% else %>
+		<h2><br>No Systems Existed</h2>
+	<% end %>
+	<% else %>
+		<h2><br>No Systems Existed</h2>
+	<% end %>
+
+<% end %>
+
+<% if current_user.lead? then %>
+	<hr>
+	<h2>Add New System In</h2>
+	<%= form_tag controller: "systems", action: "addsystem" do%>
+		<%= hidden_field_tag(:devicecate, @selectcate) %>
+		<%= hidden_field_tag(:system, @selectsystem) %>
+		<div class="toright">Name: <%= text_field_tag :name %></div>
+		<div class="toright">Model: <%= text_field_tag :model %></div>
+		<div class="toright">PN:<%= text_field_tag :pn %></div>
+		<div class="toright">Note:<%= text_area_tag :note %></div>
+		<div class="toright"><%= submit_tag "Add System" , :class => "submit" %></div>
+	<% end %>
+<% end %>

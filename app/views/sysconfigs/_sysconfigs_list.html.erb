@@ -1,0 +1,79 @@
+<% if @selectsut != nil then %>
+	<% if @current_user.lead? then %>
+		<div class="span">This Server is assigned to <%= User.find_by_id(Sut.find_by_id(@selectsut).holder_id).email %> currently</div><br>
+		<%= form_tag controller: "sysconfigs", action: "selectuser" do %>
+			<%= hidden_field_tag(:selectsut, @selectsut) %>
+			<div class="span">Assign SUT to: <%= select_tag 'selectuser', options_from_collection_for_select( @users, :id, :email) %></div>
+			<div><%= submit_tag "OK" , :class => "submit" %></div>
+		<% end %>
+		<hr>
+	<% end %>
+
+	<h2>Current Config Has Following Hardwares</h2><hr>
+
+	<ul>
+		<% if @currentsysconfig.devices.count != 0 then %>
+			<% @currentsysconfig.devices.each do |d| %>
+				<li>
+					<div class="span3"><%= d.name %></div>
+					<div class="span3">Position is:<%= Sysconfigrelationship.find_by_sysconfig_id_and_device_id(@currentsysconfig,d.id).position %></div> 
+					<div class="span1 offset1"><%= link_to "delete", Sysconfigrelationship.find_by_sysconfig_id_and_device_id(@currentsysconfig,d.id), method: :delete, data: { confirm: "Sure?" }, class: "toright" %></div>
+				</li>
+			<% end %>
+		<% else %>
+			<h2><br>No devices existed in current config</h2>
+		<% end %>
+	</ul>
+
+	<% if !Execution.find_by_sysconfig_id(@currentsysconfig.id) then %>
+
+		<hr>
+		<%= form_tag controller: "sysconfigs", action: "selecttype" do %>
+			<%= hidden_field_tag(:devicetype, @selecttype) %>
+			<%= hidden_field_tag(:selectsut, @selectsut) %>
+			<div class="span11">
+				<div><%= select_tag 'selecttype', options_from_collection_for_select( @devicetypes, :id, :name, @selecttype), onchange: "this.form.submit();"  %></div>
+			</div>
+		<% end %>
+
+		<%= form_tag controller: "sysconfigs", action: "adddevice" do %>
+			<%= hidden_field_tag(:selecttype, @selecttype) %>
+			<%= hidden_field_tag(:selectsut, @selectsut) %>
+			<%= hidden_field_tag(:currentsysconfig_id, @currentsysconfig.id) %>
+			<div class="span10">
+				<div><%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :name) %></div>
+				<div><%= text_field_tag :deviceposition, "Position", class: "textsize4" %></div>
+			</div>
+			<div><%= submit_tag "Add Devices" , :class => "submit" %></div>
+		<% end %>
+
+	<% end %>
+	
+	<br><hr><h2>Config History For Selected SUT</h2><hr>
+
+	<%= form_tag controller: "sysconfigs", action: "newconfig" do %>
+		<%= hidden_field_tag(:selecttype, @selecttype) %>
+		<%= hidden_field_tag(:selectsut, @selectsut) %>
+		<%= hidden_field_tag(:currentsysconfig_id, @currentsysconfig.id) %>
+		<div><%= submit_tag "Build New Config" , :class => "submit toright" %></div>
+	<% end %><br>
+
+	<ul>
+		<% if @sysconfiglist != nil then %>
+			<% if @sysconfiglist.count != 0 then %>
+				<% @sysconfiglist.each do |d| %>
+					<li>
+						<div class="span4"><%= d.created_at %></div>
+						<div class="span2">id is:<%= d.id %></div> 
+						<div class="span1 offset1"><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" %></div>
+					</li>
+				<% end %>
+			<% else %>
+				<h2><br>No configs existed for selected SUT</h2>
+			<% end %>
+		<% end %>	
+	</ul>
+	
+<% else %>
+	<h2>Select or select SUT first</h2>
+<% end %>

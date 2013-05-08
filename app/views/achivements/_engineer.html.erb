@@ -1,0 +1,31 @@
+
+<h2>Test Case Running</h2><hr>
+<div class="row">
+	<% if @myexecutions != nil then %>
+		<% @myexecutions.each do |e| %>
+			<div class="span8 offset1">
+				Run Case: <%= e.testcase.name if e.testcase != nil %> <%= e.device.name if e.device != nil %> On Server: <%= e.sysconfig.sut.name %>
+			</div>
+		<% end %>
+	<% else %>
+		<div class="span8">Never Run Any Testcases<%= c.sut_id %></div>
+	<% end %>
+</div>
+
+<br><h2>System Configuration</h2><hr>
+<div class="row">
+	<% if @mysysconfigurations != nil then %>
+		<% @mysysconfigurations.each do |c| %>
+			<div class="span8 offset1">Config Server <%= c.sut.system.name %> <%= c.sut.name %> to configs as below:</div>
+			<% c.devices.order.each do |d|  %>
+				<% if d.devicetype.devicecate == "Hardware" then %>
+					<% @position = Sysconfigrelationship.find_by_sysconfig_id_and_device_id(c.id, d.id).position %>
+					<div class="span8 offset1"><div class="span2"><%= d.name %></div> <div class="span4">Located at position:<%= @position %></div></div>
+				<% end %>
+			<% end %>
+		<% end %>
+	<% else %>
+		<div class="span8">Never Config Any Servers<%= c.sut_id %></div>
+	<% end %>
+</div>
+

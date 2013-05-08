@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  casetype_id: 1
+  casecate: MyString
+  name: MyString
+  user_id: 1
+  steps: MyString
+  paradevicetype_id: 1
+
+two:
+  casetype_id: 1
+  casecate: MyString
+  name: MyString
+  user_id: 1
+  steps: MyString
+  paradevicetype_id: 1

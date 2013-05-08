@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  system_id: 1
+  device_id: 1
+  user_id: 1
+  maxnum: 1
+  note: MyString
+
+two:
+  system_id: 1
+  device_id: 1
+  user_id: 1
+  maxnum: 1
+  note: MyString

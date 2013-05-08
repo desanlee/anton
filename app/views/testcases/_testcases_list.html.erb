@@ -1,0 +1,34 @@
+<h2>Testcase List</h2><hr>
+
+<ul>
+	<% if @testcases != nil then if @testcases.count != 0 then %>
+		<% @testcases.each do |d| %>
+			<li>
+				<div class="span3"><%= d.name %></div>
+				<% if d.devicetype != nil then %>
+					<div class="span4">make env change: <%= d.devicetype.name %></div>
+				<% end %>
+				<div class="span offset1 toright"><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" if current_user.root? %></div>
+			</li>
+		<% end %>
+			<% else %>
+			<h2><br>No testcases existed</h2>
+		<% end %>
+	<% else %>
+		<h2><br>No testcases existed</h2>
+	<% end %>
+</ul>
+
+<hr>
+<%= form_tag controller: "testcases", action: "addcase" do %>
+	<%= hidden_field_tag(:casecate, @selectcate) %>
+	<%= hidden_field_tag(:casetype, @selecttype) %>
+	<div class="span10">
+		<div class="span">Testcase Name: <br><%= text_field_tag :name, "", class: "textsize8" %></div>
+		<div class="span">Make Env Change: <br><%= select_tag 'devicetype', options_from_collection_for_select( @devicetypes, :id, :name ), class: "textsize6" %></div>
+	</div>
+	<div class="span10">
+		<div class="span8">Execution Steps:<%= text_area_tag :steps, "", class: "textsize26" %></div>
+	</div>
+	<div><%= submit_tag "Add" , :class => "submit" %></div>
+<% end %>

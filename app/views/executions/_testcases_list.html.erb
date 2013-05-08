@@ -1,0 +1,61 @@
+<script type="text/javascript" language="JavaScript">
+<!--
+function changeresulttype() {
+	if ( document.getElementById("testresult").value=="pass" ) {
+		document.getElementById("moreresult").placeholder="Provide Result Value";
+	} else {
+		document.getElementById("moreresult").placeholder="Bug Number";
+	}
+}
+--></script>
+
+<h2>Execute A Testcase</h2>
+
+<div class="row">
+	<%= form_tag controller: "executions", action: "selecttype" do %>
+		<%= hidden_field_tag(:selectsut, @selectsut) %>
+		<div class="span3">Select Testcase Type: </div>
+		<div class="span6"><%= select_tag 'selecttype', options_from_collection_for_select( @casetypes, :id, :name, @selecttype ), onchange: "this.form.submit();" %></div>
+	<% end %>
+
+	<%= form_tag controller: "executions", action: "selectcase" do %>
+		<%= hidden_field_tag(:selectsut, @selectsut) %>
+		<%= hidden_field_tag(:selecttype, @selecttype) %>
+		<div class="span3">Select Testcase: </div>
+		<div class="span6"><%= select_tag 'selectcase', options_from_collection_for_select( @testcases, :id, :name, @selectcase ), onchange: "this.form.submit();" %></div>
+	<% end %>	
+
+	<%= form_tag controller: "executions", action: "addcase" do %>
+		<%= hidden_field_tag(:selectsut, @selectsut) %>
+		<%= hidden_field_tag(:selecttype, @selecttype) %>
+		<%= hidden_field_tag(:selectcase, @selectcase) %>
+		
+		<% if @envdevices != nil then %>
+			<div class="span3">Case Pamemeter: </div>
+			<div class="span6"><%= select_tag 'selectenvdevice', options_from_collection_for_select( @envdevices, :id, :name ) %></div>
+		<% end %>
+		<div class="span3">Test Result: </div>
+		<div class="span"><%= select_tag 'testresult', options_for_select([["PASS", "pass"], ["FAIL", "fail"]],[@status, @status_value]), onchange: "changeresulttype()" %></div>
+		<div class="span"><%= text_field_tag 'moreresult', "", placeholder: "Provide Result Value", class: "textsize8" %></div>
+		<div><%= submit_tag "Confirm" , :class => "submit btn btn-danger btn-large" %></div>
+	<% end %>
+</div>
+<br>
+<hr>
+<br>
+<ul>
+	<% if @executions != nil then if @executions.count != 0 then %>
+		<% @executions.each do |d| %>
+			<li>
+				<div class="span3"><%= d.testcase.name if d.testcase != nil %></div>
+				<div class="span4">Result:<%= d.result %></div>
+				<div class="span toright"><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" %></div>
+			</li>
+		<% end %>
+			<% else %>
+			<h2><br>No executions existed</h2>
+		<% end %>
+	<% else %>
+		<h2><br>No executions existed</h2>
+	<% end %>
+</ul>

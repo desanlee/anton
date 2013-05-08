@@ -1,0 +1,20 @@
+<h2>My SUTs</h2><hr>
+
+<%= form_tag controller: "executions", action: "selectsut" do %>
+	<%= hidden_field_tag(:selecttype, @selecttype) %>
+
+	<% if @sutlist != nil then if @sutlist.count != 0 then %>
+		<% @sutlist.each do |t| %>
+			<div class="row">
+				<%= radio_button_tag "selectsut", t.id, if @selectsut.to_i == t.id then true else false end, onchange: "this.form.submit();", class: "span3"  %><%= t.system.name + "-" + t.name %>
+				<%= link_to "delete", t, method: :delete, data: { confirm: "Sure?" }, class: "span toright" %>
+			</div>
+		<% end %>
+	<% else %>
+		<h2><br>No SUTs existed</h2>
+	<% end %>
+	<% else %>
+		<h2><br>No SUTs existed</h2>
+	<% end %>
+
+<% end %>
