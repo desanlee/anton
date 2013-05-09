@@ -4,6 +4,8 @@ class Sut < ActiveRecord::Base
   has_many :sysconfigs, class_name: "Sysconfig"
   belongs_to :system, class_name: "System"
   
+  validates :name, :presence => true
+  
   default_scope order: 'suts.name ASC'
   
 end

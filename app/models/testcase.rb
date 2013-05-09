@@ -7,6 +7,8 @@ class Testcase < ActiveRecord::Base
   
   has_many :executions, class_name: "Execution"
   
+  validates :name, :presence => true
+  
   default_scope order: 'testcases.name ASC'
   
 end

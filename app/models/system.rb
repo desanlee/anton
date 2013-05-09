@@ -5,6 +5,8 @@ class System < ActiveRecord::Base
   
   belongs_to :user, class_name: "User"
   
+  validates :name, :presence => true
+  
   default_scope order: 'systems.name ASC'
   
 end
