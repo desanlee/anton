@@ -24,7 +24,7 @@
 		<hr>
 		<%= form_tag controller: "systems", action: "selecttype" do %>
 			<%= hidden_field_tag(:devicecate, @selectcate) %>
-			<%= hidden_field_tag(:system, @selectsystem) %>
+			<%= hidden_field_tag(:selectsystem, @selectsystem) %>
 			<div class="span10">
 				<div class="span"><%= select_tag 'devicetype', options_from_collection_for_select( @devicetypes, :id, :name, @selecttype ), onchange: "this.form.submit();" %></div>
 			</div>
@@ -32,7 +32,7 @@
 
 		<%= form_tag controller: "systems", action: "adddevice" do %>
 			<%= hidden_field_tag(:devicecate, @selectcate) %>
-			<%= hidden_field_tag(:system, @selectsystem) %>
+			<%= hidden_field_tag(:selectsystem, @selectsystem) %>
 			<%= hidden_field_tag(:devicetype, @selecttype) %>
 			<div class="span10">
 				<div class="span"><%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :name) %></div>
