@@ -27,7 +27,7 @@
 	<%= hidden_field_tag(:casetype, @selecttype) %>
 	<div class="span10">
 		<div class="span">Testcase Name: <br><%= text_field_tag :name, "", class: "textsize8" %></div>
-		<div class="span">Make Env Change: <br><%= select_tag 'devicetype', options_from_collection_for_select( @devicetypes, :id, :name ), class: "textsize6" %></div>
+		<div class="span">Make Env Change: <br><%= select_tag 'devicetype', options_from_collection_for_select( @devicetypes, :id, :name ), include_blank: 'None', class: "textsize6" %></div>
 	</div>
 	<div class="span10">
 		<div class="span8">Execution Steps:<%= text_area_tag :steps, "", class: "textsize26" %></div>
