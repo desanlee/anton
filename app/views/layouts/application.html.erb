@@ -14,17 +14,16 @@
       <div class="navbar-inner">
         <div class="container">
           <%= link_to "ANTON - Save you from mess!", '#', id: "logo" %>
-          <nav>
             <ul class="nav pull-right">
 			  <% if current_user %>
-			    <%= link_to "Users", '/priviledges', class: "btn btn-large" if current_user.email == "root@oracle.com" %>
-			    <%= link_to "Device", '/devices', class: "btn btn-large" if current_user.lead? %>
-				<%= link_to "System", '/systems', class: "btn btn-large" %>
-				<%= link_to "TestCase", '/testcases', class: "btn btn-large" if current_user.lead? or current_user.engineer? %>
-				<%= link_to "Config", '/sysconfigs', class: "btn btn-large btn-primary" if current_user.lead? or current_user.engineer?%>
-				<%= link_to "Execution", '/executions', class: "btn btn-large btn-primary" if current_user.engineer?%>
-				<%= link_to "Target", '#', class: "btn btn-large btn-success" if current_user.lead? or current_user.engineer?%>
-				<%= link_to "Achive", '/achivements', class: "btn btn-large btn-success" if current_user.lead? or current_user.engineer?%>
+			    <%= link_to "Users", '/priviledges' , class: "btn "+yield(:userpage) if 1 == 2 if current_user.email == "root@oracle.com" %>
+			    <%= link_to "Device", '/devices', class: "btn "+yield(:devicepage) if current_user.lead? %>
+				<%= link_to "System", '/systems', class: "btn "+yield(:systempage) %>
+				<%= link_to "TestCase", '/testcases', class: "btn "+yield(:testcasepage) if current_user.lead? or current_user.engineer? %>
+				<%= link_to "Config", '/sysconfigs', class: "btn btn-primary "+yield(:configpage) if current_user.lead? or current_user.engineer?%>
+				<%= link_to "Execution", '/executions', class: "btn btn-primary "+yield(:executionpage) if current_user.engineer?%>
+				<%= link_to "Target", '#', class: "btn btn-success "+yield(:targetpage) if current_user.lead? or current_user.engineer?%>
+				<%= link_to "Achive", '/achivements', class: "btn btn-success "+yield(:achivepage) if current_user.lead? or current_user.engineer?%>
 				<li><%= link_to current_user.email, '#'%></li>
 				<li><%= link_to('LogOut', destroy_user_session_path, :method => :delete) %></li>
 				<li><%= link_to('ChangePwd', edit_registration_path(:user)) %></li>
