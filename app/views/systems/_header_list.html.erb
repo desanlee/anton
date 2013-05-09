@@ -5,7 +5,7 @@
 
 <%= form_tag controller: "systems", action: "selectcate" do %>
 	<%= hidden_field_tag(:devicecate, @selectcate) %>
-	<%= hidden_field_tag(:system, @selectsystem) %>
+	<%= hidden_field_tag(:selectsystem, @selectsystem) %>
 	<% @catelist.each do |c| %>
 		<div class="span2"><%= radio_button_tag 'selectcate', c, if @selectcate == c then true else false end, onchange: "this.form.submit();" %><%= c %></div>
 	<% end %>
