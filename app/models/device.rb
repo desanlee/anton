@@ -10,4 +10,5 @@ class Device < ActiveRecord::Base
   has_many :sysconfigs, through: :reverse_sysconfigrelationships, :source => :sysconfig
   has_many :executions, class_name: "Execution"
 
+  default_scope order: 'devices.name ASC'
 end

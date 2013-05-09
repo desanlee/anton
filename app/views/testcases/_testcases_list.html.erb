@@ -1,23 +1,25 @@
 <h2>Testcase List</h2><hr>
 
-<ul>
-	<% if @testcases != nil then if @testcases.count != 0 then %>
-		<% @testcases.each do |d| %>
-			<li>
-				<div class="span3"><%= d.name %></div>
-				<% if d.devicetype != nil then %>
-					<div class="span4">make env change: <%= d.devicetype.name %></div>
-				<% end %>
-				<div class="span offset1 toright"><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" if current_user.root? %></div>
-			</li>
-		<% end %>
-			<% else %>
-			<h2><br>No testcases existed</h2>
-		<% end %>
+<% if @testcases != nil then %>
+	<% if @testcases.count != 0 then %>
+		<table class="table table-striped table-bordered table-condensed">
+			<% @testcases.each do |d| %>
+				<tr>
+					<td><%= d.name %></td>
+					<% if d.devicetype != nil then %>
+						<td>make env change: <%= d.devicetype.name %></td>
+					<% end %>
+					<td><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" if current_user.root? %></td>
+				</tr>
+			<% end %>
+		</table>
 	<% else %>
 		<h2><br>No testcases existed</h2>
 	<% end %>
-</ul>
+<% else %>
+	<h2><br>No testcases existed</h2>
+<% end %>
+
 
 <hr>
 <%= form_tag controller: "testcases", action: "addcase" do %>

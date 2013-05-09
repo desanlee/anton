@@ -6,4 +6,7 @@ class Testcase < ActiveRecord::Base
   belongs_to :user, class_name: "User"
   
   has_many :executions, class_name: "Execution"
+  
+  default_scope order: 'testcases.name ASC'
+  
 end

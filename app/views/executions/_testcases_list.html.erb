@@ -45,13 +45,15 @@ function changeresulttype() {
 <br>
 <ul>
 	<% if @executions != nil then if @executions.count != 0 then %>
-		<% @executions.each do |d| %>
-			<li>
-				<div class="span3"><%= d.testcase.name if d.testcase != nil %></div>
-				<div class="span4">Result:<%= d.result %></div>
-				<div class="span toright"><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" %></div>
-			</li>
-		<% end %>
+		<table class="table table-striped table-bordered table-condensed">
+			<% @executions.each do |d| %>
+				<tr>
+					<td><%= d.testcase.name if d.testcase != nil %></td>
+					<td>Result:<%= d.result %></td>
+					<td><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" %></td>
+				</tr>
+			<% end %>
+		</table>
 			<% else %>
 			<h2><br>No executions existed</h2>
 		<% end %>

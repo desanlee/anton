@@ -5,4 +5,6 @@ class System < ActiveRecord::Base
   
   belongs_to :user, class_name: "User"
   
+  default_scope order: 'systems.name ASC'
+  
 end
