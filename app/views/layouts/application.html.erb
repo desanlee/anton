@@ -16,7 +16,7 @@
           <%= link_to "ANTON - Save you from mess!", '#', id: "logo" %>
             <ul class="nav pull-right">
 			  <% if current_user %>
-			    <%= link_to "Users", '/priviledges' , class: "btn "+yield(:userpage) if 1 == 2 if current_user.email == "root@oracle.com" %>
+			    <%= link_to "Users", '/priviledges' , class: "btn "+yield(:userpage) if current_user.email == "root@oracle.com" %>
 			    <%= link_to "Device", '/devices', class: "btn "+yield(:devicepage) if current_user.lead? %>
 				<%= link_to "System", '/systems', class: "btn "+yield(:systempage) %>
 				<%= link_to "TestCase", '/testcases', class: "btn "+yield(:testcasepage) if current_user.lead? or current_user.engineer? %>
