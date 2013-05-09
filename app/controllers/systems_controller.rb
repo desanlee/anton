@@ -13,12 +13,12 @@ class SystemsController < ApplicationController
 	
     @catelist = self.catelist
 	@systemlist = System.all
-	@devicelist = System.find_by_id(@selectsystem).devices.find_all if @selectsystem != nil
+	@devicelist = System.find_by_id(@selectsystem).devices.sort_by! { |obj| obj.devicetype_id } if @selectsystem != nil
   end
 
   def selectcate
 	@selectcate = params[:selectcate] 
-	@selectsystem = params[:system] 
+	@selectsystem = params[:selectsystem] 
 	self.index
 	render 'systems/index'
   end
@@ -55,7 +55,7 @@ class SystemsController < ApplicationController
   end
   
   def adddevice
-    @selectsystem = params[:system]
+    @selectsystem = params[:selectsystem]
 	@selectcate = params[:devicecate] 
 	@selecttype = params[:devicetype]
 	
