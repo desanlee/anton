@@ -3,14 +3,14 @@
 <ul>
 	<% if @devicelist != nil then %>
 		<table class="table table-striped table-bordered table-condensed">
+			<tr><td>Device Name</td><td>Type</td><td>Max Cfg</td><td>Opration</td></tr>
 			<% @devicelist.each do |d| %>
-				<tr><td>Device Name</td><td>Type</td><td>Max Cfg</td><td>Opration</td></tr>
 				<% if d.devicetype.devicecate == @selectcate then%>
 				<tr>
 					<td><%= d.name %></td>
 					<td><%= d.devicetype.name%></td> 
 					<td><%= Avlrelationship.find_by_system_id_and_device_id(@selectsystem, d.id).maxnum %></td> 
-					<td><%= link_to "delete", Avlrelationship.find_by_system_id_and_device_id(@selectsystem,d.id), method: :delete, data: { confirm: "Sure?" }, class: "toright" if current_user == System.find_by_id(@selectsystem).user%></td>
+					<td><%= link_to "delete", Avlrelationship.find_by_system_id_and_device_id(@selectsystem,d.id), method: :delete, data: { confirm: "Sure?" }, class: "" if current_user == System.find_by_id(@selectsystem).user%></td>
 				</tr>
 				<% end %>
 			<% end %>

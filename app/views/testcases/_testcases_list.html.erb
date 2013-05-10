@@ -7,8 +7,8 @@
 			<% @testcases.each do |d| %>
 				<tr>
 					<td><%= d.name %></td>
-					<td><%= d.devicetype.name if d.devicetype != nil %></td>
-					<td><%= d.user.name if d.user != nil %></td>
+					<td><%=if d.devicetype != nil then d.devicetype.name else "None" end %></td>
+					<td><%= d.user.email if d.user != nil %></td>
 					<td><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" if current_user.root? %></td>
 				</tr>
 			<% end %>
@@ -22,7 +22,7 @@
 
 
 <hr>
- <div class="alarmtext">Create a case, TYPE is: <%= @selectcate %>, Running in STAGE of:<%= Casetype.find_by_id(@selecttype).name %></div>
+ <div class="span 10"><div class="span">Create a case, TYPE is: </div><div class="span alarmtext"><%= @selectcate %></div>, Running in STAGE of:<div class="span alarmtext"><%= Casetype.find_by_id(@selecttype).name %></div></div>
 <%= form_tag controller: "testcases", action: "addcase" do %>
 	<%= hidden_field_tag(:casecate, @selectcate) %>
 	<%= hidden_field_tag(:casetype, @selecttype) %>
