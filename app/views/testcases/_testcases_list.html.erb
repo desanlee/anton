@@ -8,7 +8,7 @@
 				<tr>
 					<td><%= d.name %></td>
 					<td><%= d.devicetype.name if d.devicetype != nil %></td>
-					<td><%= d.user.name %></td>
+					<td><%= d.user.name if d.user != nil %></td>
 					<td><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" if current_user.root? %></td>
 				</tr>
 			<% end %>

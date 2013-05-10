@@ -34,6 +34,7 @@ class TestcasesController < ApplicationController
     
 	@casetype = Casetype.new
 	@casetype.name = params[:name]
+	@casetype.user_id = current_user.id
 	@casetype.note = params[:note]
 	@casetype.save
 
@@ -49,6 +50,7 @@ class TestcasesController < ApplicationController
 	@testcase.casetype_id = @selecttype
 	@testcase.casecate = @selectcate
 	@testcase.name  = params[:name]
+	@testcase.user_id = current_user.id
 	@testcase.steps  = params[:steps]
 	@testcase.devicetype_id  = params[:devicetype]
 	@testcase.save
