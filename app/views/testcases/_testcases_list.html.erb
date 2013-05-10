@@ -22,7 +22,7 @@
 
 
 <hr>
- <div class="span 10"><div class="span">Create a case, TYPE is: </div><div class="span alarmtext"><%= @selectcate %></div>, Running in STAGE of:<div class="span alarmtext"><%= Casetype.find_by_id(@selecttype).name %></div></div>
+ <div class="span 10"><div class="span">Create a case, TYPE is: </div><div class="span alarmtext"><%= @selectcate %></div>, STAGE is:<div class="span alarmtext"><%= Casetype.find_by_id(@selecttype).name %></div></div>
 <%= form_tag controller: "testcases", action: "addcase" do %>
 	<%= hidden_field_tag(:casecate, @selectcate) %>
 	<%= hidden_field_tag(:casetype, @selecttype) %>
@@ -35,5 +35,5 @@
 	<div class="span10">
 		<div class="span8">Execution Steps:<%= text_area_tag :steps, "", class: "textsize26" %></div>
 	</div>
-	<div><%= submit_tag "Add" , :class => "submit btn btn-large btn-success" %></div>
+	<div class="span"><%= submit_tag "Add" , :class => "submit btn btn-large btn-success" %></div>
 <% end %>
