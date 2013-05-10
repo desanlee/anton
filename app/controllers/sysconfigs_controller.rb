@@ -31,6 +31,7 @@ class SysconfigsController < ApplicationController
 			@currentsysconfig.save
 			@sysconfiglist << @currentsysconfig
 		end
+		
 		@devicelist = @currentsysconfig.devices.sort_by! { |obj| obj.devicetype_id }
 	else
 		@currentsysconfig = Sysconfig.new 
