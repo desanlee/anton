@@ -4,7 +4,7 @@
 	<% if @myexecutions != nil then %>
 		<% @myexecutions.each do |e| %>
 			<div class="span8 offset1">
-				Run Case: <%= e.testcase.name if e.testcase != nil %> <%= e.device.name if e.device != nil %> On Server: <%= e.sysconfig.sut.name %>
+				Run Case: <%= e.testcase.name if e.testcase != nil %> <%= e.device.name if e.device != nil %> On Server: <%= e.sysconfig.sut.name if e.sysconfig.sut != nil %>
 			</div>
 		<% end %>
 	<% else %>
