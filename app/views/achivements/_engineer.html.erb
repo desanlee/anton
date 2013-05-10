@@ -16,7 +16,7 @@
 <div class="row">
 	<% if @mysysconfigurations != nil then %>
 		<% @mysysconfigurations.each do |c| %>
-			<div class="span8 offset1">Config Server <%= c.sut.system.name %> <%= c.sut.name %> to configs as below:</div>
+			<div class="span8 offset1">Config Server <%= c.sut.system.name if c.sut != nil %> <%= c.sut.name if c.sut != nil %> to configs as below:</div>
 			<% c.devices.order.each do |d|  %>
 				<% if d.devicetype.devicecate == "Hardware" then %>
 					<% @position = Sysconfigrelationship.find_by_sysconfig_id_and_device_id(c.id, d.id).position %>
