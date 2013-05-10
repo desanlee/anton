@@ -8,7 +8,7 @@
 			<div class="span">Assign SUT to: <%= select_tag 'selectuser', options_from_collection_for_select( @users, :id, :email) %></div>
 			<div class="toright"><%= submit_tag "OK" , :class => "submit btn btn-primary btn-success" %></div>
 		<% end %>
-		<hr>
+		<hr><br>
 	<% end %>
 
 	<h2>Current Config Has Following Hardwares</h2><hr>
@@ -47,14 +47,14 @@
 				<div><%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :name) %></div>
 				<div><%= text_field_tag :deviceposition, "Position", class: "textsize4" %></div>
 			</div>
-			<div><%= submit_tag "Add Devices" , :class => "submit btn btn-primary btn-danger" %></div>
+			<div class="toright"><%= submit_tag "Add Devices" , :class => "submit btn btn-primary btn-danger" %></div>
 		<% end %>
 	<% else %>
 		<%= form_tag controller: "sysconfigs", action: "newconfig" do %>
 			<%= hidden_field_tag(:selecttype, @selecttype) %>
 			<%= hidden_field_tag(:selectsut, @selectsut) %>
 			<%= hidden_field_tag(:currentsysconfig_id, @currentsysconfig.id) %>
-			<div><%= submit_tag "New Config" , :class => "submit btn btn-large btn-danger toright" %></div>
+			<div class="toright"><%= submit_tag "Change Config" , :class => "submit btn btn-large btn-danger" %></div>
 		<% end %>
 	<% end %>
 	
@@ -66,8 +66,7 @@
 				<% @sysconfiglist.each do |d| %>
 					<li>
 						<div class="span4"><%= d.created_at %></div>
-						<div class="span2">id is:<%= d.id %></div> 
-						<div class="span1 offset1"><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" %></div>
+						<div class="span4">by:<%= d.user.email if de.user != nil %></div> 
 					</li>
 				<% end %>
 			<% else %>
