@@ -22,8 +22,8 @@
 
 
 <hr>
- <div class="span 10"><div class="span">Create a case, TYPE is: </div><div class="span alarmtext"><%= @selectcate %></div>, <div class="span">STAGE is:</div><div class="span alarmtext"><%= Casetype.find_by_id(@selecttype).name %></div></div>
-<%= form_tag controller: "testcases", action: "addcase" do %>
+ <div class="span 10"><div class="span">Create a case, TYPE is: </div><div class="span alarmtext"><%= @selectcate %></div>, <div class="span">STAGE is:</div><div class="span alarmtext"><%= Casetype.find_by_id(@selecttype).name %></div></div><br>
+<br><%= form_tag controller: "testcases", action: "addcase" do %>
 	<%= hidden_field_tag(:casecate, @selectcate) %>
 	<%= hidden_field_tag(:casetype, @selecttype) %>
 	<div class="span10">
