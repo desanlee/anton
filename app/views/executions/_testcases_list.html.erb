@@ -53,7 +53,7 @@ function changeresulttype() {
 					<td><%= d.result %></td>
 					<td><%= if d.result == "fail" then "CR:" + d.bug else d.bug end %></td>
 					<td><%= d.user.email if d.user != nil %></td>
-					<td><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "" %></td>
+					<td><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "" if d.user_id == current_user.id %></td>
 				</tr>
 			<% end %>
 		</table>
