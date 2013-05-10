@@ -26,10 +26,10 @@
 	<%= form_tag controller: "systems", action: "addsystem" do%>
 		<%= hidden_field_tag(:devicecate, @selectcate) %>
 		<%= hidden_field_tag(:system, @selectsystem) %>
-		<div class=""><%= text_field_tag :name, placeholder: "Name (Can not be null)" %></div>
-		<div class=""><%= text_field_tag :model, placeholder:"Model Name" %></div>
-		<div class=""><%= text_field_tag :pn, placeholder: "PN" %></div>
-		<div class=""><%= text_area_tag :note, placeholder:"Note..." %></div>
-		<div class=""><%= submit_tag "Add System" , :class => "submit" %></div>
+		<div class=""><%= text_field_tag :name, "", placeholder: "Name (Can not be null)" %></div>
+		<div class=""><%= text_field_tag :model, "", placeholder:"Model Name" %></div>
+		<div class=""><%= text_field_tag :pn, "", placeholder: "PN" %></div>
+		<div class=""><%= text_area_tag :note, "", placeholder:"Note..." %></div>
+		<div class=""><%= submit_tag "Add System" , :class => "submit btn btn-primary btn-success" %></div>
 	<% end %>
 <% end %>

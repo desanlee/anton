@@ -40,7 +40,7 @@
 				<div class="span"><%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :name) %></div>
 				<div class="span"><%= text_field_tag :maxnum, "", placeholder: "Max Quantity", class: "textsize4" %></div>
 				<div class="span"><%= text_area_tag :note, "",placeholder: "Note...", class: "textsize26" %></div>
-				<div class="span"><%= submit_tag "Add In" %></div>
+				<div class="span"><%= submit_tag "Add In" class="btn btn-primary btn-success" %></div>
 			</div>
 		<% end %>
 	<% end %>	
