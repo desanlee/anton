@@ -3,12 +3,12 @@
 <% if @testcases != nil then %>
 	<% if @testcases.count != 0 then %>
 		<table class="table table-striped table-bordered table-condensed">
+			<tr><td>TestCase Name</td><td>TestCase Parameter</td><td>Designed By</td><td>Operation</td></tr>
 			<% @testcases.each do |d| %>
 				<tr>
 					<td><%= d.name %></td>
-					<% if d.devicetype != nil then %>
-						<td>make env change: <%= d.devicetype.name %></td>
-					<% end %>
+					<td><%= d.devicetype.name if d.devicetype != nil %></td>
+					<td><%= d.user.name %></td>
 					<td><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" if current_user.root? %></td>
 				</tr>
 			<% end %>
@@ -22,15 +22,18 @@
 
 
 <hr>
+ <div class="alarmtext">Create a case, TYPE is: <%= @selectcate %>, Running in STAGE of:<%= Casetype.find_by_id(@selecttype).name %></div>
 <%= form_tag controller: "testcases", action: "addcase" do %>
 	<%= hidden_field_tag(:casecate, @selectcate) %>
 	<%= hidden_field_tag(:casetype, @selecttype) %>
 	<div class="span10">
 		<div class="span">Testcase Name: <br><%= text_field_tag :name, "", class: "textsize8" %></div>
-		<div class="span">Make Env Change: <br><%= select_tag 'devicetype', options_from_collection_for_select( @devicetypes, :id, :name ), include_blank: 'None', class: "textsize6" %></div>
+		<% if @selectcate == "Operation" then %>
+			<div class="span">Make Env Change: <br><%= select_tag 'devicetype', options_from_collection_for_select( @devicetypes, :id, :name ), include_blank: 'None', class: "textsize6" %></div>
+		<% end %>
 	</div>
 	<div class="span10">
 		<div class="span8">Execution Steps:<%= text_area_tag :steps, "", class: "textsize26" %></div>
 	</div>
-	<div><%= submit_tag "Add" , :class => "submit" %></div>
+	<div><%= submit_tag "Add" , :class => "submit btn btn-large btn-success" %></div>
 <% end %>

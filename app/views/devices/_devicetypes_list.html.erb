@@ -25,8 +25,8 @@
 <%= form_tag controller: "devices", action: "addtype" do |t| %>
 	<%= hidden_field_tag(:devicecate, @selectcate) %>
 	<%= hidden_field_tag(:devicetype, @selecttype) %>
-	<div><%= text_field_tag :name, "Type Name" %></div>
-	<div><%= text_area_tag :note, "Note..." %></div>
+	<div><%= text_field_tag :name,"",placeholder: "Type Name" %></div>
+	<div><%= text_area_tag :note, "",placeholder: "Note..." %></div>
 	<div><%= submit_tag "Add Type" , :class => "submit" %></div>
 <% end %>
 <% end %>

@@ -25,10 +25,10 @@
 	<%= hidden_field_tag(:devicecate, @selectcate) %>
 	<%= hidden_field_tag(:devicetype, @selecttype) %>
 	<div class="row">
-		<div class="span7"><%= text_field_tag :name,"",placeholder: "Device Name", class: "textsize16" %></div>
-		<div class="span3">Count Num: <%= text_field_tag :count,"0",placeholder: "Count",  class: "textsize2" %></div>
-		<div class="span5"><%= text_field_tag :model,"",placeholder: "Model",  class: "textsize8 " %></div>
-		<div class="span5"><%= text_field_tag :pn,"",placeholder: "PN",  class: "textsize8 " %></div>
+		<div class="span10"><%= text_field_tag :name,"",placeholder: "Device Name (Can not be null)", class: "textsize24" %></div>
+		<div class="span">Count Num: <%= text_field_tag :count,"0",placeholder: "Count",  class: "textsize2" %></div>
+		<div class="span"><%= text_field_tag :model,"",placeholder: "Model",  class: "textsize8 " %></div>
+		<div class="span"><%= text_field_tag :pn,"",placeholder: "PN",  class: "textsize8 " %></div>
 		<div class="span10"><%= text_area_tag :note, "",placeholder: "Note...",  class: "textsize24 " %></div>
 	</div>
 	<div><%= submit_tag "Add" , :class => "submit" %></div>

@@ -7,7 +7,6 @@
 		<% @sutlist.each do |t| %>
 			<div class="row">
 				<%= radio_button_tag "selectsut", t.id, if @selectsut.to_i == t.id then true else false end, onchange: "this.form.submit();", class: "span3"  %><%= t.system.name + "-" + t.name %>
-				<%= link_to "delete", t, method: :delete, data: { confirm: "Sure?" }, class: "span toright" %>
 			</div>
 		<% end %>
 	<% else %>

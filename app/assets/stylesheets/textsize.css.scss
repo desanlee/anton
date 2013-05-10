@@ -9,18 +9,18 @@
 	float: right;
 }
 .textsize1 {
-	width: 30px
+	width: 30px;
 }
 .textsize2 {
-	width: 40px
+	width: 40px;
 }
 
 .textsize4 {
-	width: 80px
+	width: 80px;
 }
 
 .textsize8 {
-	width: 160px
+	width: 160px;
 }
 
 .textsize16 {
@@ -28,9 +28,15 @@
 }
 
 .textsize24 {
-	width: 480px
+	width: 480px;
 }
 
 .textsize26 {
-	width: 520px
+	width: 520px;
+}
+
+.alarmtext {
+	margin-top: 10px;
+	padding-top: 20px;
+	color: Red;
 }
