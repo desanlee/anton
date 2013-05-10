@@ -9,7 +9,7 @@
 				<tr>
 					<td><%= d.name %></td>
 					<td><%= d.devicetype.name%></td> 
-					<td><%= Avlrelationships.find_by_system_id_and_device_id(@selectsystem, d.id).maxnum %></td> 
+					<td><%= Avlrelationship.find_by_system_id_and_device_id(@selectsystem, d.id).maxnum %></td> 
 					<td><%= link_to "delete", Avlrelationship.find_by_system_id_and_device_id(@selectsystem,d.id), method: :delete, data: { confirm: "Sure?" }, class: "toright" if current_user == System.find_by_id(@selectsystem).user%></td>
 				</tr>
 				<% end %>

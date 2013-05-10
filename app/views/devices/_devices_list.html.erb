@@ -3,11 +3,12 @@
 <ul>
 	<% if @devicelist != nil then if @devicelist.count != 0 then %>
 		<table class="table table-striped table-bordered table-condensed">
+		<tr><td>Device Name</td><td>Count Num</td><td>Operation</td></tr>
 		<% @devicelist.each do |d| %>
 			<tr>
 				<td><%= d.name %></td>
-				<td>count: <%= d.countnum %></td>
-				<td><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" %><td>
+				<td><%= d.countnum %></td>
+				<td><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" %></td>
 			</tr>
 		<% end %>
 		</table>
@@ -26,7 +27,7 @@
 	<%= hidden_field_tag(:devicetype, @selecttype) %>
 	<div class="row">
 		<div class="span10"><%= text_field_tag :name,"",placeholder: "Device Name (Can not be null)", class: "textsize24" %></div>
-		<div class="span">Count Num: <%= text_field_tag :count,"0",placeholder: "Count",  class: "textsize2" %></div>
+		<div class="span">Count: <%= text_field_tag :count,"0", class: "textsize2" %></div>
 		<div class="span"><%= text_field_tag :model,"",placeholder: "Model",  class: "textsize8 " %></div>
 		<div class="span"><%= text_field_tag :pn,"",placeholder: "PN",  class: "textsize8 " %></div>
 		<div class="span10"><%= text_area_tag :note, "",placeholder: "Note...",  class: "textsize24 " %></div>
