@@ -5,4 +5,6 @@ class Execution < ActiveRecord::Base
   belongs_to :sysconfig, class_name: "Sysconfig"
   belongs_to :user, class_name: "User"
   belongs_to :device, class_name: "Device"
+  
+  validates :testcase_id, :presence => true
 end

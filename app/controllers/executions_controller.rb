@@ -9,7 +9,7 @@ class ExecutionsController < ApplicationController
 	@casetypes = Casetype.all
 	if @selecttype == nil then @selecttype = Casetype.first.id if Casetype.first != nil end
 	if @selecttype != nil then
-		if @selectcase == nil then @selectcase = Testcase.find_all_by_casetype_id(@selecttype).first end
+		if @selectcase == nil then @selectcase = Testcase.find_all_by_casetype_id(@selecttype).first.id end
 	end
 	
 	@testcases = Testcase.find_all_by_casetype_id(@selecttype)
