@@ -9,7 +9,7 @@
 					<td><%= d.name %></td>
 					<td><%=if d.devicetype != nil then d.devicetype.name else "None" end %></td>
 					<td><%= d.user.email if d.user != nil %></td>
-					<td><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" if current_user.root? %></td>
+					<td><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" if current_user.root? or current_user == d.user %></td>
 				</tr>
 			<% end %>
 		</table>
