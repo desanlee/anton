@@ -11,22 +11,25 @@
 			</div>
 		<% end %>
 	<% else %>
-		<h2><br>No SUTs existed</h2>
+		<div class="alarmtext center">You do not have any SUTs<br>Ask lead to assign one</div>
 	<% end %>
 	<% else %>
-		<h2><br>No SUTs existed</h2>
+		<div class="alarmtext center">You do not have any SUTs<br>Ask lead to assign one</div>
 	<% end %>
 
 <% end %>
 
 <% if current_user.lead? then%>
 	<hr>
+	<div class="row newpost">
+	<h2>Add A SUT</h2>
 	<%= form_tag controller: "sysconfigs", action: "addsut" do |t| %>
 		<%= hidden_field_tag(:sut, @selectsut) %>
 		<div><%= select_tag 'system', options_from_collection_for_select( @systems, :id, :name) %></div>
 		<div><%= text_field_tag :name, "SUT Name" %></div>
 		<div><%= text_field_tag :spip, "SP IP Address" %></div>
 		<div><%= text_area_tag :note, "Note..." %></div>
-		<div><%= submit_tag "Add SUT" , :class => "submit" %></div>
+		<div><%= submit_tag "Add SUT" , :class => "submit btn btn-success" %></div>
 	<% end %>
+	</div>
 <% end %>

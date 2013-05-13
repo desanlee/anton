@@ -15,15 +15,15 @@
 				<% end %>
 			<% end %>
 		</table>
-		<% if @devicelist.count == 0 then %><h2><br>No Components Existed</h2><% end %>
+		<% if @devicelist.count == 0 then %><div class="alarmtext center">No Components Existed</div><% end %>
 	<% else %>
-		<h2><br>No Components Existed</h2>
+		<div class="alarmtext center">No Components Existed</div>
 	<% end %>
 </ul>
 
 <% if @selectsystem != nil then %>
 	<% if current_user == System.find_by_id(@selectsystem).user then %>
-		<hr>
+		<div class="row newpost"><h2>Add <%= @selectcate %> To System</h2>
 		<%= form_tag controller: "systems", action: "selecttype" do %>
 			<%= hidden_field_tag(:devicecate, @selectcate) %>
 			<%= hidden_field_tag(:selectsystem, @selectsystem) %>
@@ -43,5 +43,7 @@
 				<div class="span"><%= submit_tag "Add In", class: "btn btn-primary btn-success" %></div>
 			</div>
 		<% end %>
-	<% end %>	
-<% end %>										
+	</div>
+	<% end %>		
+<% end %>			
+						

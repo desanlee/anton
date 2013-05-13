@@ -13,24 +13,28 @@
 		<% end %>
 		</table>
 			<% else %>
-			<h2><br>No devices existed</h2>
+			<div class="alarmtext center">No Devices Existed Currently</div>
 		<% end %>
 	<% else %>
-		<h2><br>No Devices Existed Currently</h2>
+		<div class="alarmtext center">No Devices Existed Currently</div>
 	<% end %>
 </ul>
 
 <hr>
-<h2>Add New Device In</h2>
+
 <%= form_tag controller: "devices", action: "adddevice" do %>
 	<%= hidden_field_tag(:devicecate, @selectcate) %>
 	<%= hidden_field_tag(:devicetype, @selecttype) %>
-	<div class="row">
+	<div class="row newpost">
+		<h2>Add New Device In</h2>
 		<div class="span10"><%= text_field_tag :name,"",placeholder: "Device Name (Can not be null)", class: "textsize24" %></div>
-		<div class="span">Count: <%= text_field_tag :count,"0", class: "textsize2" %></div>
-		<div class="span"><%= text_field_tag :model,"",placeholder: "Model",  class: "textsize8 " %></div>
-		<div class="span"><%= text_field_tag :pn,"",placeholder: "PN",  class: "textsize8 " %></div>
+		<% if @selectcate == "Hardware" then %>
+			<div class="span">Count: <%= text_field_tag :count,"0", class: "textsize2" %></div>
+			<div class="span4"><%= text_field_tag :model,"",placeholder: "Model",  class: "textsize8 " %></div>
+			<div class="span3"><%= text_field_tag :pn,"",placeholder: "PN",  class: "textsize8 " %></div>
+		<% end %>
 		<div class="span10"><%= text_area_tag :note, "",placeholder: "Note...",  class: "textsize24 " %></div>
+		<div class="span4 toright"><%= submit_tag "Add New Device In" , :class => "submit  btn btn-danger" %></div>
 	</div>
-	<div><%= submit_tag "Add" , :class => "submit" %></div>
+	
 <% end %>

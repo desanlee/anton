@@ -21,7 +21,7 @@
 <% end %>
 
 <% if current_user.lead? then %>
-	<hr>
+	<div class="row newpost">
 	<h2>Add New System In</h2>
 	<%= form_tag controller: "systems", action: "addsystem" do%>
 		<%= hidden_field_tag(:devicecate, @selectcate) %>
@@ -32,4 +32,5 @@
 		<div class=""><%= text_area_tag :note, "", placeholder:"Note..." %></div>
 		<div class=""><%= submit_tag "Add System" , :class => "submit btn btn-primary btn-success" %></div>
 	<% end %>
+	</div>
 <% end %>

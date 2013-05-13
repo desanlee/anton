@@ -7,17 +7,16 @@ class DevicesController < ApplicationController
   end
   
   def index
-	if @selectcate == nil then @selectcate = 'Hardware' end
-	if @selecttype == nil then @selecttype = Devicetype.first.id if Devicetype.first != nil end
-	
-    @catelist = self.catelist
+	if @selectcate == nil then @selectcate = self.catelist.first end
 	@typelist = Devicetype.find_all_by_devicecate(@selectcate)
+	if @selecttype == nil then @selecttype = @typelist.first.id if @typelist.first != nil end
+
+    @catelist = self.catelist 
 	@devicelist = Device.find_all_by_devicetype_id_and_user_id(@selecttype, current_user.id)
   end
 
   def selectcate
 	@selectcate = params[:selectcate] 
-	@selecttype = params[:devicetype] 
 	self.index
 	render 'devices/index'
   end
