@@ -16,12 +16,14 @@
 <div class="row">
 	<% if @mysysconfigurations != nil then %>
 		<% @mysysconfigurations.each do |c| %>
+			<% if c.devices.any? then %>
 			<div class="span8 offset1">Config Server <%= c.sut.system.name if c.sut != nil %> <%= c.sut.name if c.sut != nil %> to configs as below:</div>
 			<% c.devices.order.each do |d|  %>
 				<% if d.devicetype.devicecate == "Hardware" then %>
 					<% @position = Sysconfigrelationship.find_by_sysconfig_id_and_device_id(c.id, d.id).position %>
-					<div class="span8 offset1"><div class="span2"><%= d.name %></div> <div class="span4">Located at position:<%= @position %></div></div>
+					<div class="span11 offset1"><div class="span5"><%= d.name %></div> <div class="span4">Located at position:<%= @position %></div></div>
 				<% end %>
+			<% end %>
 			<% end %>
 		<% end %>
 	<% else %>
