@@ -7,6 +7,7 @@ class SysconfigsController < ApplicationController
 	@devicetypes = Devicetype.find_all_by_devicecate("Hardware")
 	if @selecttype == nil then @selecttype = @devicetypes.first.id if @devicetypes.first != nil end
 	@devices = Device.find_all_by_devicetype_id(@selecttype)
+	@devices = @devices.sort{|a| a.created_at.to_date} if @devices != nil
 	
 	if current_user.lead? then 
 		@sutlist = Sut.find_all_by_user_id(current_user.id)
@@ -49,6 +50,8 @@ class SysconfigsController < ApplicationController
 	@selectsut = params[:selectsut] 
 	@transfersut = Sut.find_by_id(@selectsut)
 	@transfersut.update_attributes(:holder_id => params[:selectuser])
+	tmpconfig = @transfersut.sysconfigs.last
+	tmpconfig.update_attributes(:user_id => params[:selectuser]) if !tmpconfig.executions.any?
 
 	self.index
 	render 'sysconfigs/index'
