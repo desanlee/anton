@@ -64,6 +64,20 @@ Anton::Application.routes.draw do
   post '/priviledges/selectuser'
   post '/priviledges/addcharactor'
   
+  resources :tasks
+  
+  match '/tasks/', to: 'tasks#index'
+  post '/tasks/selecttask'
+  post '/tasks/selecttarget'
+  post '/tasks/addtask'
+  post '/tasks/addtarget'
+  post '/tasks/selecttagertenv'
+  post '/tasks/addtagertenv'
+  post '/tasks/selecttagertcase'
+  post '/tasks/addtagertcase'
+  
+  resources :achivements
+  
   match '/achivements/', to: 'achivements#index'
   
   # The priority is based upon order of creation:

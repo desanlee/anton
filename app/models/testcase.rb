@@ -7,6 +7,9 @@ class Testcase < ActiveRecord::Base
   
   has_many :executions, class_name: "Execution"
   
+  has_many :reverse_targetcaserelationships, foreign_key: "testcase_id", class_name:  "Targetcaserelationship", dependent: :destroy
+  has_many :targetcases, through: :reverse_targetcaserelationships, source: :targetcase
+  
   validates :name, :presence => true
   
   default_scope order: 'testcases.name ASC'

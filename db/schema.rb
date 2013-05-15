@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130507085253) do
+ActiveRecord::Schema.define(:version => 20130515054719) do
 
   create_table "avlrelationships", :force => true do |t|
     t.integer  "system_id"
@@ -105,6 +105,54 @@ ActiveRecord::Schema.define(:version => 20130507085253) do
     t.integer  "user_id"
     t.string   "model"
     t.string   "pn"
+    t.string   "note"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "targetcaserelationships", :force => true do |t|
+    t.integer  "targetcase_id"
+    t.integer  "testcase_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "targetcases", :force => true do |t|
+    t.integer  "target_id"
+    t.string   "casetype"
+    t.integer  "casepara"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "targetenvrelationships", :force => true do |t|
+    t.integer  "targetenv_id"
+    t.integer  "device_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "targetenvs", :force => true do |t|
+    t.integer  "target_id"
+    t.string   "envtype"
+    t.integer  "envpara"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "devicetype_id"
+  end
+
+  create_table "targets", :force => true do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.integer  "task_id"
+    t.string   "note"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "tasks", :force => true do |t|
+    t.string   "name"
+    t.integer  "user_id"
     t.string   "note"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false

@@ -2,7 +2,7 @@
 <h1>My Devices</h1>
 </div>
 <div class="span8 toright">
-<%= form_tag controller: "devices", action: "selectcate" do %>
+<%= form_tag remote: true, controller: "devices", action: "selectcate" do %>
 	<%= hidden_field_tag(:devicecate, @selectcate) %>
 	<%= hidden_field_tag(:devicetype, @selecttype) %>
 	<% @catelist.each do |c| %>

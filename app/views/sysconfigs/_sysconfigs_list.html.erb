@@ -18,15 +18,16 @@
 	<% if Execution.find_by_sysconfig_id(@currentsysconfig.id) then @editable = false else @editable = true end %>
 	
 	<table class="table table-striped table-bordered table-condensed">
-		<% if @currentsysconfig.devices.count != 0 then %>
+		<% if @currentsysconfig.sysconfigrelationships.count != 0 then %>
 			<tr><td>Name</td><td>Type</td><td>Position</td><td>Operation</td></tr>
-			<% @currentsysconfig.devices.each do |d| %>
-				<% if d.devicetype.devicecate == "Hardware" then %><tr>
-					<td><%= d.name %></td>
-					<td><%= d.devicetype.name %></td>
-					<td><%= Sysconfigrelationship.find_by_sysconfig_id_and_device_id(@currentsysconfig,d.id).position %></td> 
-					<td><%= link_to "delete", Sysconfigrelationship.find_by_sysconfig_id_and_device_id(@currentsysconfig,d.id), method: :delete, data: { confirm: "Sure?" }, class: "toright" if @editable %></td>
-				</tr><% end %>
+			<% @currentsysconfig.sysconfigrelationships.each do |d| %>
+				<% tmpdevice = Device.find_by_id(d.device_id) %>
+				<% if tmpdevice != nil then if tmpdevice.devicetype.devicecate == "Hardware" then %><tr>
+					<td><%= tmpdevice.name %></td>
+					<td><%= tmpdevice.devicetype.name %></td>
+					<td><%= d.position %></td> 
+					<td><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" if @editable %></td>
+				</tr><% end end %>
 			<% end %>
 		<% else %>
 			<div class="alarmtext center">No devices existed in current config</div>
@@ -47,7 +48,7 @@
 					<%= hidden_field_tag(:selectsut, @selectsut) %>
 					<%= hidden_field_tag(:currentsysconfig_id, @currentsysconfig.id) %>
 					<div class="span10"><%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :name) %></div>
-					<div class="span4"><%= text_field_tag :deviceposition, "Position", class: "textsize4" %></div>
+					<div class="span4"><%= text_field_tag :deviceposition, "", placeholder: "Position", class: "textsize4" %></div>
 					<div class="span toright"><%= submit_tag "Add Device In" , :class => "submit btn btn-primary btn-danger" %></div>
 				<% end %>
 			</div>

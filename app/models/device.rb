@@ -10,6 +10,9 @@ class Device < ActiveRecord::Base
   has_many :sysconfigs, through: :reverse_sysconfigrelationships, :source => :sysconfig
   has_many :executions, class_name: "Execution"
 
+  has_many :reverse_targetenvrelationships, foreign_key: "device_id", class_name:  "Targetenvrelationship", dependent: :destroy
+  has_many :targetenvs, through: :reverse_targetenvrelationships, source: :targetenv
+  
   validates :name, :presence => true
   
   default_scope order: 'devices.name ASC'
