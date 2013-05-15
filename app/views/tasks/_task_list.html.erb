@@ -1,0 +1,44 @@
+<% if @selecttask != nil then %>
+	<%= form_tag controller: "tasks", action: "selecttarget" do %>
+		<%= hidden_field_tag(:selecttask, @selecttask) %>
+		<h2>Target List</h2><hr>
+		<% if @targetlist != nil then @targetlist.each do |ta| %>
+			<div class="row">
+				<%= radio_button_tag "selecttarget", ta.id, if @selecttarget.to_i == ta.id then true else false end, onchange: "this.form.submit();", class: "span3"  %><%= ta.name %>
+			</div>
+		<% end end %>
+	<% end %>
+	<hr>
+<% end %>
+			
+<%= form_tag controller: "tasks", action: "selecttask" do %>
+	<% if @tasklist != nil then if @tasklist.count != 0 then %>
+	<h2>Task List</h2><hr>
+		<% @tasklist.each do |t| %>
+			<div class="row">
+				<%= radio_button_tag "selecttask", t.id, if @selecttask.to_i == t.id then true else false end, onchange: "this.form.submit();", class: "span3"  %><%= t.name %>
+			</div>
+		<% end %>
+	<% else %>
+		<h2><br>No tasks existed</h2>
+	<% end %>
+	<% else %>
+		<h2><br>No tasks existed</h2>
+	<% end %>
+
+<% end %>
+
+<% if current_user.lead? then %>
+	<%= form_tag controller: "tasks", action: "addtask" do |t| %>
+		<div><%= text_field_tag :name,"",placeholder: "Task Name" %></div>
+		<div><%= text_area_tag :note, "",placeholder: "Note..." %></div>
+		<div><%= submit_tag "Add New Task" , :class => "submit btn btn-mini btn-danger" %></div>
+	<% end %>
+
+	<%= form_tag controller: "tasks", action: "addtarget" do |t| %>
+		<%= hidden_field_tag(:selecttask, @selecttask) %>
+		<div><%= text_field_tag :name,"",placeholder: "Target Name" %></div>
+		<div><%= text_area_tag :note, "",placeholder: "Note..." %></div>
+		<div><%= submit_tag "Add New Target" , :class => "submit btn btn-mini btn-danger" %></div>
+	<% end %>
+<% end %>
