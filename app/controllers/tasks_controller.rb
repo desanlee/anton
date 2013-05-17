@@ -1,20 +1,20 @@
 class TasksController < ApplicationController
   def paralist
-    ['all','any']
+    ['all','any','whole']
   end
   
   def index
 	@tasklist = Task.all
 	
 	if @selecttask != nil then
-		tmptask = Task.find_by_id(@selecttask)
-		@targetlist = tmptask.targets if tmptask != nil
+		@task = Task.find_by_id(@selecttask)
+		@targetlist = @task.targets if @task != nil
 	end
 	
 	if @selecttarget != nil then
-		tmptarget = Target.find_by_id(@selecttarget)
-		@targetenvlist = tmptarget.targetenvs if tmptarget != nil
-		@targetcaselist = tmptarget.targetcases if tmptarget != nil
+		@target = Target.find_by_id(@selecttarget)
+		@targetenvlist = @target.targetenvs if @target != nil
+		@targetcaselist = @target.targetcases if @target != nil
 	end
 	
 	@devicetypes = Devicetype.all

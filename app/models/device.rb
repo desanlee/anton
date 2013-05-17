@@ -16,4 +16,13 @@ class Device < ActiveRecord::Base
   validates :name, :presence => true
   
   default_scope order: 'devices.name ASC'
+  
+  def spbios?
+    if self.devicetype.name == "SP_BIOS" then true else false end
+  end
+  
+  def os?
+    if self.devicetype.name == "OS" then true else false end
+  end
+  
 end

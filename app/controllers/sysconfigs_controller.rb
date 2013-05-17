@@ -51,7 +51,7 @@ class SysconfigsController < ApplicationController
 	@transfersut = Sut.find_by_id(@selectsut)
 	@transfersut.update_attributes(:holder_id => params[:selectuser])
 	tmpconfig = @transfersut.sysconfigs.last
-	tmpconfig.update_attributes(:user_id => params[:selectuser]) if !tmpconfig.executions.any?
+	tmpconfig.update_attributes(:user_id => params[:selectuser])
 
 	self.index
 	render 'sysconfigs/index'

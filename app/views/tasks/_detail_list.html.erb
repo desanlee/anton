@@ -1,38 +1,45 @@
 <h2>Env Requirement</h2>
 
-<%= form_tag controller: "tasks", action: "addtagertenv" do %>
-	<%= hidden_field_tag(:selecttask, @selecttask) %>
-	<%= hidden_field_tag(:selecttarget, @selecttarget) %>
-	<div class="row newpost">
+<% if @target != nil then %>
+	<div class="row">
+	<%= form_tag controller: "tasks", action: "addtagertenv" do %>
+		<%= hidden_field_tag(:selecttask, @selecttask) %>
+		<%= hidden_field_tag(:selecttarget, @selecttarget) %>
 		<div class="span">Should test <%= select_tag 'selectenvtype', options_from_collection_for_select(@envtypes, 'to_s', 'to_s'), :class => "textsize3"%></div>
 		<div class="span"><%= text_field_tag :envpara,"",placeholder: "", class: "textsize1" %> of </div>
 		<div class="span"><%= select_tag 'selectdevicetype', options_from_collection_for_select( @devicetypes, :id, :name) %></div>
 		<div class="span"><%= submit_tag "Add Require" , :class => "submit  btn btn-danger" %></div>
-	</div>
+	<% end %>
+	</div><hr>
+<% else %>
+	<div class="alarmtext center">Select A target first!</div>
 <% end %>
 
 <% if @targetenvlist != nil then if @targetenvlist.count != 0 then %>
 	<% @targetenvlist.each do |env| %>
+	<div class="row newpost">
 		<% @optiondevices = Device.find_all_by_devicetype_id(env.devicetype_id) %>
-		<div><h4>Should cover <%= env.envtype %> <%= env.envpara if env.envtype == "any" %> of following <%= env.devicetype.name if env.devicetype != nil %> components</h4></div>
-		<div class = "toright">
+		<div class="span"><h4>Should cover <%= env.envtype %> <%= env.envpara if env.envtype == "any" %> of following <%= env.devicetype.name if env.devicetype != nil %> components</h4></div><br>
+
+		<table class="table table-striped table-bordered table-condensed">
+			<% env.devices.each do |d| %>
+				<tr>
+					<td><%= d.name %></td>
+					<td><%= link_to "x", d, method: :delete, data: { confirm: "Sure?" }, class: "" %></td>
+				</tr>
+			<% end %>	
+		</table>
+		<div class = "span toright">
 			<%= form_tag controller: "tasks", action: "selecttagertenv" do %>
 					<%= hidden_field_tag(:selecttask, @selecttask) %>
 					<%= hidden_field_tag(:selecttarget, @selecttarget) %>
 					<%= hidden_field_tag(:selecttargetenv, env.id) %>
-					<div class="span"><%= select_tag 'selectdevice', options_from_collection_for_select(@optiondevices, :id, :name), :class => "textsize4"%></div>
-					<div class="span"><%= submit_tag "Add" , :class => "submit  btn btn-success" %></div>
+					<div class="span"><%= select_tag 'selectdevice', options_from_collection_for_select(@optiondevices, :id, :name), :class => "textsize6"%></div>
+					<div class="span"><%= text_field_tag :position,"",placeholder: "position", class: "textsize3" %></div>
+					<div class="span"><%= submit_tag "+" , :class => "submit" %></div>
 			<% end %>
 		</div>
-		<table class="table table-striped table-bordered table-condensed">
-			
-			<% env.devices.each do |d| %>
-				<tr>
-					<td><%= d.name %></td>
-					<td><%= link_to "delete", d, method: :delete, data: { confirm: "Sure?" }, class: "" %></td>
-				</tr>
-			<% end %>	
-		</table>
+	</div>
 	<% end %>
 	
 		<% else %>
