@@ -6,6 +6,20 @@ class DevicesController < ApplicationController
   def new
   end
   
+  def edit
+    @device = Device.find(params[:id])
+	render :layout => "justapage"
+  end
+  
+  def update
+    @device = Device.find(params[:id])
+    if @device.update_attributes(params[:device])
+       render :text => '<script type="text/javascript"> window.close() </script>'
+    else
+      render 'edit'
+    end
+  end
+  
   def index
 	if @selectcate == nil then @selectcate = self.catelist.first end
 	@typelist = Devicetype.find_all_by_devicecate(@selectcate)

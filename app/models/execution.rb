@@ -7,4 +7,6 @@ class Execution < ActiveRecord::Base
   belongs_to :device, class_name: "Device"
   
   validates :testcase_id, :presence => true
+  
+  default_scope order: 'executions.created_at DESC'
 end

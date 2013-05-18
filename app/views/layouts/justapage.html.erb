@@ -59,50 +59,9 @@
     <![endif]-->
   </head>
   <body>
-    <header class="navbar navbar-fixed-top navbar-inverse">
-      <div class="navbar-inner">
-        <div class="container">
-          <%= link_to "ANTON - Save U from mess!", '#', id: "logo" %>
-		  <% if current_user %><div class="span toright">
-				<%= link_to "Users", '/priviledges' , class: "btn "+yield(:userpage) if current_user.email == "root@oracle.com" %>
-				<%= link_to "Device", '/devices', class: "btn "+yield(:devicepage) if current_user.lead? %>
-				<%= link_to "System", '/systems', class: "btn "+yield(:systempage) %>
-				<%= link_to "TestCase", '/testcases', class: "btn "+yield(:testcasepage) if current_user.lead? or current_user.engineer? %>
-				<%= link_to "Config", '/sysconfigs', class: "btn btn-primary "+yield(:configpage) if current_user.lead? or current_user.engineer?%>
-				<%= link_to "Execution", '/executions', class: "btn btn-primary "+yield(:executionpage) if current_user.engineer?%>
-				<%= link_to "In Building", '/tasks', class: "btn btn-success "+yield(:taskpage) if current_user.lead? or current_user.engineer?%>
-				<%= link_to "Weekly Status", '/achivements', class: "btn btn-success "+yield(:achivepage) if current_user.lead? or current_user.engineer?%>
-		  </div><% end %>
-            <ul class="nav pull-right">
-			  <% if current_user %>
-				<li><%= link_to current_user.email, '#'%></li>
-				<li><%= link_to('LogOut', destroy_user_session_path, :method => :delete) %></li>
-				<li><%= link_to('ChangePwd', edit_registration_path(:user)) %></li>
-			  <% else %>
-				<li><%= link_to('Register', new_registration_path(:user)) %></li>
-				<li><%= link_to('Login', new_session_path(:user)) %> </li>
-			  <% end %>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </header>
-	
     <div class="container">
       <%= yield %>
     </div>
   </body>
-  
-  <footer class="footer">
-	  <small>
-		by ji.x.li@oracle.com
-	  </small>
-	  <nav>
-		<ul>
-		  <li><%= link_to "About",   '#' %></li>
-		  <li><%= link_to "Contact", '#' %></li>
-		</ul>
-	  </nav>
-  </footer>
 
 </html>

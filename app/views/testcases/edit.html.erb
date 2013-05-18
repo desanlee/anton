@@ -1,0 +1,16 @@
+<div class="row ">
+<h3 class="offset1">Update Testcase</h3>
+<hr>
+  <div class="span6 offset1 editpage">
+    <%= form_for(@testcase) do |f| %>
+
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+
+      <%= f.label :steps %>
+      <%= f.text_area :steps, class: "editpage" %>
+	  
+      <%= f.submit "Save", class: "btn btn-primary"  %>
+    <% end %>
+  </div>
+</div>

@@ -3,6 +3,20 @@ class TestcasesController < ApplicationController
     ['Info Check','Operation','Stress']
   end
   
+  def edit
+    @testcase = Testcase.find(params[:id])
+	render :layout => "justapage"
+  end
+  
+  def update
+    @testcase = Testcase.find(params[:id])
+    if @testcase.update_attributes(params[:testcase])
+       render :text => '<script type="text/javascript"> window.close() </script>'
+    else
+      render 'edit'
+    end
+  end
+  
   def index
 	if @selectcate == nil then @selectcate = 'Info Check' end
 	if @selecttype == nil then @selecttype = Casetype.first.id if Casetype.first != nil end

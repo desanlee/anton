@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130515054719) do
+ActiveRecord::Schema.define(:version => 20130518132516) do
 
   create_table "avlrelationships", :force => true do |t|
     t.integer  "system_id"
@@ -60,9 +60,10 @@ ActiveRecord::Schema.define(:version => 20130515054719) do
     t.string   "result"
     t.string   "bug"
     t.string   "note"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
     t.integer  "device_id"
+    t.integer  "sysconfigrelationship_id"
   end
 
   create_table "priviledges", :force => true do |t|

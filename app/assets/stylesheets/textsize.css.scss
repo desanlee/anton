@@ -27,13 +27,30 @@
   color: #999;
 }
 
+.showmoreinfo {
+  display:none;
+  position:absolute;
+  border-style: solid;
+  background-color: white;
+  padding: 5px;
+}
+
 .alarmtext {
 	color: Red;
 	margin: 10px;
 }
 
+.editpage {
+	height: 160px;
+	width: 300px;
+}
+
 .toright {
 	float: right;
+}
+
+.toleft {
+	float: left;
 }
 
 .textsize1 {

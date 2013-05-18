@@ -1,0 +1,25 @@
+<div class="row ">
+<h3 class="offset1">Update Device</h3>
+<hr>
+  <div class="span6 offset1 editpage">
+    <%= form_for(@device) do |f| %>
+
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+
+      <%= f.label :countnum %>
+      <%= f.text_field :countnum %>
+
+      <%= f.label :model %>
+      <%= f.text_field :model %>
+	  
+	  <%= f.label :pn %>
+      <%= f.text_field :pn %>
+
+      <%= f.label :note %>
+      <%= f.text_area :note, class: "editpage" %>
+	  
+      <%= f.submit "Save", class: "btn btn-primary"  %>
+    <% end %>
+  </div>
+</div>

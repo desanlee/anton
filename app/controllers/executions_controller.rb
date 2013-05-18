@@ -14,7 +14,8 @@ class ExecutionsController < ApplicationController
 	
 	@testcases = Testcase.find_all_by_casetype_id(@selecttype)
 	if @selectcase != nil then
-		@envdevices = Device.find_all_by_devicetype_id(Testcase.find_by_id(@selectcase).devicetype_id)
+		@testcase = Testcase.find_by_id(@selectcase)
+		@envdevices = Device.find_all_by_devicetype_id(@testcase.devicetype_id)
 	end
 	
 	if @selectsut != nil then
@@ -65,7 +66,6 @@ class ExecutionsController < ApplicationController
 	@execution.bug = params[:moreresult] 
 	@execution.note = params[:note] 
 	@execution.device_id = params[:selectenvdevice]
-	@execution.save
 
 	if params[:selectenvdevice] != nil then
 		@sysconfig = Sut.find_by_id(@selectsut).sysconfigs.last
@@ -74,7 +74,10 @@ class ExecutionsController < ApplicationController
 		@newrelation.device_id = params[:selectenvdevice]
 		@newrelation.user_id = current_user.id
 		@newrelation.save
+		@execution.sysconfigrelationship_id = @newrelation.id
 	end
+	
+	@execution.save
 	
 	self.index
 	render 'executions/index'
@@ -82,6 +85,8 @@ class ExecutionsController < ApplicationController
   
   def destroy
     @execution = Execution.find(params[:id])
+	@sysconfigrelationship = Sysconfigrelationship.find_by_id(@execution.sysconfigrelationship_id)
+	@sysconfigrelationship.destroy if @sysconfigrelationship != nil
 	@execution.destroy
 	redirect_to :executions
   end

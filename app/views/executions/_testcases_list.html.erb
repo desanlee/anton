@@ -26,7 +26,8 @@ function changeresulttype() {
 			<%= hidden_field_tag(:selectsut, @selectsut) %>
 			<%= hidden_field_tag(:selecttype, @selecttype) %>
 			<div class="span3">Select Testcase: </div>
-			<div class="span6"><%= select_tag 'selectcase', options_from_collection_for_select( @testcases, :id, :name, @selectcase ), onchange: "this.form.submit();" %></div>
+			<div class="span6"><%= select_tag 'selectcase', options_from_collection_for_select( @testcases, :id, :name, @selectcase ), onchange: "this.form.submit();" %><a onmouseover="ShowContent('<%= @testcase.name %>');" onmouseout="HideContent('<%= @testcase.name %>');"> How to</a></div>
+			<div id='<%= @testcase.name %>' class="showmoreinfo">Execution Steps:<hr><%= simple_format(@testcase.steps) %></div>
 		<% end %>	
 
 		<%= form_tag controller: "executions", action: "addcase" do %>
@@ -50,14 +51,16 @@ function changeresulttype() {
 	<ul>
 		<% if @executions != nil then if @executions.count != 0 then %>
 			<table class="table table-striped table-bordered table-condensed">
-				<tr><td>Case Name</td><td>Result</td><td>More Info</td><td>Tester</td><td>Opt</td></tr>
+				<tr><td>Case Name</td><td>Result</td><td>More Result Info</td><td>Tester</td><td></td></tr>
+				<% @index = 1 %>
 				<% @executions.each do |d| %>
 					<tr>
-						<td><%= d.testcase.name if d.testcase != nil %></td>
+						<td><%= d.testcase.name if d.testcase != nil%> <%= d.device.name if d.device != nil%></td>
 						<td><%= d.result %></td>
 						<td><%= if d.result == "fail" then "CR:" + d.bug else d.bug end %></td>
-						<td><%= d.user.email if d.user != nil %></td>
-						<td><%= link_to "x", d, method: :delete, data: { confirm: "Sure?" }, class: "" if d.user_id == current_user.id %></td>
+						<td><%= d.user.email.chomp("@oracle.com") if d.user != nil %></td>
+						<td><%= link_to "x", d, method: :delete, data: { confirm: "Sure?" }, class: "" if d.user_id == current_user.id and @index == 1 %></td>
+						<% @index = @index + 1 %>
 					</tr>
 				<% end %>
 			</table>
