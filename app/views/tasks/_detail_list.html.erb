@@ -1,5 +1,5 @@
 <% if @target != nil then %>
-<h2>"<%= @target.name %>" - RE: <%= @target.user.email if @target.user != nil %></h2>
+<h2>"<%= @target.name %>" - <%= @target.user.email if @target.user != nil %></h2>
 <% end %>
 
 <div class="toright">
@@ -87,13 +87,25 @@
 <!-- First line is testcase list -->
 					<td></td>
 					<% t.targetcaserelationships.each do |c| %>
-						<td><%= link_to c.testcase.name, c, method: :delete, data: { confirm: "Sure?" }, class: "" if current_user.lead? %></td>
+						<td>
+							<% if current_user.lead? then %>
+								<%= link_to c.testcase.name, c, method: :delete, data: { confirm: "Sure?" }, class: "" %>
+							<% else %>
+								<%= c.testcase.name %>
+							<% end %>
+						</td>
 						<% @colum = @colum + 1 %>
 					<% end %>
 				</tr>
 				<% t.targetenvrelationships.each do |d| %>
 					<tr>
-						<td><%= link_to d.device.name, d, method: :delete, data: { confirm: "Sure?" }, class: "" if current_user.lead? %></td>
+						<td>
+							<% if current_user.lead? then %>
+								<%= link_to d.device.name, d, method: :delete, data: { confirm: "Sure?" }, class: "" %>
+							<% else %>
+								<%= d.device.name %>
+							<% end %>
+						</td>
 						<% thematrix = t.targetmatrixes %>
 						<% t.targetcaserelationships.each do |c| %>
 							<td>

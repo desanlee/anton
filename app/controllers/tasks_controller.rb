@@ -19,26 +19,28 @@ class TasksController < ApplicationController
 	@testcases = Testcase.all
 	@users = User.all
 	
-	if @selecttask != nil then
-		@task = Task.find_by_id(@selecttask)
-		@devicetypes = Devicetype.all
-		@devices = @task.system.devices if @task.system != nil
-		@taskobjects = @task.taskobjects
-		@targetlist = @task.targets if @task != nil
-	else
-		@task = Task.first
+	if @selecttask == nil then
+		@task = Task.first 
 		@selecttask = @task.id if @task != nil
-	end
-	
-	if @selecttarget != nil then
-		@target = Target.find_by_id(@selecttarget)
 	else
-		@target = @task.targets.first if @task.targets != nil
-		@selecttarget = @target.id if @target != nil
+		@task = Task.find_by_id(@selecttask)
 	end
+	@devicetypes = Devicetype.all
+	@devices = @task.system.devices if @task.system != nil
+	@taskobjects = @task.taskobjects
+	@targetlist = @task.targets if @task != nil
+	
 
+	if @selecttarget == nil then
+		@target = @task.targets.first if @task.targets != nil if @task != nil
+		@selecttarget = @target.id if @target != nil
+	else
+		@target = Target.find_by_id(@selecttarget)
+	end
 	@targetenvlist = Array.new
 	@targetenvlist << @target.env
+	
+	
 	@envtypes = self.paralist
   end
 
