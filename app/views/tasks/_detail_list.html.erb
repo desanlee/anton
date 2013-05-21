@@ -1,50 +1,105 @@
-<h2>Env Requirement</h2>
-
-<% if @target != nil then %>
-	<div class="row">
-	<%= form_tag controller: "tasks", action: "addtagertenv" do %>
+<h2>Task Objects - <%= @totalcases %>cases have been run
+<div class="toright">
+	<%= form_tag controller: "tasks", action: "calculate" do %>
 		<%= hidden_field_tag(:selecttask, @selecttask) %>
 		<%= hidden_field_tag(:selecttarget, @selecttarget) %>
-		<div class="span">Should test <%= select_tag 'selectenvtype', options_from_collection_for_select(@envtypes, 'to_s', 'to_s'), :class => "textsize3"%></div>
-		<div class="span"><%= text_field_tag :envpara,"",placeholder: "", class: "textsize1" %> of </div>
-		<div class="span"><%= select_tag 'selectdevicetype', options_from_collection_for_select( @devicetypes, :id, :name) %></div>
-		<div class="span"><%= submit_tag "Add Require" , :class => "submit  btn btn-danger" %></div>
+		<div class="span3"><%= submit_tag "Status" , :class => "submit btn btn-large btn-danger" %></div>
 	<% end %>
-	</div><hr>
+</div>	
+</h2>
+
+<% if @taskobjects != nil then %>
+	<table class="table table-striped table-bordered table-condensed">
+		<tr><td>Task Objects Name</td><td>Finish Status</td><td></td></tr>
+		<% @taskobjects.each do |t| %>
+			<tr><td><%= t.device.name %></td>
+			<td>
+			<%= t.device.realexecutions.count %>
+			</td><td></td></tr>
+		<% end %>
+		<% if @devices != nil then %>
+			<tr>
+				<td>
+					<%= form_tag controller: "tasks", action: "addtaskobject" do %>
+						<%= hidden_field_tag(:selecttask, @selecttask) %>
+						<%= hidden_field_tag(:selecttarget, @selecttarget) %>
+						<div class="span"><%= select_tag 'taskobject', options_from_collection_for_select( @devices, :id, :name), :class => "textsize6" %></div>
+						<div class="span"><%= submit_tag "+" , :class => "submit  btn btn-primary" %></div>
+					<% end %>
+				</td><td></td><td></td>
+			</tr>
+		<% end %>
+	</table>	
 <% else %>
-	<div class="alarmtext center">Select A target first!</div>
+	<div class="alarmtext center">No test targets existed!</div>
 <% end %>
 
-<% if @targetenvlist != nil then if @targetenvlist.count != 0 then %>
-	<% @targetenvlist.each do |env| %>
-	<div class="row newpost">
-		<% @optiondevices = Device.find_all_by_devicetype_id(env.devicetype_id) %>
-		<div class="span"><h4>Should cover <%= env.envtype %> <%= env.envpara if env.envtype == "any" %> of following <%= env.devicetype.name if env.devicetype != nil %> components</h4></div><br>
+<!-- Draw tables for matrixes -->
 
-		<table class="table table-striped table-bordered table-condensed">
-			<% env.devices.each do |d| %>
-				<tr>
-					<td><%= d.name %></td>
-					<td><%= link_to "x", d, method: :delete, data: { confirm: "Sure?" }, class: "" %></td>
-				</tr>
-			<% end %>	
-		</table>
-		<div class = "span toright">
-			<%= form_tag controller: "tasks", action: "selecttagertenv" do %>
-					<%= hidden_field_tag(:selecttask, @selecttask) %>
-					<%= hidden_field_tag(:selecttarget, @selecttarget) %>
-					<%= hidden_field_tag(:selecttargetenv, env.id) %>
-					<div class="span"><%= select_tag 'selectdevice', options_from_collection_for_select(@optiondevices, :id, :name), :class => "textsize6"%></div>
-					<div class="span"><%= text_field_tag :position,"",placeholder: "position", class: "textsize3" %></div>
-					<div class="span"><%= submit_tag "+" , :class => "submit" %></div>
-			<% end %>
-		</div>
-	</div>
-	<% end %>
+<% if @targetenvlist != nil then %>
+	<% if @target != nil then %>
 	
-		<% else %>
-		<div class="alarmtext center">No Requirements Existed Currently</div>
+<!-- Title of Matrix and Creation of new matrix -->
+		<h2>
+			<div>"<%= @target.name %>" Test Matrixes</div>
+			<%= form_tag controller: "tasks", action: "addtagertenv" do %>
+				<%= hidden_field_tag(:selecttask, @selecttask) %>
+				<%= hidden_field_tag(:selecttarget, @selecttarget) %>
+				<div class="span2 toright"><%= submit_tag "+ Matrix" , :class => "submit  btn btn-success" %></div>
+			<% end %>
+		</h2>
+
+<!-- Draw tables -->		
+		<% @targetenvlist.each do |t|%>
+			<table class="table table-striped table-bordered table-condensed">
+				<% @colum = 0 %>
+				<tr>
+<!-- First line is testcase list -->
+					<td class="textsize6"> <div class ="row">
+						<div class="span8">
+						<%= form_tag controller: "tasks", action: "addtestcase" do %>
+							<%= hidden_field_tag(:selecttask, @selecttask) %>
+							<%= hidden_field_tag(:selecttarget, @selecttarget) %>
+							<%= hidden_field_tag(:selecttargetenv, t.id) %>
+							<div class="span"><%= select_tag 'selecttestcase', options_from_collection_for_select( @testcases, :id, :name), :class => "textsize4", onchange: "this.form.submit();"  %></div>
+						<% end %>
+						</div><div class="span8">
+						<%= form_tag controller: "tasks", action: "adddevice" do %>
+							<%= hidden_field_tag(:selecttask, @selecttask) %>
+							<%= hidden_field_tag(:selecttarget, @selecttarget) %>
+							<%= hidden_field_tag(:selecttargetenv, t.id) %>
+							<div class="span"><%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :name), :class => "textsize4", onchange: "this.form.submit();" if @devices != nil %></div>
+						<% end %>
+						</div></div>
+					</td>
+					<% t.targetcaserelationships.each do |c| %>
+						<td><%= link_to c.testcase.name, c, method: :delete, data: { confirm: "Sure?" }, class: "" if current_user.lead? %></td>
+						<% @colum = @colum + 1 %>
+					<% end %>
+				</tr>
+				<% t.targetenvrelationships.each do |d| %>
+					<tr>
+						<td><%= link_to d.device.name, d, method: :delete, data: { confirm: "Sure?" }, class: "" if current_user.lead? %></td>
+						<% thematrix = t.targetmatrixes %>
+						<% t.targetcaserelationships.each do |c| %>
+							<td>
+<!-- test result will be filled here -->
+								<% currentexecutions = thematrix.select { |mx| mx.device_id == d.device_id and  mx.testcase_id == c.testcase_id } %>
+								<% if currentexecutions.count != 0 then %>
+									<% currentexecutions.each do |m| %>
+										<%= m.execution.result if m.execution != nil %>
+									<% end %>
+								<% else %>
+									NR
+								<% end %>
+<!-- test result has been filled now -->
+							</td>
+						<% end %>
+					</tr>
+				<% end %>		
+			</table>
+		<% end %>
+	<% else %>
+			<div class="alarmtext center">Select A target first!</div>
 	<% end %>
-<% else %>
-	<div class="alarmtext center">No Requirements Existed Currently</div>
 <% end %>

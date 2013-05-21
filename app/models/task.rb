@@ -1,6 +1,12 @@
 class Task < ActiveRecord::Base
-  attr_accessible :name, :note, :user_id
+  attr_accessible :name, :note, :user_id, :system_id
   
   belongs_to :user, class_name: "User"
-  has_many :targets, class_name: "Target"
+  belongs_to :system, class_name: "System"
+  has_many :targets, class_name: "Target", dependent: :destroy
+  has_many :taskobjects, class_name: "Taskobject", dependent: :destroy
+  has_many :devices, through: :taskobjects, source: :device
+  
+  validates :system_id, :presence => true
+  
 end

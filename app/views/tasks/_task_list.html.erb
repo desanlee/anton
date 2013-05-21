@@ -11,6 +11,7 @@ function detailinfo(para1, para2) {
 		<% @tasklist.each do |t| %>
 			<div class="row">
 				<%= radio_button_tag "selecttask", t.id, if @selecttask.to_i == t.id then true else false end, onchange: "this.form.submit();", class: "span3"  %><%= t.name %>
+				<td><%= link_to "x", t, method: :delete, data: { confirm: "Sure?" }, class: "toright" if current_user.lead? %></td>
 			</div>
 		<% end %>
 	<% else %>
@@ -23,7 +24,8 @@ function detailinfo(para1, para2) {
 <% if current_user.lead? then %>
 	<%= form_tag controller: "tasks", action: "addtask" do |t| %>
 		<div><%= text_field_tag :name,"",placeholder: "Add New Task", onfocus: 'detailinfo("detailtask","block")' %></div>
-		<div id="detailtask", style="display:none"><%= text_area_tag :note, "",placeholder: "Note..." %>
+		<div id="detailtask", style="display:none"><%= select_tag 'selectsystem', options_from_collection_for_select( @systems, :id, :name) %>
+		<%= text_area_tag :note, "",placeholder: "Note..." %>
 		<%= submit_tag "Add New Task" , :class => "submit btn btn-mini btn-danger" %></div>
 	<% end %>
 <% end %>

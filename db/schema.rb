@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130518132516) do
+ActiveRecord::Schema.define(:version => 20130520103245) do
 
   create_table "avlrelationships", :force => true do |t|
     t.integer  "system_id"
@@ -112,10 +112,10 @@ ActiveRecord::Schema.define(:version => 20130518132516) do
   end
 
   create_table "targetcaserelationships", :force => true do |t|
-    t.integer  "targetcase_id"
     t.integer  "testcase_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "targetenv_id"
   end
 
   create_table "targetcases", :force => true do |t|
@@ -142,6 +142,16 @@ ActiveRecord::Schema.define(:version => 20130518132516) do
     t.integer  "devicetype_id"
   end
 
+  create_table "targetmatrices", :force => true do |t|
+    t.integer  "targetenv_id"
+    t.integer  "device_id"
+    t.integer  "testcase_id"
+    t.integer  "execution_id"
+    t.datetime "update_time"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
   create_table "targets", :force => true do |t|
     t.string   "name"
     t.integer  "user_id"
@@ -151,12 +161,23 @@ ActiveRecord::Schema.define(:version => 20130518132516) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "taskobjects", :force => true do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.integer  "task_id"
+    t.string   "note"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "device_id"
+  end
+
   create_table "tasks", :force => true do |t|
     t.string   "name"
     t.integer  "user_id"
     t.string   "note"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "system_id"
   end
 
   create_table "testcases", :force => true do |t|

@@ -74,11 +74,17 @@ Anton::Application.routes.draw do
   post '/tasks/selecttagertenv'
   post '/tasks/addtagertenv'
   post '/tasks/selecttagertcase'
-  post '/tasks/addtagertcase'
+  post '/tasks/addtestcase'
+  post '/tasks/adddevice'
+  post '/tasks/addtaskobject'
+  post '/tasks/calculate'
   
   resources :achivements
   
   match '/achivements/', to: 'achivements#index'
+  
+  resources :targetcaserelationships
+  resources :targetenvrelationships
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

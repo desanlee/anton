@@ -25,4 +25,14 @@ class Device < ActiveRecord::Base
     if self.devicetype.name == "OS" then true else false end
   end
   
+  def realexecutions
+	executions = Array.new
+	self.sysconfigs.each do |cfg|
+		cfg.executions.each do |exe|
+			executions << exe
+		end
+	end
+	return executions
+  end
+  
 end
