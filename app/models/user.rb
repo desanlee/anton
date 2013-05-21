@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   has_many :sysconfigs, class_name: "Sysconfig"
   has_many :executions, class_name: "Execution"
   has_many :testcases, class_name: "Testcase"
+  has_many :targets, class_name: "Target"
   
   def charactors 
     mycharactors = Array.new

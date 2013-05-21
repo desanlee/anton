@@ -64,6 +64,7 @@ Anton::Application.routes.draw do
   post '/priviledges/selectuser'
   post '/priviledges/addcharactor'
   
+  resources :targets
   resources :tasks
   
   match '/tasks/', to: 'tasks#index'
@@ -78,6 +79,7 @@ Anton::Application.routes.draw do
   post '/tasks/adddevice'
   post '/tasks/addtaskobject'
   post '/tasks/calculate'
+  post '/tasks/selectuser'
   
   resources :achivements
   

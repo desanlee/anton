@@ -3,10 +3,21 @@ class TasksController < ApplicationController
     ['all','any','whole']
   end
   
+  def selectuser
+	@selecttask = params[:selecttask]
+	@selecttarget = params[:selecttarget]
+	transfertarget = Target.find_by_id(@selecttarget)
+	transfertarget.update_attributes(:user_id => params[:selectuser]) if transfertarget != nil
+
+	self.index
+	render 'tasks/index'
+  end
+  
   def index
 	@tasklist = Task.all
 	@systems = System.all
 	@testcases = Testcase.all
+	@users = User.all
 	
 	if @selecttask != nil then
 		@task = Task.find_by_id(@selecttask)
@@ -14,13 +25,20 @@ class TasksController < ApplicationController
 		@devices = @task.system.devices if @task.system != nil
 		@taskobjects = @task.taskobjects
 		@targetlist = @task.targets if @task != nil
+	else
+		@task = Task.first
+		@selecttask = @task.id if @task != nil
 	end
 	
 	if @selecttarget != nil then
 		@target = Target.find_by_id(@selecttarget)
-		@targetenvlist = @target.targetenvs if @target != nil
+	else
+		@target = @task.targets.first if @task.targets != nil
+		@selecttarget = @target.id if @target != nil
 	end
 
+	@targetenvlist = Array.new
+	@targetenvlist << @target.env
 	@envtypes = self.paralist
   end
 

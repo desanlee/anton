@@ -1,9 +1,18 @@
-
-<h2>Test Case Running</h2>
+<h2>Testcase Running</h2>
 <div class="weeklystatus">
-	<% if @myexecutions != nil then %>
-		<% @myexecutions.each do |e| %>
-				&nbsp;&nbsp;&nbsp;* <%= e.testcase.name if e.testcase != nil %> <%= e.device.name if e.device != nil %> On Server: <%= e.sysconfig.sut.name if e.sysconfig.sut != nil %><br>
+
+	<% if @targets != nil then %>
+		<% if @myexecutions != nil then %>
+			<% @targets.each do |target| %>
+				&nbsp;&nbsp;&nbsp;* <%= target.task.name if target.task != nil %> <%= target.name %><br>
+				<% if target.env != nil then %>
+					<% @myexecutions.each do |me| %>
+						<% if target.env.testcases.include? me.testcase and !(target.env.devices & me.realconfig).empty? then %>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <%= me.testcase.name %> <%= me.device.name if me.device != nil %> on <%= me.sysconfig.sut.name %><br>
+						<% end %>
+					<% end %>
+				<% end %>
+			<% end %>	
 		<% end %>
 	<% else %>
 		<div class="span8">Never Run Any Testcases<%= c.sut_id %></div>
