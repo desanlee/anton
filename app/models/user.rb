@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   has_many :executions, class_name: "Execution"
   has_many :testcases, class_name: "Testcase"
   has_many :targets, class_name: "Target"
+  has_many :tasks, class_name: "Task"
   
   def charactors 
     mycharactors = Array.new

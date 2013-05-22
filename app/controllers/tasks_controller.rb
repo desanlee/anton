@@ -14,7 +14,15 @@ class TasksController < ApplicationController
   end
   
   def index
-	@tasklist = Task.all
+	if current_user.lead? then 
+		@tasklist = current_user.tasks 
+	else
+		@tasklist = Array.new
+		current_user.targets.each do |ta|
+			@tasklist << ta.task
+			@tasklist = @tasklist.uniq
+		end
+	end
 	@systems = System.all
 	@testcases = Testcase.all
 	@users = User.all
@@ -28,11 +36,15 @@ class TasksController < ApplicationController
 	@devicetypes = Devicetype.all
 	@devices = @task.system.devices if @task.system != nil
 	@taskobjects = @task.taskobjects
-	@targetlist = @task.targets if @task != nil
+	if current_user.lead? then
+		@targetlist = @task.targets
+	else
+		@targetlist = @task.targets.select { |ta| ta.user_id == current_user.id } if @task != nil
+	end
 	
 
 	if @selecttarget == nil then
-		@target = @task.targets.first if @task.targets != nil if @task != nil
+		@target = @targetlist.first if @targetlist != nil if @task != nil
 		@selecttarget = @target.id if @target != nil
 	else
 		@target = Target.find_by_id(@selecttarget)
