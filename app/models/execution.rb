@@ -23,7 +23,7 @@ class Execution < ActiveRecord::Base
 		end
 	end
 	tmprr = Sysconfigrelationship.new
-	realrelationship.sort { |p1, p2| p1.device.devicetype <=> p2.device.devicetype }.sort { |p1, p2| p1.created_at <=> p2.created_at }.reverse.each do |rr|
+	realrelationship.sort_by { |p| [p.created_at, p.device.devicetype] }.reverse.each do |rr|
 		if tmprr.device == nil then
 			realdevicelist << rr.device
 			tmprr = rr
@@ -50,7 +50,7 @@ class Execution < ActiveRecord::Base
 		end
 	end
 	tmprr = Sysconfigrelationship.new
-	realrelationship.sort { |p1, p2| p1.device.devicetype <=> p2.device.devicetype }.sort { |p1, p2| p1.created_at <=> p2.created_at }.reverse.each do |rr|
+	realrelationship.sort_by { |p| [p.created_at, p.device.devicetype] }.reverse.each do |rr|
 		if tmprr.device == nil then
 			realdevicelist << rr.device
 			tmprr = rr
