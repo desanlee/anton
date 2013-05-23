@@ -44,7 +44,7 @@ class Execution < ActiveRecord::Base
 		if sr.device != nil then
 			if sr.device.devicetype.devicecate == "Hardware" then
 				realdevicelist << sr.device
-			elsif self.created_at > sr.created_at  then
+			elsif self.created_at >= sr.created_at  then
 				realrelationship << sr 
 			end
 		end
