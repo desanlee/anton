@@ -15,12 +15,15 @@ class ExecutionsController < ApplicationController
 	@testcases = Testcase.find_all_by_casetype_id(@selecttype)
 	if @selectcase != nil then
 		@testcase = Testcase.find_by_id(@selectcase)
-		@envdevices = Device.find_all_by_devicetype_id(@testcase.devicetype_id)
 	end
 	
 	if @selectsut != nil then
+		@sut = Sut.find_by_id(@selectsut)
 		@sysconfigs = Sut.find_by_id(@selectsut).sysconfigs
 		@sysconfig = @sysconfigs.last if @sysconfigs != nil
+		if @testcase != nil then
+			@envdevices =  @sut.system.devices.select{ |d| d.devicetype_id == @testcase.devicetype_id }
+		end
 	end
 	@executions = @sysconfig.executions if @sysconfig != nil
 

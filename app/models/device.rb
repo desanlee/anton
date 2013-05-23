@@ -27,10 +27,20 @@ class Device < ActiveRecord::Base
   
   def realexecutions
 	executions = Array.new
-	self.sysconfigs.each do |cfg|
-		cfg.executions.each do |exe|
-			executions << exe
+	if self.devicetype.devicecate == "Hardware" then
+		self.sysconfigs.each do |cfg|
+			cfg.executions.each do |exe|
+				executions << exe
+			end
 		end
+	else
+		self.sysconfigs.each do |cfg|
+			cfg.executions.each do |exe|
+				if exe.realswconfig.include? self then
+					executions << exe
+				end
+			end
+		end		
 	end
 	return executions
   end

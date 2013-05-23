@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130520103245) do
+ActiveRecord::Schema.define(:version => 20130523025056) do
 
   create_table "avlrelationships", :force => true do |t|
     t.integer  "system_id"
@@ -124,6 +124,13 @@ ActiveRecord::Schema.define(:version => 20130520103245) do
     t.integer  "casepara"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "targetdeprelationships", :force => true do |t|
+    t.integer  "targetenv_id"
+    t.integer  "device_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "targetenvrelationships", :force => true do |t|

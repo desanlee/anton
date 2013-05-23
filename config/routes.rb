@@ -77,6 +77,7 @@ Anton::Application.routes.draw do
   post '/tasks/selecttagertcase'
   post '/tasks/addtestcase'
   post '/tasks/adddevice'
+  post '/tasks/adddepdevice'
   post '/tasks/addtaskobject'
   post '/tasks/calculate'
   post '/tasks/selectuser'
@@ -87,6 +88,7 @@ Anton::Application.routes.draw do
   
   resources :targetcaserelationships
   resources :targetenvrelationships
+  resources :targetdeprelationships
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

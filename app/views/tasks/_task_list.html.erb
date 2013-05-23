@@ -42,7 +42,7 @@ function detailinfo(para1, para2) {
 				<%= link_to "x", @target, method: :delete, data: { confirm: "Sure?" }, class: "" if current_user.lead? and @target != nil %>
 			<% end %>
 		</div><div class="span">	
-			<% if current_user.lead? and @target != nil then %>
+			<% if current_user.lead? then %>
 				<%= form_tag controller: "tasks", action: "addtarget" do |t| %>
 					<%= hidden_field_tag(:selecttask, @selecttask) %>
 					<div><%= text_field_tag :name,"",placeholder: "Add New Target", onfocus: 'detailinfo("detailtarget","block")' %></div>

@@ -6,8 +6,6 @@ class SysconfigsController < ApplicationController
 	@users = User.all
 	@devicetypes = Devicetype.find_all_by_devicecate("Hardware")
 	if @selecttype == nil then @selecttype = @devicetypes.first.id if @devicetypes.first != nil end
-	@devices = Device.find_all_by_devicetype_id(@selecttype)
-	@devices = @devices.sort{|a| a.created_at.to_date} if @devices != nil
 	
 	if current_user.lead? then 
 		@sutlist = Sut.find_all_by_user_id(current_user.id)
@@ -17,12 +15,17 @@ class SysconfigsController < ApplicationController
 	
 	if @selectsut == nil then 
 		if @sutlist != nil then
+			@sut = @sutlist.first if @sutlist.first != nil
 			@selectsut = @sutlist.first.id if @sutlist.first != nil
 		end
 	end 
 	
 	if @selectsut != nil then 
 		@sysconfiglist = Sysconfig.find_all_by_sut_id(@selectsut)
+		@sut = Sut.find_by_id(@selectsut)
+		@devices = @sut.system.devices.select{ |d| d.devicetype_id == @selecttype.to_i }
+		@devices = @devices.sort{|a| a.created_at.to_date} if @devices != nil
+	
 		if @sysconfiglist.last != nil then 
 			@currentsysconfig = @sysconfiglist.last 
 		else 

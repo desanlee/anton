@@ -56,6 +56,11 @@ function changeresulttype() {
 				<% @executions.each do |d| %>
 					<tr>
 						<td><%= d.testcase.name if d.testcase != nil%> <%= d.device.name if d.device != nil%></td>
+						<td>
+							<% d.realswconfig.each do |rsc| %>
+								<%= rsc.name %>- <%= rsc.devicetype.name %><br>
+							<% end %>
+						</td>
 						<td><%= d.result %></td>
 						<td><%= if d.result == "fail" then "CR:" + d.bug else d.bug end %></td>
 						<td><%= d.user.email.chomp("@oracle.com") if d.user != nil %></td>

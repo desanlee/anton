@@ -50,7 +50,7 @@ class TasksController < ApplicationController
 		@target = Target.find_by_id(@selecttarget)
 	end
 	@targetenvlist = Array.new
-	@targetenvlist << @target.env
+	@targetenvlist << @target.env if @target != nil
 	
 	
 	@envtypes = self.paralist
@@ -179,11 +179,24 @@ class TasksController < ApplicationController
 	render 'tasks/index'	
   end
   
-    def adddevice
+  def adddevice
   	@selecttask = params[:selecttask]
 	@selecttarget = params[:selecttarget]
 	
 	newtargetdevice = Targetenvrelationship.new
+	newtargetdevice.targetenv_id = params[:selecttargetenv]
+	newtargetdevice.device_id = params[:selectdevice]
+	newtargetdevice.save
+	
+	self.index						
+	render 'tasks/index'	
+  end
+  
+  def adddepdevice
+  	@selecttask = params[:selecttask]
+	@selecttarget = params[:selecttarget]
+	
+	newtargetdevice = Targetdeprelationship.new
 	newtargetdevice.targetenv_id = params[:selecttargetenv]
 	newtargetdevice.device_id = params[:selectdevice]
 	newtargetdevice.save

@@ -11,11 +11,58 @@ class Execution < ActiveRecord::Base
   
   default_scope order: 'executions.created_at DESC'
   
+  def realswconfig
+	realdevicelist = Array.new
+	realrelationship = Array.new
+	self.sysconfig.sysconfigrelationships.each do |sr|
+		if sr.device != nil then
+			if sr.device.devicetype.devicecate == "Hardware" then
+			elsif self.created_at > sr.created_at  then
+				realrelationship << sr 
+			end
+		end
+	end
+	tmprr = Sysconfigrelationship.new
+	realrelationship.sort { |p1, p2| p1.created_at <=> p2.created_at }.reverse.sort { |p1, p2| p1.device.devicetype <=> p2.device.devicetype }.each do |rr|
+		if tmprr.device == nil then
+			realdevicelist << rr.device
+			tmprr = rr
+		elsif rr.device.devicetype.id != tmprr.device.devicetype.id then
+			realdevicelist << rr.device
+			tmprr = rr
+		end
+	end
+	
+	return realdevicelist.uniq
+	
+  end
+  
   def realconfig
 	realdevicelist = Array.new
-	self.sysconfig.devices.each do |d|
-		realdevicelist << d
+	realrelationship = Array.new
+	self.sysconfig.sysconfigrelationships.each do |sr|
+		if sr.device != nil then
+			if sr.device.devicetype.devicecate == "Hardware" then
+				realdevicelist << sr.device
+			elsif self.created_at > sr.created_at  then
+				realrelationship << sr 
+			end
+		end
 	end
+	tmprr = Sysconfigrelationship.new
+	realrelationship.sort { |p1, p2| p1.created_at <=> p2.created_at }.reverse.sort { |p1, p2| p1.device.devicetype <=> p2.device.devicetype }.each do |rr|
+		if tmprr.device == nil then
+			realdevicelist << rr.device
+			tmprr = rr
+		elsif rr.device.devicetype != tmprr.device.devicetype then
+			realdevicelist << rr.device
+			tmprr = rr
+		end
+	end
+	
+	return realdevicelist.uniq
+	
   end
+  
   
 end

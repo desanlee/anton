@@ -40,7 +40,7 @@
 			<div class="row newpost">
 				<h2>Add New Component To Current Config</h2>
 				<%= form_tag controller: "sysconfigs", action: "selecttype" do %>
-					<%= hidden_field_tag(:devicetype, @selecttype) %>
+					<%= hidden_field_tag(:selecttype, @selecttype) %>
 					<%= hidden_field_tag(:selectsut, @selectsut) %>
 					<div class="span10"><%= select_tag 'selecttype', options_from_collection_for_select( @devicetypes, :id, :name, @selecttype), onchange: "this.form.submit();"  %></div>
 				<% end %>
