@@ -23,7 +23,7 @@ class Execution < ActiveRecord::Base
 		end
 	end
 	tmprr = Sysconfigrelationship.new
-	realrelationship.sort { |p1, p2| p1.created_at <=> p2.created_at }.reverse.sort { |p1, p2| p1.device.devicetype <=> p2.device.devicetype }.each do |rr|
+	realrelationship.sort { |p1, p2| p1.device.devicetype <=> p2.device.devicetype }.sort { |p1, p2| p1.created_at <=> p2.created_at }.reverse.each do |rr|
 		if tmprr.device == nil then
 			realdevicelist << rr.device
 			tmprr = rr
@@ -44,13 +44,13 @@ class Execution < ActiveRecord::Base
 		if sr.device != nil then
 			if sr.device.devicetype.devicecate == "Hardware" then
 				realdevicelist << sr.device
-			elsif self.created_at >= sr.created_at  then
+			elsif self.created_at > sr.created_at  then
 				realrelationship << sr 
 			end
 		end
 	end
 	tmprr = Sysconfigrelationship.new
-	realrelationship.sort { |p1, p2| p1.created_at <=> p2.created_at }.reverse.sort { |p1, p2| p1.device.devicetype <=> p2.device.devicetype }.each do |rr|
+	realrelationship.sort { |p1, p2| p1.device.devicetype <=> p2.device.devicetype }.sort { |p1, p2| p1.created_at <=> p2.created_at }.reverse.each do |rr|
 		if tmprr.device == nil then
 			realdevicelist << rr.device
 			tmprr = rr
