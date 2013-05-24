@@ -164,7 +164,10 @@
 										<% currentexecutions = thematrix.select { |mx| mx.device_id == d.device_id and  mx.testcase_id == c.testcase_id } %>
 										<% if currentexecutions.count != 0 then %>
 											<% currentexecutions.each do |m| %>
-												<% if m.devices.include? dep.device then %>
+												<% m.devices.each do |dev| 
+													@realdevicelist = Array.new
+													@realdevicelist << dev.id end %>
+												<% if @realdevicelist.include? dep.device.id then %>
 													<% if m.execution.result == "fail" then %>
 														<font color=red>x(cr:<%= m.execution.bug %>)</font>
 													<% else %>
