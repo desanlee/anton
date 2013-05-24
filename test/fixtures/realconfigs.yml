@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  targetmatrix_id: 1
+  device_id: 1
+  devicename: MyString
+  devicetype: 1
+
+two:
+  targetmatrix_id: 1
+  device_id: 1
+  devicename: MyString
+  devicetype: 1
