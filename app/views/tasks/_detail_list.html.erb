@@ -1,5 +1,9 @@
 <% if @target != nil then %>
-<h2>"<%= @task.name %>"</h2>
+	<% if current_user.lead? then %>
+		<h2><%= link_to @task.name, edit_task_path(@task),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %></h2>
+	<% else %>
+		<h2>"<%= @task.name %>"</h2>
+	<% end %>
 <% end %>
 
 <div class="toright">
@@ -51,7 +55,12 @@
 	
 <!-- Title of Matrix and Creation of new matrix -->
 		<h2>
-			<div>"<%= @target.name %>" - <%= @target.user.email if @target.user != nil %> </div>
+			<% if current_user.lead? then %>
+				<div><%= link_to @target.name, edit_target_path(@target),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
+			<% else %>
+				<div><%= @target.name %>
+			<% end %>
+			- <%= @target.user.email if @target.user != nil %> </div>
 <!--
 			<%= form_tag controller: "tasks", action: "addtagertenv" do %>
 				<%= hidden_field_tag(:selecttask, @selecttask) %>
@@ -155,7 +164,7 @@
 										<% currentexecutions = thematrix.select { |mx| mx.device_id == d.device_id and  mx.testcase_id == c.testcase_id } %>
 										<% if currentexecutions.count != 0 then %>
 											<% currentexecutions.each do |m| %>
-												<% if m.execution.realconfig.include? dep.device then %>
+												<% if m.devices.include? dep.device then %>
 													<% if m.execution.result == "fail" then %>
 														<font color=red>x(cr:<%= m.execution.bug %>)</font>
 													<% else %>

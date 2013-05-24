@@ -25,7 +25,7 @@ class ExecutionsController < ApplicationController
 			@envdevices =  @sut.system.devices.select{ |d| d.devicetype_id == @testcase.devicetype_id }
 		end
 	end
-	@executions = @sysconfig.executions if @sysconfig != nil
+	@executions = @sysconfig.executions.take(10) if @sysconfig != nil
 
   end
 

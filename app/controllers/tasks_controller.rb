@@ -13,6 +13,20 @@ class TasksController < ApplicationController
 	render 'tasks/index'
   end
   
+  def edit
+    @task = Task.find(params[:id])
+	render :layout => "justapage"
+  end
+
+  def update
+    @task = Task.find(params[:id])
+    if @task.update_attributes(params[:task])
+       render :text => '<script type="text/javascript"> window.close() </script>'
+    else
+      render 'edit'
+    end
+  end
+  
   def index
 	if current_user.lead? then 
 		@tasklist = current_user.tasks 
@@ -86,7 +100,15 @@ class TasksController < ApplicationController
 					matrixitem.testcase_id = ex.testcase_id
 					matrixitem.execution_id = ex.id
 					matrixitem.save
-					@totalcases = @totalcases + 1
+					
+					ex.realconfig.each do |rcd|
+						realconfig = Realconfig.new
+						realconfig.targetmatrix_id = matrixitem.id
+						realconfig.device_id = rcd.id
+						realconfig.devicename = rcd.name
+						realconfig.devicetype = rcd.devicetype_id
+						realconfig.save
+					end
 				end
 			end
 		end
