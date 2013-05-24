@@ -157,7 +157,7 @@
 											<% currentexecutions.each do |m| %>
 												<% if m.execution.realconfig.include? dep.device then %>
 													<% if m.execution.result == "fail" then %>
-														<font color=red>x</font>
+														<font color=red>x(cr:<%= m.execution.bug %>)</font>
 													<% else %>
 														<font color=green>v</font>
 													<% end %>

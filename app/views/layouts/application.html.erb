@@ -70,7 +70,7 @@
 				<%= link_to "TestCase", '/testcases', class: "btn "+yield(:testcasepage) if current_user.lead? or current_user.engineer? %>
 				<%= link_to "Config", '/sysconfigs', class: "btn btn-primary "+yield(:configpage) if current_user.lead? or current_user.engineer?%>
 				<%= link_to "Execution", '/executions', class: "btn btn-primary "+yield(:executionpage) if current_user.engineer?%>
-				<%= link_to "In Building", '/tasks', class: "btn btn-success "+yield(:taskpage) if current_user.lead? or current_user.engineer?%>
+				<%= link_to "Tasks", '/tasks', class: "btn btn-success "+yield(:taskpage) if current_user.lead? or current_user.engineer?%>
 				<%= link_to "Weekly Status", '/achivements', class: "btn btn-success "+yield(:achivepage) if current_user.lead? or current_user.engineer?%>
 		  </div><% end %>
             <ul class="nav pull-right">

@@ -69,7 +69,6 @@ class ExecutionsController < ApplicationController
 	@execution.bug = params[:moreresult] 
 	@execution.note = params[:note] 
 	@execution.device_id = params[:selectenvdevice]
-	@execution.save
 
 	if params[:selectenvdevice] != nil then
 		@sysconfig = Sut.find_by_id(@selectsut).sysconfigs.last
