@@ -161,28 +161,20 @@
 								<td><%= link_to dep.device.name, dep, method: :delete, data: { confirm: "Sure?" }, class: "" %></td>
 								<% t.targetcaserelationships.each do |c| %>
 									<td>
-										<% currentexecutions = thematrix.select { |mx| mx.device_id == d.device_id and  mx.testcase_id == c.testcase_id } %>
+										<% currentexecutions = thematrix.select { |mx| mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.testcase_id } %>
 										<% if currentexecutions.count != 0 then %>
-											<% currentexecutions.each do |m| %>
-												<% @realdevicelist = Array.new %>
-												<% m.devices.each do |dev| %>
-													<% @realdevicelist << dev.name %>
-												<% end %>
-													<font onmouseover="ShowContent('<%= m.execution.id %>');" onmouseout="HideContent('<%= m.execution.id %>');">
-														<% if @realdevicelist.include? dep.device.name then %>
-														<% if m.execution.result == "fail" then %>
-															<font color=red>x(cr:<%= m.execution.bug %>)</font>
-														<% else %>
-															<font color=green>v</font>
-														<% end %>
-													</font>
-													<div id='<%= m.execution.id %>' class="showmoreinfo">
-														<%= m.execution.user.email %><br>
-														<% @realdevicelist.each do |rdname| %>
-															<%= rdname %><br>
-														<% end %>
-													</div>
-												<% end %>
+											<% currentexecutions.each do |em| %>
+												<font onmouseover="ShowContent('<%= em.execution.id %>');" onmouseout="HideContent('<%= em.execution.id %>');">
+													<% if em.execution.result == "fail" then %>
+														<font color=red>x(cr:<%= em.execution.bug %>)</font>
+													<% else %>
+														<font color=green>v</font>
+													<% end %>
+													<%= link_to "?", edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
+												</font>
+												<div id='<%= em.execution.id %>' class="showmoreinfo">
+													<%= em.execution.user.email %><br>
+												</div>
 											<% end %>
 										<% end %>
 									</td>
@@ -190,7 +182,6 @@
 							</tr>
 						<% end %>
 					<% end %>
-
 				<% end %>		
 			</table>
 		<% end %>

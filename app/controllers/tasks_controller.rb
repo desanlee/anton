@@ -90,24 +90,29 @@ class TasksController < ApplicationController
 		end
 	end
 	
-	@target.targetenvs.each do |te|
-		te.devices.each do |d|
+	te = @target.targetenvs.first
+	realexecutions = Array.new
+	if te != nil then 
+		te.testcases.each do |c|
 			allexecutions.uniq.each do |ex|
+				if ex.testcase != nil then
+					realexecutions << ex if ex.testcase.id = c.id
+				end
+			end
+		end
+		te.devices.each do |d|
+			realexecutions.uniq.each do |ex|
 				if ex.realconfig.include? d then 
-					matrixitem = Targetmatrix.new
-					matrixitem.targetenv_id = te.id
-					matrixitem.device_id = d.id
-					matrixitem.testcase_id = ex.testcase_id
-					matrixitem.execution_id = ex.id
-					matrixitem.save
-					
-					ex.realconfig.each do |rcd|
-						realconfig = Realconfig.new
-						realconfig.targetmatrix_id = matrixitem.id
-						realconfig.device_id = rcd.id
-						realconfig.devicename = rcd.name
-						realconfig.devicetype = rcd.devicetype_id
-						realconfig.save
+					te.depdevices.each do |dd|
+						if ex.realconfig.include? dd then 
+							matrixitem = Targetmatrix.new
+							matrixitem.targetenv_id = te.id
+							matrixitem.device_id = d.id
+							matrixitem.envdevice_id = dd.id
+							matrixitem.testcase_id = ex.testcase_id
+							matrixitem.execution_id = ex.id
+							matrixitem.save
+						end
 					end
 				end
 			end

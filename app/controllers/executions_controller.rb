@@ -29,6 +29,11 @@ class ExecutionsController < ApplicationController
 
   end
 
+  def edit
+    @execution = Execution.find(params[:id])
+	render :layout => "justapage"
+  end
+  
   def selectsut
 	@selectsut = params[:selectsut] 
 	@selectcate = params[:selectcate] 
