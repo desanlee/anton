@@ -156,33 +156,7 @@
 						</tr>
 <!-- test environment result, if there're any,  will be filled here -->
 					<% else %> 
-						<td></td>
-						<% @envtestcases.each do %><td></td><% end %>
-						</tr>
-						<% @envdepdevices.each do |dep| %>
-							<tr><td></td>
-								<td><%= link_to dep.name, dep, method: :delete, data: { confirm: "Sure?" }, class: "" %></td>
-								<% @envtestcases.each do |c| %>
-									<td>
-										<% currentexecutions = @thematrix.select { |mx| mx.device_id == d.id and mx.envdevice_id == dep.id and mx.testcase_id == c.id } %>
-										<% if currentexecutions.count != 0 then %>
-											<% currentexecutions.each do |em| %>
-												<font onmouseover="ShowContent('<%= em.execution.id %>');" onmouseout="HideContent('<%= em.execution.id %>');">
-													<% if em.execution.result == "fail" then %>
-														<%= link_to 'x'+"(cr:"+em.execution.bug+")", edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
-													<% else %>
-														<%= link_to "v", edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
-													<% end %>
-												</font>
-												<div id='<%= em.execution.id %>' class="showmoreinfo">
-													<%= em.execution.user.email %><br>
-												</div>
-											<% end %>
-										<% end %>
-									</td>
-								<% end %>
-							</tr>
-						<% end %>
+
 					<% end %>
 				<% end %>		
 			</table>
