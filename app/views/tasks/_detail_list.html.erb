@@ -105,61 +105,7 @@
 				<% end %>
 			</div>
 			
-			<table class="table table-bordered table-condensed">
-				<% @colum = 0 %>
-				<tr>
-<!-- First line is testcase list -->
-					<td></td>
-					<% if @envdepdevices != nil then%>
-						<% depexist = true %>
-						<td></td>
-					<% end %>
-					<% @envtestcases.each do |c| %>
-						<td>
-							<% if current_user.lead? then %>
-								<%= link_to c.name, c, method: :delete, data: { confirm: "Sure?" }, class: "" %>
-							<% else %>
-								<%= c.name %>
-							<% end %>
-						</td>
-						<% @colum = @colum + 1 %>
-					<% end %>
-				</tr>
-<!-- Draw each lines -->				
-				<% @envdevices.each do |d| %>
-					<tr>
-	<!-- The first row -->
-						<td>
-							<% if current_user.lead? then %>
-								<%= link_to d.name, d, method: :delete, data: { confirm: "Sure?" }, class: "" %>
-							<% else %>
-								<%= d.name %>
-							<% end %>
-						</td>
-						<% if !depexist then %> 
-							<td>Over All</td> 
-							<% @envtestcases.each do |c| %>
-								<td>
-	<!-- test total result will be filled here, a new line -->
-									<% currentexecutions = @thematrix.select { |mx| mx.device_id == d.id and  mx.testcase_id == c.id } %>
-									<% if currentexecutions.count != 0 then %>
-										<% currentexecutions.each do |m| %>
-											<% if m.execution.result == "fail" then %>
-												<font color=red>x</font>
-											<% else %>
-												<font color=green>v</font>
-											<% end %>
-										<% end %>
-									<% end %>
-								</td>
-							<% end %>
-						</tr>
-<!-- test environment result, if there're any,  will be filled here -->
-					<% else %> 
 
-					<% end %>
-				<% end %>		
-			</table>
 		<% end %>
 	<% else %>
 			<div class="alarmtext center">Select A target first!</div>
