@@ -50,7 +50,7 @@
 
 <!-- Draw tables for matrixes -->
 
-<% if @targetenvlist != nil then %>
+<% if @target != nil then %>
 	<% if @target != nil then %>
 	
 <!-- Title of Matrix and Creation of new matrix -->
@@ -71,14 +71,14 @@
 		</h2>
 
 <!-- Draw tables -->		
-		<% @targetenvlist.each do |t|%>
+		<% if @targetenv != nil %>
 			<% if current_user == @task.user then %>
 <!-- Select X -->
 				<div class="span">
 				<%= form_tag controller: "tasks", action: "adddevice" do %>
 					<%= hidden_field_tag(:selecttask, @selecttask) %>
 					<%= hidden_field_tag(:selecttarget, @selecttarget) %>
-					<%= hidden_field_tag(:selecttargetenv, t.id) %>
+					<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
 					<div class="span">DEVICES for X: <%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :name), :class => "textsize4" if @devices != nil %></div>
 					<div class="span"><%= submit_tag "+" , :class => "submit  btn btn-primary" %></div>
 				<% end %>
@@ -88,7 +88,7 @@
 				<%= form_tag controller: "tasks", action: "addtestcase" do %>
 					<%= hidden_field_tag(:selecttask, @selecttask) %>
 					<%= hidden_field_tag(:selecttarget, @selecttarget) %>
-					<%= hidden_field_tag(:selecttargetenv, t.id) %>
+					<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
 					<div class="span">TESTCASE for Y: <%= select_tag 'selecttestcase', options_from_collection_for_select( @testcases, :id, :name), :class => "textsize4"  %></div>
 					<div class="span"><%= submit_tag "+" , :class => "submit  btn btn-primary" %></div>
 				<% end %>
@@ -99,78 +99,80 @@
 				<%= form_tag controller: "tasks", action: "adddepdevice" do %>
 					<%= hidden_field_tag(:selecttask, @selecttask) %>
 					<%= hidden_field_tag(:selecttarget, @selecttarget) %>
-					<%= hidden_field_tag(:selecttargetenv, t.id) %>
+					<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
 					<div class="span">SHOW ENVIRONMENT: <%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :name), :class => "textsize4"  %></div>
 					<div class="span"><%= submit_tag "+" , :class => "submit  btn btn-primary" %></div>
 				<% end %>
 			</div>
 			
-			<% thematrix = t.targetmatrixes %>
 			<table class="table table-bordered table-condensed">
 				<% @colum = 0 %>
 				<tr>
 <!-- First line is testcase list -->
 					<td></td>
-					<% if t.targetdeprelationships.count != 0 then%>
+					<% if @envdepdevices != nil then%>
 						<% depexist = true %>
 						<td></td>
 					<% end %>
-					<% t.targetcaserelationships.each do |c| %>
+					<% @envtestcases.each do |c| %>
 						<td>
 							<% if current_user.lead? then %>
-								<%= link_to c.testcase.name, c, method: :delete, data: { confirm: "Sure?" }, class: "" %>
+								<%= link_to c.name, c, method: :delete, data: { confirm: "Sure?" }, class: "" %>
 							<% else %>
-								<%= c.testcase.name %>
+								<%= c.name %>
 							<% end %>
 						</td>
 						<% @colum = @colum + 1 %>
 					<% end %>
 				</tr>
 <!-- Draw each lines -->				
-				<% t.targetenvrelationships.each do |d| %>
+				<% @envdevices.each do |d| %>
 					<tr>
 	<!-- The first row -->
 						<td>
 							<% if current_user.lead? then %>
-								<%= link_to d.device.name, d, method: :delete, data: { confirm: "Sure?" }, class: "" %>
+								<%= link_to d.name, d, method: :delete, data: { confirm: "Sure?" }, class: "" %>
 							<% else %>
-								<%= d.device.name %>
+								<%= d.name %>
 							<% end %>
 						</td>
-						<% if depexist then %> <td>Over All</td> <% end %>
-						<% t.targetcaserelationships.each do |c| %>
-							<td>
-<!-- test total result will be filled here, a new line -->
-								<% currentexecutions = thematrix.select { |mx| mx.device_id == d.device_id and  mx.testcase_id == c.testcase_id } %>
-								<% if currentexecutions.count != 0 then %>
-									<% currentexecutions.each do |m| %>
-										<% if m.execution.result == "fail" then %>
-											<font color=red>x</font>
-										<% else %>
-											<font color=green>v</font>
+						<% if !depexist then %> 
+							<td>Over All</td> 
+							<% @envtestcases.each do |c| %>
+								<td>
+	<!-- test total result will be filled here, a new line -->
+									<% currentexecutions = @thematrix.select { |mx| mx.device_id == d.id and  mx.testcase_id == c.id } %>
+									<% if currentexecutions.count != 0 then %>
+										<% currentexecutions.each do |m| %>
+											<% if m.execution.result == "fail" then %>
+												<font color=red>x</font>
+											<% else %>
+												<font color=green>v</font>
+											<% end %>
 										<% end %>
 									<% end %>
-								<% end %>
-							</td>
-						<% end %>
-					</tr>
+								</td>
+							<% end %>
+						</tr>
 <!-- test environment result, if there're any,  will be filled here -->
-					<% if depexist then %> 
-						<% t.targetdeprelationships.each do |dep| %>
+					<% else %> 
+						<td></td>
+						<% @envtestcases.each do %><td></td><% end %>
+						</tr>
+						<% @envdepdevices.each do |dep| %>
 							<tr><td></td>
-								<td><%= link_to dep.device.name, dep, method: :delete, data: { confirm: "Sure?" }, class: "" %></td>
-								<% t.targetcaserelationships.each do |c| %>
+								<td><%= link_to dep.name, dep, method: :delete, data: { confirm: "Sure?" }, class: "" %></td>
+								<% @envtestcases.each do |c| %>
 									<td>
-										<% currentexecutions = thematrix.select { |mx| mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.testcase_id } %>
+										<% currentexecutions = @thematrix.select { |mx| mx.device_id == d.id and mx.envdevice_id == dep.id and mx.testcase_id == c.id } %>
 										<% if currentexecutions.count != 0 then %>
 											<% currentexecutions.each do |em| %>
 												<font onmouseover="ShowContent('<%= em.execution.id %>');" onmouseout="HideContent('<%= em.execution.id %>');">
 													<% if em.execution.result == "fail" then %>
-														<font color=red>x(cr:<%= em.execution.bug %>)</font>
+														<%= link_to 'x'+"(cr:"+em.execution.bug+")", edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
 													<% else %>
-														<font color=green>v</font>
+														<%= link_to "v", edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
 													<% end %>
-													<%= link_to "?", edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
 												</font>
 												<div id='<%= em.execution.id %>' class="showmoreinfo">
 													<%= em.execution.user.email %><br>

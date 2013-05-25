@@ -63,9 +63,14 @@ class TasksController < ApplicationController
 	else
 		@target = Target.find_by_id(@selecttarget)
 	end
-	@targetenvlist = Array.new
-	@targetenvlist << @target.env if @target != nil
 	
+	if @target != nil then
+		@targetenv = @target.targetenvs.first 
+		@envdevices = @targetenv.devices
+		@envdepdevices = @targetenv.depdevices
+		@envtestcases = @targetenv.testcases
+		@thematrix = @targetenv.targetmatrixes 
+	end
 	
 	@envtypes = self.paralist
   end
