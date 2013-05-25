@@ -66,9 +66,10 @@ class TasksController < ApplicationController
 	
 	if @target != nil then
 		@targetenv = @target.targetenvs.first 
-		@envdevices = @targetenv.devices
-		@envdepdevices = @targetenv.depdevices
-		@envtestcases = @targetenv.testcases
+		
+		@envdevices = @targetenv.targetenvrelationships
+		@envdepdevices = @targetenv.targetdeprelationships
+		@envtestcases = @targetenv.targetcaserelationships
 		@thematrix = @targetenv.targetmatrixes 
 	end
 	
@@ -82,6 +83,11 @@ class TasksController < ApplicationController
 	
 	@task = Task.find_by_id(@selecttask)
 	@target = Target.find_by_id(@selecttarget)
+	
+	@task.taskobjects.each do |taskobj|
+		taskobj.executioncount = taskobj.device.realexecutions.count
+		taskobj.save
+	end
 	
 	@target.targetenvs.each do |te|
 		te.targetmatrixes.each do |tm|
