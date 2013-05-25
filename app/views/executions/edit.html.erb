@@ -1,0 +1,20 @@
+<div class="row ">
+	<h3 class="offset1">Execution Environment</h3><hr>
+	<div class="offset1">
+		<ul>
+			<li>Test Engineer Is: <%= @execution.user.email %></li>
+			<li>Server Under Test Is: <%= @execution.sysconfig.sut.name %></li>
+			<li>Execution Date Is: <%= @execution.created_at.to_date %></li>
+		</ul>
+	</div>
+	<hr>
+	<div class="offset1">
+		<ul>
+		<% @execution.realconfig.each do |d| %>
+		<li>
+			<%= d.devicetype.name %> - <%= d.name %>
+		</li>
+		<% end %>
+		</ul>
+	</div>
+</div>
