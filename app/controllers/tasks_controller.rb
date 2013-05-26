@@ -247,6 +247,15 @@ class TasksController < ApplicationController
 	render 'tasks/index'	
   end
   
+  def twiki
+	@selecttask = params[:selecttask]
+	@task = Task.find_by_id(@selecttask)
+	@taskobjects = @task.taskobjects
+	@targetlist = @task.targets
+	
+	render :layout => "justapage"
+  end
+  
   def destroy
     @task = Task.find(params[:id])
 	@task.destroy

@@ -7,6 +7,10 @@ function detailinfo(para1, para2) {
 <div class="row-fluid">
 	<div class="span3">
 		<h1>My Tasks</h1>
+		<%= form_tag controller: "tasks", action: "twiki" do %>
+			<%= hidden_field_tag(:selecttask, @selecttask) %>
+			<div><%= submit_tag "twiki" , :class => "submit label toright" %></div>
+		<% end %>
 	</div>
 	<div class="span3">
 		<div class="span">

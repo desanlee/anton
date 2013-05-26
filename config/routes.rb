@@ -81,6 +81,7 @@ Anton::Application.routes.draw do
   post '/tasks/addtaskobject'
   post '/tasks/calculate'
   post '/tasks/selectuser'
+  post '/tasks/twiki'
   
   resources :achivements
   

@@ -14,4 +14,10 @@ class TargetsController < ApplicationController
     end
   end
   
+  def destroy
+    @target = Target.find(params[:id])
+	@target.destroy
+	redirect_to :tasks
+  end
+  
 end
