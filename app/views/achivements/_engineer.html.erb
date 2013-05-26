@@ -2,8 +2,8 @@
 <div class="weeklystatus">
 
 	<% if @targets != nil then %>
-		<% @resultarray.each do |result|%>
-		<% tmpos = "" %>
+		<% @resultarray.each do |result| %>
+			<% tmpos = "" %>
 			&nbsp;&nbsp;&nbsp;* <%= result[:title] %><br>
 			<% result[:secondlevel].each do |secondresult|%>
 				<% if secondresult[:os] != tmpos then %>

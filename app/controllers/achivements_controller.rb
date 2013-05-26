@@ -25,15 +25,15 @@ class AchivementsController < ApplicationController
 		if @targets != nil then
 			if @myexecutions != nil then
 				@resultarray = Array.new
-				@firstlevel = Hash.new
-				@secondtmp = Hash.new
-				@secondlevel = Array.new
-				
 				@targets.each do |target| 
+					@firstlevel = Hash.new
+					
+					@secondlevel = Array.new
 					@firstlevel[:title] = target.name
 					@firstlevel[:title] = target.task.name + " - " + @firstlevel[:title] if target.task != nil
 					if target.env != nil then 
 						@myexecutions.each do |me|
+							@secondtmp = Hash.new
 							if target.env.testcases.include? me.testcase and !(target.env.devices & me.realconfig).empty? then
 								@secondtmp[:title] = me.testcase.name
 								@secondtmp[:title] = @secondtmp[:title] + " on server: " + me.sysconfig.sut.name if me.sysconfig != nil
