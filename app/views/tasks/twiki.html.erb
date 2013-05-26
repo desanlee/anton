@@ -52,7 +52,7 @@
 				<% if currentexecutions.count != 0 then %>
 					<% currentexecutions.each do |em| %>
 						<% if em.execution.result == "fail" then %>
-							%RED%X(CR:<%= em.bug %>)%ENDCOLOR% 
+							%RED%X(CR:<%= em.execution.bug %>)%ENDCOLOR% 
 						<% else %>
 							%GREEN%V%ENDCOLOR%
 						<% end %>
