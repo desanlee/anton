@@ -1,2 +1,10 @@
 
 <h1>BRAVO! Weekly status from <%= @currentweekbegin %> to <%= @currentweekend %></h1>
+
+<%= form_tag controller: "achivements", action: "lastweek" do %>
+		<div class="span2 toright"><%= submit_tag "Last Week" , :class => "submit  btn" %></div>
+<% end %>
+
+<%= form_tag controller: "achivements", action: "thisweek" do %>
+		<div class="span2 toright"><%= submit_tag "This Week" , :class => "submit  btn" %></div>
+<% end %>

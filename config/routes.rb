@@ -85,6 +85,8 @@ Anton::Application.routes.draw do
   resources :achivements
   
   match '/achivements/', to: 'achivements#index'
+  post '/achivements/lastweek'
+  post '/achivements/thisweek'
   
   resources :targetcaserelationships
   resources :targetenvrelationships

@@ -156,6 +156,9 @@
 												<%= link_to " v ", edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-success" %>
 											<% end %>
 										</font>
+										<div id='<%= em.execution.id %>' class="showmoreinfo">
+											<%= em.execution.user.email %><br>
+										</div>
 									<% end %>
 								<% end %>
 							</td>
@@ -183,9 +186,6 @@
 														<%= link_to " v ", edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-success" %>
 													<% end %>
 												</font>
-												<div id='<%= em.execution.id %>' class="showmoreinfo">
-													<%= em.execution.user.email %><br>
-												</div>
 											<% end %>
 										<% end %>
 									</td>
