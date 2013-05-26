@@ -1,0 +1,66 @@
+<% index=1 %>
+
+---+ <%= @task.name %> SQA Test Plan & Result<br>
+
+%TOC%<br>
+
+---++ <%= index %>. Hight Lights<br>---<br>
+<% index = index + 1 %>
+&nbsp;&nbsp;&nbsp;NA<br>
+
+---++ <%= index %>. Background<br>---<br>
+<% index = index + 1 %>
+&nbsp;&nbsp;&nbsp;NA<br>
+
+---++ <%= index %>. Objects For Test Tasks.<br>---<br>
+<% index = index + 1 %>
+
+| Test Objects | Release Date | Note |<br>
+<% @taskobjects.each do |o| %>
+	| <%= o.device.name%> | <%= o.device.created_at.to_date%> | <%= o.device.note %>|<br>
+<% end %><br>
+
+
+<!-- Draw tables -->
+
+<% @targetlist.each do |target| %>
+	<% targetenv = target.targetenvs.first %>
+	<% thematrix = targetenv.targetmatrixes %>
+						
+---++ <%= index %>. <%= target.name %><br>---<br>
+<% index = index + 1 %>
+
+<!-- First line is testcase list -->
+	| Devices Under Test | Environment Devices |
+	<% targetenv.testcases.each do |c| %>
+		<%= c.name %> |
+	<% end %><br>
+
+<!-- Draw line of Device under test -->				
+	<% targetenv.devices.each do |d| %>
+		| <%= d.name %> | Over All | 
+		<% targetenv.testcases.each do |c| %>
+			&nbsp;|
+		<% end %><br>
+
+	<!-- Draw line of Device as Environment -->	
+		<% targetenv.depdevices.each do |dep| %>
+			| |
+			<%= dep.name %> |
+			<% targetenv.testcases.each do |c| %>
+				<% currentexecutions = thematrix.select { |mx| mx.device_id == d.id and mx.envdevice_id == dep.id and mx.testcase_id == c.id } %>
+				<% if currentexecutions.count != 0 then %>
+					<% currentexecutions.each do |em| %>
+						<% if em.execution.result == "fail" then %>
+							%RED%X(CR:<%= em.bug %>)%ENDCOLOR% 
+						<% else %>
+							%GREEN%V%ENDCOLOR%
+						<% end %>
+					<% end %>
+				<% end %>
+				&nbsp;|
+			<% end %> <br>
+		<% end %>
+	<% end %>
+	
+<% end %>	
