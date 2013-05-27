@@ -67,10 +67,12 @@ class TasksController < ApplicationController
 	if @target != nil then
 		@targetenv = @target.targetenvs.first 
 		
-		@envdevices = @targetenv.targetenvrelationships
-		@envdepdevices = @targetenv.targetdeprelationships
-		@envtestcases = @targetenv.targetcaserelationships
-		@thematrix = @targetenv.targetmatrixes 
+		if @targetenv != nil then
+			@envdevices = @targetenv.targetenvrelationships
+			@envdepdevices = @targetenv.targetdeprelationships
+			@envtestcases = @targetenv.targetcaserelationships
+			@thematrix = @targetenv.targetmatrixes 
+		end
 	end
 	
 	@envtypes = self.paralist
