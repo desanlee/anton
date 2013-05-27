@@ -72,6 +72,10 @@ class TasksController < ApplicationController
 			@envdepdevices = @targetenv.targetdeprelationships
 			@envtestcases = @targetenv.targetcaserelationships
 			@thematrix = @targetenv.targetmatrixes 
+		else
+			@targetenv = Targetenv.new
+			@targetenv.target_id = @target.id
+			@targetenv.save
 		end
 	end
 	
