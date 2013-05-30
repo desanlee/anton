@@ -34,7 +34,7 @@
 <% end %>
 
 <div class="row newpost">
-<h2>Create a case, TYPE is: <%= @selectcate %>, STAGE is: <%= Casetype.find_by_id(@selecttype).name %></h2>
+<h2>Create a case</h2>
 
 	<%= form_tag controller: "testcases", action: "addcase" do %>
 		<%= hidden_field_tag(:casecate, @selectcate) %>
