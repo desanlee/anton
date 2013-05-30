@@ -50,9 +50,13 @@ class TasksController < ApplicationController
 		@selecttask = @task.id if @task != nil
 	else
 		@task = Task.find_by_id(@selecttask)
+		if @task = nil then
+			@task = Task.first 
+			@selecttask = @task.id if @task != nil
+		end
 	end
 	@devicetypes = Devicetype.all
-	@devices = @task.system.devices if @task.system != nil if @task != nil
+	@devices = @task.system.devices if @task.system != nil
 	@taskobjects = @task.taskobjects
 	if current_user.lead? then
 		@targetlist = @task.targets
