@@ -13,9 +13,6 @@ class Device < ActiveRecord::Base
   has_many :reverse_targetenvrelationships, foreign_key: "device_id", class_name:  "Targetenvrelationship", dependent: :destroy
   has_many :targetenvs, through: :reverse_targetenvrelationships, source: :targetenv
   
-  has_many :reverse_realconfigs, foreign_key: "device_id", class_name: "Realconfig", dependent: :destroy
-  has_many :targetmatrixs, through: :reverse_realconfigs, source: :targetmatrix
-  
   validates :name, :presence => true
   
   default_scope order: 'devices.name ASC'

@@ -142,27 +142,10 @@
 							<% end %>
 						</td>
 						
-						<td>Over All</td> 
+						<td></td> 
 						<% @envtestcases.each do |c| %>
 							<td>
 	<!-- test total result will be filled here, a new line -->
-								<% currentexecutions = @thematrix.select { |mx| mx.device_id == d.device_id and mx.testcase_id == c.testcase_id } %>
-								<% if currentexecutions.count != 0 then %>
-									<% currentexecutions.each do |em| %>
-										<% if em.execution != nil then %>
-											<font onmouseover="ShowContent('<%= em.execution.id %>');" onmouseout="HideContent('<%= em.execution.id %>');">
-												<% if em.execution.result == "fail" then %>
-													<%= link_to ' x ', edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-danger"  %>(cr:<%=em.execution.bug%>)
-												<% else %>
-													<%= link_to " v ", edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-success" %>
-												<% end %>
-											</font>
-											<div id='<%= em.execution.id %>' class="showmoreinfo">
-												<%= em.execution.user.email %><br>
-											</div>
-										<% end %>
-									<% end %>
-								<% end %>
 							</td>
 						<% end %>
 					</tr>

@@ -18,6 +18,10 @@ class TestcasesController < ApplicationController
   end
   
   def index
+  
+	@selectcate = session[:selectcate]
+	@selecttype = session[:selecttype]
+	
 	if @selectcate == nil then @selectcate = 'Info Check' end
 	if @selecttype == nil then @selecttype = Casetype.first.id if Casetype.first != nil end
 	
@@ -31,6 +35,9 @@ class TestcasesController < ApplicationController
   def selectcate
 	@selectcate = params[:selectcate] 
 	@selecttype = params[:casetype] 
+	
+	session[:selectcate] = params[:selectcate] 
+	
 	self.index
 	render 'testcases/index'
   end
@@ -38,6 +45,9 @@ class TestcasesController < ApplicationController
   def selecttype
 	@selecttype = params[:selecttype]
 	@selectcate = params[:casecate] 
+	
+	session[:selecttype] = params[:selecttype]
+	
 	self.index
 	render 'testcases/index'
   end

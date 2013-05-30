@@ -16,7 +16,13 @@
 					<div id='<%= d.name %>' class="showmoreinfo">Execution Steps:<hr><%= simple_format(d.steps) %></div>
 					<td><%=if d.devicetype != nil then d.devicetype.name else "None" end %></td>
 					<td><%= d.user.email if d.user != nil %></td>
-					<td><%= link_to "x", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" if current_user.root? or current_user == d.user %></td>
+					<td>
+						<% if !d.executions.any? then%>
+							<%= link_to "x", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" if current_user.root? or current_user == d.user %>
+						<% else %>
+							<font class="toright"><%= d.executions.count%> Times Uesed</font>
+						<% end %>
+					</td>
 				</tr>
 			<% end %>
 		</table>

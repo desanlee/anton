@@ -4,6 +4,9 @@ class SystemsController < ApplicationController
   end
   
   def index
+	@selectcate = session[:selectcate]
+	@selectsystem = session[:selectsystem]
+	
 	if @selectcate == nil then @selectcate = 'Hardware' end
 	if @selectsystem == nil then @selectsystem = System.first.id if System.first != nil end
 	
@@ -19,6 +22,9 @@ class SystemsController < ApplicationController
   def selectcate
 	@selectcate = params[:selectcate] 
 	@selectsystem = params[:selectsystem] 
+	
+	session[:selectcate]  = params[:selectcate]
+	
 	self.index
 	render 'systems/index'
   end
@@ -26,6 +32,9 @@ class SystemsController < ApplicationController
   def selectsystem
 	@selectsystem = params[:selectsystem]
 	@selectcate = params[:devicecate] 
+	
+	session[:selectsystem]  = params[:selectsystem]
+	
 	self.index
 	render 'systems/index'
   end

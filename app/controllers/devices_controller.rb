@@ -21,6 +21,10 @@ class DevicesController < ApplicationController
   end
   
   def index
+  
+	@selectcate = session[:selectcate]
+	@selecttype = session[:selecttype]
+	
 	if @selectcate == nil then @selectcate = self.catelist.first end
 	@typelist = Devicetype.find_all_by_devicecate(@selectcate)
 	if @selecttype == nil then @selecttype = @typelist.first.id if @typelist.first != nil end
@@ -31,6 +35,9 @@ class DevicesController < ApplicationController
 
   def selectcate
 	@selectcate = params[:selectcate] 
+	
+	session[:selectcate] = @selectcate
+	
 	self.index
 	render 'devices/index'
   end
@@ -38,6 +45,9 @@ class DevicesController < ApplicationController
   def selecttype
 	@selecttype = params[:selecttype]
 	@selectcate = params[:devicecate] 
+	
+	session[:selecttype] = @selecttype
+	
 	self.index
 	render 'devices/index'
   end
@@ -51,6 +61,8 @@ class DevicesController < ApplicationController
 	@devicetype.note = params[:note]
 	@devicetype.devicecate = @selectcate
 	@devicetype.save
+	
+	session[:selecttype] = @devicetype.id
 
 	self.index
 	render 'devices/index'
@@ -76,7 +88,7 @@ class DevicesController < ApplicationController
   
   def destroy
     @device = Device.find(params[:id])
-	@device.destroy
+	@device.destroy if @device != nil
 	redirect_to :devices
   end
   

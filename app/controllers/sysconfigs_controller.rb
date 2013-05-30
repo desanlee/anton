@@ -2,6 +2,9 @@ class SysconfigsController < ApplicationController
 
   def index
 	
+	@selecttype = session[:selecttype]
+	@selectsut = session[:selectsut]
+	
 	@systems = System.all
 	@users = User.all
 	@devicetypes = Devicetype.find_all_by_devicecate("Hardware")
@@ -45,6 +48,9 @@ class SysconfigsController < ApplicationController
 
   def selectsut
 	@selectsut = params[:selectsut] 
+	
+	session[:selectsut] = params[:selectsut]
+	
 	self.index
 	render 'sysconfigs/index'
   end
@@ -63,6 +69,9 @@ class SysconfigsController < ApplicationController
   def selecttype
 	@selectsut = params[:selectsut] 
 	@selecttype = params[:selecttype]
+	
+	session[:selecttype] = params[:selecttype]
+	
 	self.index
 	render 'sysconfigs/index'
   end

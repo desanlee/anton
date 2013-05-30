@@ -1,6 +1,8 @@
 class ExecutionsController < ApplicationController
   
   def index
+	@selectsut = session[:selectsut]
+	
 	@sutlist = Sut.find_all_by_holder_id(current_user.id)
 	if @sutlist != nil then
 		if @selectsut == nil then @selectsut = @sutlist.first.id if @sutlist.first != nil end
@@ -38,6 +40,8 @@ class ExecutionsController < ApplicationController
 	@selectsut = params[:selectsut] 
 	@selectcate = params[:selectcate] 
 	@selecttype = params[:selecttype] 
+	
+	session[:selectsut] = params[:selectsut]
 	
 	self.index
 	render 'executions/index'

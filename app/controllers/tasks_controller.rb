@@ -28,6 +28,10 @@ class TasksController < ApplicationController
   end
   
   def index
+  
+	@selecttask = session[:selecttask]
+	@selecttarget = session[:selecttarget]
+	
 	if current_user.lead? then 
 		@tasklist = current_user.tasks 
 	else
@@ -147,6 +151,7 @@ class TasksController < ApplicationController
   
   def selecttask
 	@selecttask = params[:selecttask] 
+	session[:selecttask] = @selecttask
 	
 	self.index
 	render 'tasks/index'
@@ -159,6 +164,8 @@ class TasksController < ApplicationController
 	newtask.note = params[:note]
 	newtask.system_id = params[:selectsystem]
 	newtask.save
+	
+	session[:selecttask] = newtask.id
 	
 	self.index
 	render 'tasks/index'	
@@ -182,6 +189,8 @@ class TasksController < ApplicationController
 	@selecttask = params[:selecttask]
 	@selecttarget = params[:selecttarget] 
 	
+	session[:selecttarget] = @selecttarget
+	
 	self.index
 	render 'tasks/index'
   end
@@ -195,6 +204,8 @@ class TasksController < ApplicationController
 	newtarget.name = params[:name]
 	newtarget.note = params[:note]
 	newtarget.save
+	
+	session[:selecttarget] = newtarget.id
 	
 	@selecttarget = newtarget.id
 	
