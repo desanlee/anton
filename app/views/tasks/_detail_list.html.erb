@@ -181,13 +181,15 @@
 										<% currentexecutions = @thematrix.select { |mx| mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.testcase_id } %>
 										<% if currentexecutions.count != 0 then %>
 											<% currentexecutions.each do |em| %>
-												<font onmouseover="ShowContent('<%= em.execution.id %>');" onmouseout="HideContent('<%= em.execution.id %>');">
-													<% if em.execution.result == "fail" then %>
-														<%= link_to ' x ', edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-danger"  %>(cr:<%=em.execution.bug%>)
-													<% else %>
-														<%= link_to " v ", edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-success" %>
-													<% end %>
-												</font>
+												<% if em.execution != nil then %>
+													<font onmouseover="ShowContent('<%= em.execution.id %>');" onmouseout="HideContent('<%= em.execution.id %>');">
+														<% if em.execution.result == "fail" then %>
+															<%= link_to ' x ', edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-danger"  %>(cr:<%=em.execution.bug%>)
+														<% else %>
+															<%= link_to " v ", edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-success" %>
+														<% end %>
+													</font>
+												<% end %>
 											<% end %>
 										<% end %>
 									</td>
