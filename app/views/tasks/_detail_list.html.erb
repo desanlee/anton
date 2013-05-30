@@ -122,7 +122,7 @@
 					<% @envtestcases.each do |c| %>
 						<td>
 							<% if current_user.lead? then %>
-								<%= link_to c.testcase.name, c, method: :delete, data: { confirm: "Sure?" }, class: "" %>
+								<%= link_to c.testcase.name, c, :selecttask => @task.id, :selecttarget => @target.id,method: :delete, data: { confirm: "Sure?" }, class: "" %>
 							<% else %>
 								<%= c.testcase.name %>
 							<% end %>
@@ -149,16 +149,18 @@
 								<% currentexecutions = @thematrix.select { |mx| mx.device_id == d.device_id and mx.testcase_id == c.testcase_id } %>
 								<% if currentexecutions.count != 0 then %>
 									<% currentexecutions.each do |em| %>
-										<font onmouseover="ShowContent('<%= em.execution.id %>');" onmouseout="HideContent('<%= em.execution.id %>');">
-											<% if em.execution.result == "fail" then %>
-												<%= link_to ' x ', edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-danger"  %>(cr:<%=em.execution.bug%>)
-											<% else %>
-												<%= link_to " v ", edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-success" %>
-											<% end %>
-										</font>
-										<div id='<%= em.execution.id %>' class="showmoreinfo">
-											<%= em.execution.user.email %><br>
-										</div>
+										<% if em.execution != nil then %>
+											<font onmouseover="ShowContent('<%= em.execution.id %>');" onmouseout="HideContent('<%= em.execution.id %>');">
+												<% if em.execution.result == "fail" then %>
+													<%= link_to ' x ', edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-danger"  %>(cr:<%=em.execution.bug%>)
+												<% else %>
+													<%= link_to " v ", edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-success" %>
+												<% end %>
+											</font>
+											<div id='<%= em.execution.id %>' class="showmoreinfo">
+												<%= em.execution.user.email %><br>
+											</div>
+										<% end %>
 									<% end %>
 								<% end %>
 							</td>
