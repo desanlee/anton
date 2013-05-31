@@ -16,7 +16,7 @@ class Testcase < ActiveRecord::Base
   
   def longname
 	if self.devicetype != nil then
-		self.devicetype.name + " - " + self.name
+		self.casetype.name + " - " + self.name
 	else
 		"Notype - " + self.name
 	end
