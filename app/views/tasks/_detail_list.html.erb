@@ -55,6 +55,17 @@
 	<div class="alarmtext center">No test targets existed!</div>
 <% end %>
 
+<!-- Show all failed testcases -->
+	<% failexecutions = @thematrix.select { |fmx| fmx.result == "fail" } %>
+	<% if failexecutions != nil then %>
+		<ul>
+		<% failexecutions.uniq.each do |em| %>
+			<% execution = em.execution %>
+			<li><%= em.execution.created_at.to_date %>, <%= em.execution.testcase.name %>, by <%= execution.user.email if execution.user != nil if execution != nil %>,<%= em.result %>, <%= em.bug%></li>
+		<% end %>
+		</ul>
+	<% end %>
+
 <!-- Draw tables for matrixes -->
 
 <% if @target != nil then %>

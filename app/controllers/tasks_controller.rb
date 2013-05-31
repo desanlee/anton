@@ -141,6 +141,8 @@ class TasksController < ApplicationController
 								matrixitem.envdevice_id = dd.id
 								matrixitem.testcase_id = ex.testcase_id
 								matrixitem.execution_id = ex.id
+								matrixitem.result = ex.result
+								matrixitem.bug = ex.bug
 								matrixitem.save
 							end
 						end
@@ -157,6 +159,7 @@ class TasksController < ApplicationController
   def selecttask
 	@selecttask = params[:selecttask] 
 	session[:selecttask] = @selecttask
+	@selecttarget = nil
 	
 	self.index
 	render 'tasks/index'
