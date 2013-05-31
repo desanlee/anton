@@ -42,7 +42,7 @@ class TasksController < ApplicationController
 		end
 	end
 	@systems = System.all
-	@testcases = Testcase.all
+	@testcases = Testcase.select{|c| c[:casetype_id] != nil}.sort_by{ |c| c[:casetype_id]}
 	@users = User.all
 	
 	if @selecttask == nil then
@@ -56,7 +56,7 @@ class TasksController < ApplicationController
 		end
 	end
 	@devicetypes = Devicetype.all
-	@devices = @task.system.devices if @task.system != nil
+	@devices = @task.system.devices.sort_by{ |d| d[:devicetype_id]} if @task.system != nil
 	@taskobjects = @task.taskobjects
 	if current_user.lead? then
 		@targetlist = @task.targets

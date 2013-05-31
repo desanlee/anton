@@ -84,7 +84,7 @@
 					<%= hidden_field_tag(:selecttask, @selecttask) %>
 					<%= hidden_field_tag(:selecttarget, @selecttarget) %>
 					<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
-					<div class="span">DEVICES for X: <%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :name), :class => "textsize4" if @devices != nil %></div>
+					<div class="span">DEVICES for X: <%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :longname), :class => "textsize4" if @devices != nil %></div>
 					<div class="span"><%= submit_tag "+" , :class => "submit  btn " %></div>
 				<% end %>
 				</div>
@@ -94,7 +94,7 @@
 					<%= hidden_field_tag(:selecttask, @selecttask) %>
 					<%= hidden_field_tag(:selecttarget, @selecttarget) %>
 					<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
-					<div class="span">TESTCASE for Y: <%= select_tag 'selecttestcase', options_from_collection_for_select( @testcases, :id, :name), :class => "textsize4"  %></div>
+					<div class="span">TESTCASE for Y: <%= select_tag 'selecttestcase', options_from_collection_for_select( @testcases, :id, :longname), :class => "textsize4"  %></div>
 					<div class="span"><%= submit_tag "+" , :class => "submit  btn " %></div>
 				<% end %>
 				</div>
@@ -104,7 +104,7 @@
 						<%= hidden_field_tag(:selecttask, @selecttask) %>
 						<%= hidden_field_tag(:selecttarget, @selecttarget) %>
 						<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
-						<div class="span">SHOW ENVIRONMENT: <%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :name), :class => "textsize4"  %></div>
+						<div class="span">SHOW ENVIRONMENT: <%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :longname), :class => "textsize4"  %></div>
 						<div class="span"><%= submit_tag "+" , :class => "submit  btn " %></div>
 					<% end %>
 				</div>

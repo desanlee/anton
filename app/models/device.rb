@@ -45,4 +45,12 @@ class Device < ActiveRecord::Base
 	return executions
   end
   
+  def longname
+	if self.devicetype != nil then
+		self.devicetype.name + " - " + self.name
+	else
+		"Notype - " + self.name
+	end
+  end
+  
 end

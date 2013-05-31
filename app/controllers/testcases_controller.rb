@@ -4,6 +4,10 @@ class TestcasesController < ApplicationController
   end
   
   def edit
+	@catelist = self.catelist
+	@typelist = Casetype.all
+	@devicetypes = Devicetype.find_all_by_devicecate("Software") + Devicetype.find_all_by_devicecate("Firmware")
+	
     @testcase = Testcase.find(params[:id])
 	render :layout => "justapage"
   end

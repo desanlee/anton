@@ -8,7 +8,7 @@
 				<tr>
 					<td onmouseover="ShowContent('<%= d.name %>');" onmouseout="HideContent('<%= d.name %>');">
 						<% if current_user.root? or current_user == d.user then%>
-							<%= link_to d.name, edit_testcase_path(d), :onclick=>"window.open(this.href,'create_company', 'height=500, width=600');return false;" %>
+							<%= link_to d.name, edit_testcase_path(d), :onclick=>"window.open(this.href,'create_company', 'height=650, width=600');return false;" %>
 						<% else %>
 							<%= d.name %>
 						<% end %>
