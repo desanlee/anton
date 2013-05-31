@@ -34,7 +34,9 @@
 					<%= t.executioncount %> 0 Cases have been completed
 				<% end %>
 			</td>
-			<td></td></tr>
+			<td>
+				<%= link_to "x", t,method: :delete, data: { confirm: "Sure?" }, class: "" %>
+			</td></tr>
 		<% end %>
 		<% if @devices != nil and current_user == @task.user then %>
 			<tr>

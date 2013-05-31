@@ -15,7 +15,7 @@ class Testcase < ActiveRecord::Base
   default_scope order: 'testcases.name ASC'
   
   def longname
-	if self.casetype_id != nil then
+	if self.casetype != nil then
 		self.casetype.name + " - " + self.executions.count.to_s + " - "  + self.name
 	else
 		"Notype - " + self.name

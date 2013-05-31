@@ -92,7 +92,7 @@ Anton::Application.routes.draw do
   resources :targetcaserelationships
   resources :targetenvrelationships
   resources :targetdeprelationships
-  
+  resources :taskobjects
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
