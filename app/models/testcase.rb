@@ -16,7 +16,7 @@ class Testcase < ActiveRecord::Base
   
   def longname
 	if self.casetype_id != nil then
-		self.casetype.name + " - " + self.executions.count + " - "  + self.name
+		self.casetype.name + " - " + self.executions.count.to_s + " - "  + self.name
 	else
 		"Notype - " + self.name
 	end
