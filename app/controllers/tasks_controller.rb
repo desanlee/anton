@@ -107,47 +107,48 @@ class TasksController < ApplicationController
 		taskobj.save
 	end
 	
-	@target.targetenvs.each do |te|
-		te.targetmatrixes.each do |tm|
-			tm.destroy
-	end end
-	
 	allexecutions = Array.new
 	@task.devices.each do |d|
 		d.realexecutions.each do |re|
 			allexecutions << re
 		end
 	end
-	
-	te = @target.targetenvs.first
-	realexecutions = Array.new
-	if te != nil then 
-		te.testcases.each do |c|
-			allexecutions.uniq.each do |ex|
-				if ex.testcase != nil then
-					realexecutions << ex if ex.testcase.id = c.id
+		
+	@task.targets.each do |target|
+		target.targetenvs.each do |te|
+			te.targetmatrixes.each do |tm|
+				tm.destroy
+		end end
+		
+		te = target.targetenvs.first
+		realexecutions = Array.new
+		if te != nil then 
+			te.testcases.each do |c|
+				allexecutions.uniq.each do |ex|
+					if ex.testcase != nil then
+						realexecutions << ex if ex.testcase.id = c.id
+					end
 				end
 			end
-		end
-		te.devices.each do |d|
-			realexecutions.uniq.each do |ex|
-				if ex.realconfig.include? d then 
-					te.depdevices.each do |dd|
-						if ex.realconfig.include? dd then 
-							matrixitem = Targetmatrix.new
-							matrixitem.targetenv_id = te.id
-							matrixitem.device_id = d.id
-							matrixitem.envdevice_id = dd.id
-							matrixitem.testcase_id = ex.testcase_id
-							matrixitem.execution_id = ex.id
-							matrixitem.save
+			te.devices.each do |d|
+				realexecutions.uniq.each do |ex|
+					if ex.realconfig.include? d then 
+						te.depdevices.each do |dd|
+							if ex.realconfig.include? dd then 
+								matrixitem = Targetmatrix.new
+								matrixitem.targetenv_id = te.id
+								matrixitem.device_id = d.id
+								matrixitem.envdevice_id = dd.id
+								matrixitem.testcase_id = ex.testcase_id
+								matrixitem.execution_id = ex.id
+								matrixitem.save
+							end
 						end
 					end
 				end
 			end
 		end
 	end
-	
 	
 	self.index
 	render 'tasks/index'
