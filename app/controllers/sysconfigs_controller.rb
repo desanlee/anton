@@ -1,5 +1,14 @@
 class SysconfigsController < ApplicationController
 
+  def edit
+    @sysconfig = Sysconfig.find(params[:id])
+	@selectsut = session[:selectsut]
+	@sut = Sut.find_by_id(@selectsut)
+	@devices = @sut.system.devices
+	
+	render :layout => "justapage"
+  end
+  
   def index
 	
 	@selecttype = session[:selecttype]

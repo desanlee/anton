@@ -70,10 +70,13 @@
 	<ul>
 		<% if @sysconfiglist != nil then %>
 			<% if @sysconfiglist.count != 0 then %>
-				<% @sysconfiglist.each do |d| %>
+				<% @sysconfiglist.each do |c| %>
 					<li>
-						<div class="span4"><%= d.created_at %></div>
-						<div class="span4">by:<%= d.user.email if d.user != nil %></div> 
+						<% if current_user.lead? then %>
+							<div class="span"><%= link_to "NO:" + c.id.to_s, edit_sysconfig_path(c), :onclick=>"window.open(this.href,'create_company', 'height=650, width=650');return false;" %></div>
+						<% end %>
+						<div class="span4"><%= c.created_at %></div>
+						<div class="span4">by:<%= c.user.email if c.user != nil %></div> 
 					</li>
 				<% end %>
 			<% else %>
