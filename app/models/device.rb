@@ -46,7 +46,7 @@ class Device < ActiveRecord::Base
   end
   
   def longname
-	if self.devicetype != nil then
+	if self.devicetype_id != nil then
 		self.devicetype.name + " - " + self.name
 	else
 		"Notype - " + self.name

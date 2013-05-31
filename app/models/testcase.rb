@@ -15,7 +15,7 @@ class Testcase < ActiveRecord::Base
   default_scope order: 'testcases.name ASC'
   
   def longname
-	if self.devicetype != nil then
+	if self.casetype_id != nil then
 		self.casetype.name + " - " + self.name
 	else
 		"Notype - " + self.name
