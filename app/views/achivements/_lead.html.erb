@@ -21,7 +21,11 @@
 				<% if userexecution[:leftarray].count != 0 then %>
 					&nbsp;&nbsp;&nbsp;* Other testcases executed, (<font class="label"><%= euser.email %></font>)<br>
 					<% userexecution[:leftarray].each do |result| %>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Run case "<%= result.testcase.name if result.testcase != nil %>" <%= result.device.name if result.device != nil %> on server:<%= result.sysconfig.sut.name if result.sysconfig.sut != nil if result.sysconfig != nil %> <br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Run case "
+						<% if result.testcase != nil then %>
+							<%= link_to result.testcase.name, testcase_path(result.testcase),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
+						<% end %>
+						" <%= result.device.name if result.device != nil %> on server:<%= result.sysconfig.sut.name if result.sysconfig.sut != nil if result.sysconfig != nil %> <br>
 					<% end %>
 				<% end %>
 			<% end %>

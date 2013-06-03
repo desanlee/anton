@@ -2,6 +2,11 @@ class TestcasesController < ApplicationController
   def catelist
     ['Info Check','Operation','Stress']
   end
+
+  def show
+    @testcase = Testcase.find(params[:id])
+	render :layout => "justapage"
+  end
   
   def edit
 	@catelist = self.catelist
