@@ -5,13 +5,15 @@
 		<% if userexecution != nil then %>
 			<% userexecution[:resultarray].each do |result| %>
 				<% tmpos = "" %>
-				&nbsp;&nbsp;&nbsp;* <%= result[:title] %>, (<font class="label"><%= euser.email %></font>)<br>
-				<% result[:secondlevel].each do |secondresult|%>
-					<% if secondresult[:os] != tmpos then %>
-						<% tmpos = secondresult[:os] %>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <%= secondresult[:os] %><br>
+				<% if result[:secondlevel].count != 0 then %>
+					&nbsp;&nbsp;&nbsp;* <%= result[:title] %>, (<font class="label"><%= euser.email %></font>)<br>
+					<% result[:secondlevel].each do |secondresult|%>
+						<% if secondresult[:os] != tmpos then %>
+							<% tmpos = secondresult[:os] %>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <%= secondresult[:os] %><br>
+						<% end %>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <%= secondresult[:title] %><br>
 					<% end %>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <%= secondresult[:title] %><br>
 				<% end %>
 			<% end %>
 			

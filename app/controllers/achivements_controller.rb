@@ -13,6 +13,7 @@ class AchivementsController < ApplicationController
 			userexecutions << e if e.created_at.strftime("%W") == @currentweek
 		end
 		resultarray = Array.new
+		usedarray = Array.new
 		leftarray = Array.new
 		if usertargets != nil then
 			if userexecutions != nil then
@@ -32,14 +33,18 @@ class AchivementsController < ApplicationController
 									secondtmp[:os] = "On " + rd.name if rd.devicetype.name == "OS"
 								end
 								secondlevel << secondtmp
-							else
-								leftarray << me
+								usedarray << me
 							end
 						end
 						firstlevel[:secondlevel] = secondlevel.sort_by{|e| e[:os]}
 						resultarray << firstlevel
 					end
 				end 
+				userexecutions.each do |me|
+					if !usedarray.include? me then
+						leftarray << me
+					end
+				end
 			end
 		end
 		rtnexecutions = Hash.new
