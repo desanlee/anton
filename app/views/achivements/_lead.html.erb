@@ -1,1 +1,49 @@
-<h2>Lead I Am</h2>
+<h2>Testcase Running</h2>
+<div class="weeklystatus">
+	<% current_user.engineers.each do |euser| %>
+		<% userexecution = @userexecution[euser.id] %>
+		<% if userexecution != nil then %>
+			<% userexecution[:resultarray].each do |result| %>
+				<% tmpos = "" %>
+				&nbsp;&nbsp;&nbsp;* <%= result[:title] %>, (<font class="label"><%= euser.email %></font>)<br>
+				<% result[:secondlevel].each do |secondresult|%>
+					<% if secondresult[:os] != tmpos then %>
+						<% tmpos = secondresult[:os] %>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <%= secondresult[:os] %><br>
+					<% end %>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <%= secondresult[:title] %><br>
+				<% end %>
+			<% end %>
+			
+			<% if userexecution[:leftarray] != nil then %>
+				<% if userexecution[:leftarray].count != 0 then %>
+					&nbsp;&nbsp;&nbsp;* Other testcases executed, (<font class="label"><%= euser.email %></font>)<br>
+					<% userexecution[:leftarray].each do |result| %>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <%= result.testcase.name %> <%= result.device.name if result.device != nil %> on server:<%= result.sysconfig.sut.name %> <br>
+					<% end %>
+				<% end %>
+			<% end %>
+			
+		<% else %>
+			<div class="span8">Never Run Any Testcases</div>
+		<% end %>
+	<% end %>	
+</div>
+
+<h2>Team Members</h2>
+<div class="row weeklystatus">
+	<div class="span8">
+		<% current_user.teamrelationships.each do |tr| %>
+			<div class="span label">
+				<%= tr.engineer.email %>
+				<%= link_to "x", tr,method: :delete, data: { confirm: "Sure?" }, class: "" %>
+			</div>
+		<% end %>
+	</div>
+	<div class="span toright">
+		<%= form_tag controller: "achivements", action: "addteammember" do %>
+			<div class="span"><%= select_tag 'member', options_from_collection_for_select( @users, :id, :email), :class => "textsize6" %></div>
+			<div class="span"><%= submit_tag "+" , :class => "submit  btn " %></div>
+		<% end %>
+	</div>	
+</div>	

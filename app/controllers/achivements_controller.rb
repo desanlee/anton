@@ -1,14 +1,55 @@
 class AchivementsController < ApplicationController
 
-	def index
-	  
+	def userexecution(user)
 		if !@lastweek
 			@currentweek = (Time.now).strftime("%W")
 			@currentweekbegin = (Time.now).at_beginning_of_week.strftime("%m.%d")
 			@currentweekend = ((Time.now).at_beginning_of_week + 4.day).strftime("%m.%d")
 		end
 		
-		@targets = current_user.targets
+		usertargets = user.targets
+		userexecutions = Array.new
+		user.executions.each do |e|
+			userexecutions << e if e.created_at.strftime("%W") == @currentweek
+		end
+		resultarray = Array.new
+		leftarray = Array.new
+		if usertargets != nil then
+			if userexecutions != nil then
+				usertargets.each do |target| 
+					firstlevel = Hash.new
+					secondlevel = Array.new
+					firstlevel[:title] = target.name
+					firstlevel[:title] = target.task.name + " - " + firstlevel[:title] if target.task != nil
+					if target.env != nil then 
+						userexecutions.each do |me|
+							secondtmp = Hash.new
+							if target.env.testcases.include? me.testcase and !(target.env.devices & me.realconfig).empty? then
+								secondtmp[:title] = me.testcase.name
+								secondtmp[:title] = secondtmp[:title] + " on server: " + me.sysconfig.sut.name if me.sysconfig != nil
+								secondtmp[:os] = "None OS related Test Cases"
+								me.realconfig.each do |rd|
+									secondtmp[:os] = "On " + rd.name if rd.devicetype.name == "OS"
+								end
+								secondlevel << secondtmp
+							else
+								leftarray << me
+							end
+						end
+						firstlevel[:secondlevel] = secondlevel.sort_by{|e| e[:os]}
+						resultarray << firstlevel
+					end
+				end 
+			end
+		end
+		rtnexecutions = Hash.new
+		rtnexecutions[:resultarray] = resultarray
+		rtnexecutions[:leftarray] = leftarray.uniq
+		return rtnexecutions
+	end
+	
+	def index
+		@users = User.all
 		
 		if current_user.engineer? then
 			@mysysconfigurations = Array.new
@@ -16,40 +57,15 @@ class AchivementsController < ApplicationController
 				@mysysconfigurations << c if c.created_at.strftime("%W") == @currentweek
 			end
 			
-			@myexecutions = Array.new
-			current_user.executions.each do |e|
-				@myexecutions << e if e.created_at.strftime("%W") == @currentweek
+			@userexecution = userexecution current_user
+		end
+		
+		if current_user.lead? then
+			current_user.engineers.each do |euser|
+				@userexecution[euser.id] = userexecution euser
 			end
 		end
 		
-		if @targets != nil then
-			if @myexecutions != nil then
-				@resultarray = Array.new
-				@targets.each do |target| 
-					@firstlevel = Hash.new
-					
-					@secondlevel = Array.new
-					@firstlevel[:title] = target.name
-					@firstlevel[:title] = target.task.name + " - " + @firstlevel[:title] if target.task != nil
-					if target.env != nil then 
-						@myexecutions.each do |me|
-							@secondtmp = Hash.new
-							if target.env.testcases.include? me.testcase and !(target.env.devices & me.realconfig).empty? then
-								@secondtmp[:title] = me.testcase.name
-								@secondtmp[:title] = @secondtmp[:title] + " on server: " + me.sysconfig.sut.name if me.sysconfig != nil
-								@secondtmp[:os] = "None OS related Test Cases"
-								me.realconfig.each do |rd|
-									@secondtmp[:os] = "On " + rd.name if rd.devicetype.name == "OS"
-								end
-								@secondlevel << @secondtmp
-							end
-						end
-						@firstlevel[:secondlevel] = @secondlevel.sort_by{|e| e[:os]}
-						@resultarray << @firstlevel
-					end
-				end 
-			end
-		end
 	end
 	
 	def lastweek
@@ -66,6 +82,16 @@ class AchivementsController < ApplicationController
 		@lastweek = false
 		self.index
 		render 'achivements/index'
+	end
+	
+	def addteammember
+	teammember = Teamrelationship.new
+	teammember.lead_id = current_user.id
+	teammember.engineer_id = params[:member]
+	teammember.save
+	
+	self.index
+	render 'achivements/index'
 	end
 	
 end

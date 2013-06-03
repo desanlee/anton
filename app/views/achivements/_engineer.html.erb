@@ -1,8 +1,8 @@
 <h2>Testcase Running</h2>
 <div class="weeklystatus">
 
-	<% if @targets != nil then %>
-		<% @resultarray.each do |result| %>
+	<% if @userexecution != nil then %>
+		<% @userexecution[:resultarray].each do |result| %>
 			<% tmpos = "" %>
 			&nbsp;&nbsp;&nbsp;* <%= result[:title] %><br>
 			<% result[:secondlevel].each do |secondresult|%>
@@ -13,13 +13,21 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <%= secondresult[:title] %><br>
 			<% end %>
 		<% end %>
+		
+		<% if @userexecution[:leftarray] != nil then %>
+			&nbsp;&nbsp;&nbsp;* Other testcases executed<br>
+			<% @userexecution[:leftarray].each do |result| %>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <%= result.testcase.name %> <%= result.device.name if result.device != nil %> on server:<%= result.sysconfig.sut.name %> <br>
+			<% end %>
+		<% end %>
+		
 	<% else %>
-		<div class="span8">Never Run Any Testcases<%= c.sut_id %></div>
+		<div class="span8">Never Run Any Testcases</div>
 	<% end %>
 	
 </div>
 
-<br><h2>System Configuration</h2>
+<br><h2>Other Works For This Week</h2>
 <div class="weeklystatus">
 	<% if @mysysconfigurations != nil then %>
 		<% @mysysconfigurations.each do |c| %>

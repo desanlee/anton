@@ -5,6 +5,10 @@
 	</div>
 
 	<div class="bkgrd span12">
-		<%= render 'achivements/engineer' %>
+		<% if current_user.lead? then %>
+			<%= render 'achivements/lead' %>
+		<% else %>
+			<%= render 'achivements/engineer' %>
+		<% end %>
 	</div>
 </div>

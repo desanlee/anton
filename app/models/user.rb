@@ -17,6 +17,11 @@ class User < ActiveRecord::Base
   has_many :targets, class_name: "Target"
   has_many :tasks, class_name: "Task"
   
+  has_many :teamrelationships, foreign_key: "lead_id", class_name: "Teamrelationship", dependent: :destroy
+  has_many :engineers, through: :teamrelationships, :source => :engineer
+  has_many :reverse_teamrelationships, foreign_key: "engineer_id", class_name: "Teamrelationship", dependent: :destroy
+  has_many :leads, through: :reverse_teamrelationships, :source => :lead
+  
   def charactors 
     mycharactors = Array.new
 	self.priviledges.each do |p| 

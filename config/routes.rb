@@ -88,11 +88,13 @@ Anton::Application.routes.draw do
   match '/achivements/', to: 'achivements#index'
   post '/achivements/lastweek'
   post '/achivements/thisweek'
+  post '/achivements/addteammember'
   
   resources :taskexecutions
   resources :targetcaserelationships
   resources :targetenvrelationships
   resources :targetdeprelationships
+  resources :teamrelationships
   resources :taskobjects
   # The priority is based upon order of creation:
   # first created -> highest priority.

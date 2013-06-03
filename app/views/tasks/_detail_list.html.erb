@@ -51,7 +51,7 @@
 			<% execution = em.execution %>
 			<li><%= link_to "view", execution_path(execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
 			, <%= link_to "edit", edit_execution_path(execution),:onclick=>"window.open(this.href,'create_company', 'height=400, width=500');return false;" %>
-			, <%= execution.created_at.to_date if execution != nil %>, <%= execution.testcase.name if execution.testcase != nil if execution != nil %>, by <%= execution.user.email if execution.user != nil if execution != nil %>,<%= em.result %>, <%= em.bug%></li>
+			, <%= execution.created_at.to_date if execution != nil %>, <%= execution.testcase.name if execution.testcase != nil if execution != nil %>, by <%= execution.user.email if execution.user != nil if execution != nil %>,<%= execution.result %>, <%= execution.bug%></li>
 		<% end %>
 		</ul>
 	<% end %>
