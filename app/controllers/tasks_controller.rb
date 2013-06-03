@@ -55,6 +55,9 @@ class TasksController < ApplicationController
 			@selecttask = @task.id if @task != nil
 		end
 	end
+	
+	@taskexecutions = @task.taskexecutions
+	
 	@devicetypes = Devicetype.all
 	@devices = @task.system.devices.sort_by{ |d| d[:devicetype_id]} if @task.system != nil
 	@taskobjects = @task.taskobjects
@@ -113,7 +116,19 @@ class TasksController < ApplicationController
 			allexecutions << re
 		end
 	end
-		
+	
+	allexecutions = allexecutions.uniq
+	allexecutions.each do |eachexecution|
+		taskexecution = Taskexecution.new
+		taskexecution.task_id = @task.id
+		taskexecution.execution_id = eachexecution.id
+		taskexecution.user_id = eachexecution.user_id
+		taskexecution.testcase_id = eachexecution.testcase_id
+		taskexecution.result = eachexecution.result
+		taskexecution.bug = eachexecution.bug
+		taskexecution.save
+	end
+	
 	@task.targets.each do |target|
 		target.targetenvs.each do |te|
 			te.targetmatrixes.each do |tm|
@@ -124,14 +139,15 @@ class TasksController < ApplicationController
 		realexecutions = Array.new
 		if te != nil then 
 			te.testcases.each do |c|
-				allexecutions.uniq.each do |ex|
+				allexecutions.each do |ex|
 					if ex.testcase != nil then
 						realexecutions << ex if ex.testcase.id = c.id
 					end
 				end
 			end
+			realexecutions = realexecutions.uniq
 			te.devices.each do |d|
-				realexecutions.uniq.each do |ex|
+				realexecutions.each do |ex|
 					if ex.realconfig.include? d then 
 						te.depdevices.each do |dd|
 							if ex.realconfig.include? dd then 

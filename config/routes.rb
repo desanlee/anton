@@ -89,6 +89,7 @@ Anton::Application.routes.draw do
   post '/achivements/lastweek'
   post '/achivements/thisweek'
   
+  resources :taskexecutions
   resources :targetcaserelationships
   resources :targetenvrelationships
   resources :targetdeprelationships

@@ -31,9 +31,23 @@ class ExecutionsController < ApplicationController
 
   end
 
+  def show
+    @execution = Execution.find(params[:id])
+	render :layout => "justapage"
+  end
+  
   def edit
     @execution = Execution.find(params[:id])
 	render :layout => "justapage"
+  end
+  
+  def update
+    @execution = Execution.find(params[:id])
+    if @execution.update_attributes(params[:execution])
+       render :text => '<script type="text/javascript"> window.close() </script>'
+    else
+      render 'edit'
+    end
   end
   
   def selectsut

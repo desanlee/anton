@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130531075005) do
+ActiveRecord::Schema.define(:version => 20130603023028) do
 
   create_table "avlrelationships", :force => true do |t|
     t.integer  "system_id"
@@ -178,6 +178,17 @@ ActiveRecord::Schema.define(:version => 20130531075005) do
     t.string   "note"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "taskexecutions", :force => true do |t|
+    t.integer  "task_id"
+    t.integer  "execution_id"
+    t.integer  "testcase_id"
+    t.integer  "user_id"
+    t.string   "result"
+    t.string   "bug"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "taskobjects", :force => true do |t|

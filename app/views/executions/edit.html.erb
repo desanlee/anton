@@ -1,20 +1,14 @@
+
 <div class="row ">
-	<h3 class="offset1">Execution Environment</h3><hr>
-	<div class="offset1">
-		<ul>
-			<li>Test Engineer Is: <%= @execution.user.email %></li>
-			<li>Server Under Test Is: <%= @execution.sysconfig.sut.name %></li>
-			<li>Execution Date Is: <%= @execution.created_at.to_date %></li>
-		</ul>
-	</div>
-	<hr>
-	<div class="offset1">
-		<ul>
-		<% @execution.realconfig.each do |d| %>
-		<li>
-			<%= d.devicetype.name %> - <%= d.name %>
-		</li>
-		<% end %>
-		</ul>
-	</div>
+<h3 class="offset1">Update Testcase Execution</h3>
+<hr>
+  <div class="span6 offset1 editpage">
+    <%= form_for(@execution) do |f| %>
+	  
+	  <%= f.label "CR number / Explaination:" %>
+      <%= f.text_field :bug %>
+	  
+      <%= f.submit "Save", class: "btn btn-primary"  %>
+    <% end %>
+  </div>
 </div>

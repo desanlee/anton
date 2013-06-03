@@ -6,19 +6,6 @@
 	<% end %>
 <% end %>
 
-<div class="toright">
-	<% if current_user.lead? then %>
-		<div class="row">
-			<%= form_tag controller: "tasks", action: "selectuser" do %>
-				<%= hidden_field_tag(:selecttask, @selecttask) %>
-				<%= hidden_field_tag(:selecttarget, @selecttarget) %>
-				<div class="span5">Assign Target to: <%= select_tag 'selectuser', options_from_collection_for_select( @users, :id, :email) %></div>
-				<div class="span2"><%= submit_tag "OK" , :class => "submit btn " %></div>
-			<% end %>
-		</div>
-	<% end %>
-</div>
-
 <% if @taskobjects != nil then %>
 	<table class="table table-striped table-bordered table-condensed">
 		<tr><td>Task Objects Name</td><td>Release Date</td><td>Finish Status </td><td></td></tr>
@@ -56,37 +43,45 @@
 <% end %>
 
 <!-- Show all failed testcases -->
-	<% failexecutions = @thematrix.select { |fmx| fmx.result == "fail" } %>
+<% if current_user.lead? then %>
+	<% failexecutions = @taskexecutions.select { |texe| texe.result == "fail" } %>
 	<% if failexecutions != nil then %>
 		<ul>
 		<% failexecutions.uniq.each do |em| %>
 			<% execution = em.execution %>
-			<li><%= em.execution.created_at.to_date %>, <%= em.execution.testcase.name %>, by <%= execution.user.email if execution.user != nil if execution != nil %>,<%= em.result %>, <%= em.bug%></li>
+			<li><%= link_to "view", execution_path(execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
+			, <%= link_to "edit", edit_execution_path(execution),:onclick=>"window.open(this.href,'create_company', 'height=400, width=500');return false;" %>
+			, <%= execution.created_at.to_date if execution != nil %>, <%= execution.testcase.name if execution.testcase != nil if execution != nil %>, by <%= execution.user.email if execution.user != nil if execution != nil %>,<%= em.result %>, <%= em.bug%></li>
 		<% end %>
 		</ul>
 	<% end %>
-
+<% end %>
 <!-- Draw tables for matrixes -->
 
 <% if @target != nil then %>
 	<% if @target != nil then %>
 	
 <!-- Title of Matrix and Creation of new matrix -->
-		<h2>
+<hr>
+	<h2>
+		<div>
 			<% if current_user.lead? then %>
-				<div><%= link_to @target.name, edit_target_path(@target),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
+				<%= link_to @target.name, edit_target_path(@target),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
 			<% else %>
-				<div><%= @target.name %>
+				<%= @target.name %>
 			<% end %>
-			- <%= @target.user.email if @target.user != nil %> </div>
-<!--
-			<%= form_tag controller: "tasks", action: "addtagertenv" do %>
-				<%= hidden_field_tag(:selecttask, @selecttask) %>
-				<%= hidden_field_tag(:selecttarget, @selecttarget) %>
-				<div class="span2 toright"><%= submit_tag "+ Matrix" , :class => "submit  btn btn-success" %></div>
+			<% if current_user.lead? then %>
+				<div class="toright">
+					<%= form_tag controller: "tasks", action: "selectuser" do %>
+						<%= hidden_field_tag(:selecttask, @selecttask) %>
+						<%= hidden_field_tag(:selecttarget, @selecttarget) %>
+						<div class="span"><%= select_tag 'selectuser', options_from_collection_for_select( @users, :id, :email, @target.user.id ) %></div>
+						<div class="span"><%= submit_tag "OK" , :class => "submit btn " %></div>
+					<% end %>
+				</div>
 			<% end %>
--->
-		</h2>
+		</div>
+	</h2>
 
 <!-- Draw tables -->		
 		<% if @targetenv != nil %>
@@ -167,10 +162,12 @@
 						<% @envdepdevices.each do |dep| %>
 							<tr><td></td>
 								<td>
-								<% if current_user.lead? then %>
-									<%= link_to dep.device.name, dep, method: :delete, data: { confirm: "Sure?" }, class: "" %></td>
-								<% else %>
-									<%= dep.device.name %>
+								<% if dep.device != nil then %>
+									<% if current_user.lead? then %>
+										<%= link_to dep.device.name, dep, method: :delete, data: { confirm: "Sure?" }, class: "" %></td>
+									<% else %>
+										<%= dep.device.name %>
+									<% end %>
 								<% end %>
 								<% @envtestcases.each do |c| %>
 									<td>
@@ -180,9 +177,9 @@
 												<% if em.execution != nil then %>
 													<font onmouseover="ShowContent('<%= em.execution.id %>');" onmouseout="HideContent('<%= em.execution.id %>');">
 														<% if em.execution.result == "fail" then %>
-															<%= link_to ' x ', edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-danger"  %>(cr:<%=em.execution.bug%>)
+															<%= link_to ' x ', execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-danger"  %>(cr:<%=em.execution.bug%>)
 														<% else %>
-															<%= link_to " v ", edit_execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-success" %>
+															<%= link_to " v ", execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-success" %>
 														<% end %>
 													</font>
 												<% end %>
