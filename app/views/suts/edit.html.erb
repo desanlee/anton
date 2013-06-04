@@ -1,0 +1,19 @@
+<div class="row ">
+<h3 class="offset1">Update Sut</h3>
+<hr>
+  <div class="span6 offset1 editpage">
+    <%= form_for(@sut) do |f| %>
+
+      <%= f.label "sut name:" %>
+      <%= f.text_field :name %>
+	  
+	  <%= f.label "sut spip:" %>
+      <%= f.text_field :spip %>
+
+      <%= f.label "Note:" %>
+      <%= f.text_area :note, class: "editpage" %>
+	  
+      <%= f.submit "Save", class: "btn btn-primary"  %>
+    <% end %>
+  </div>
+</div>

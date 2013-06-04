@@ -6,7 +6,8 @@
 	<% if @sutlist != nil then if @sutlist.count != 0 then %>
 		<% @sutlist.each do |t| %>
 			<div class="row">
-				<%= radio_button_tag "selectsut", t.id, if @selectsut.to_i == t.id then true else false end, onchange: "this.form.submit();", class: "span3"  %><%= t.system.name + "-" + t.name %>
+				<%= radio_button_tag "selectsut", t.id, if @selectsut.to_i == t.id then true else false end, onchange: "this.form.submit();", class: "span3"  %>
+				<%= t.system.name + "-" + t.name + " (" + t.spip + ")" %>
 			</div>
 		<% end %>
 	<% else %>
