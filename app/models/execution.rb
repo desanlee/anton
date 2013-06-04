@@ -43,7 +43,7 @@ class Execution < ActiveRecord::Base
 	self.sysconfig.sysconfigrelationships.each do |sr|
 		if sr.device != nil then
 			if sr.device.devicetype.devicecate == "Hardware" then
-				realdevicelist << sr.device.id
+				realdevicelist << sr.device
 			elsif self.created_at >= sr.created_at  then
 				realrelationship << sr 
 			end
