@@ -105,6 +105,9 @@ class TasksController < ApplicationController
 	@task = Task.find_by_id(@selecttask)
 	@target = Target.find_by_id(@selecttarget)
 	
+	@task.update_time = Time.now
+	@task.save
+	
 	@task.taskobjects.each do |taskobj|
 		taskobj.executioncount = taskobj.device.realexecutions.count
 		taskobj.save
@@ -118,6 +121,9 @@ class TasksController < ApplicationController
 	end
 	
 	allexecutions = allexecutions.uniq
+	Taskexecution.all.each do |t|
+		t.destroy
+	end
 	allexecutions.each do |eachexecution|
 		taskexecution = Taskexecution.new
 		taskexecution.task_id = @task.id

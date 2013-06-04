@@ -62,7 +62,7 @@ function detailinfo(para1, para2) {
 		<%= form_tag controller: "tasks", action: "calculate" do %>
 			<%= hidden_field_tag(:selecttask, @selecttask) %>
 			<%= hidden_field_tag(:selecttarget, @selecttarget) %>
-			<div class="span3"><%= submit_tag "Status" , :class => "submit btn btn-large btn-danger" if current_user.lead? %></div>
+			<div class="span3"><%= submit_tag "Update Data" , :class => "submit btn btn-danger" if current_user.lead? %></div>
 		<% end %>
 	</div>
 

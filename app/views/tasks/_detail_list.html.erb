@@ -4,6 +4,7 @@
 	<% else %>
 		<h2>"<%= @task.name %>"</h2>
 	<% end %>
+	<h4 class="toright"> ( Latest updated time: <%= @task.update_time.to_formatted_s(:db) if @task.update_time != nil %> ) </h4>
 <% end %>
 
 <% if @taskobjects != nil then %>
