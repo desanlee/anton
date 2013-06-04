@@ -108,16 +108,14 @@ class TasksController < ApplicationController
 	@task.update_time = Time.now
 	@task.save
 	
-	@task.taskobjects.each do |taskobj|
-		taskobj.executioncount = taskobj.device.realexecutions.count
-		taskobj.save
-	end
-	
 	allexecutions = Array.new
-	@task.devices.each do |d|
-		d.realexecutions.each do |re|
+	@task.taskobjects.each do |d|
+		d.executioncount = 0
+		d.device.realexecutions.each do |re|
 			allexecutions << re
+			d.executioncount += 1
 		end
+		d.save
 	end
 	
 	allexecutions = allexecutions.uniq
@@ -182,6 +180,7 @@ class TasksController < ApplicationController
 	@selecttask = params[:selecttask] 
 	session[:selecttask] = @selecttask
 	@selecttarget = nil
+	session[:selecttarget] = nil
 	
 	self.index
 	render 'tasks/index'
