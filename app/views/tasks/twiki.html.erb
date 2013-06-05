@@ -51,10 +51,12 @@
 				<% currentexecutions = thematrix.select { |mx| mx.device_id == d.id and mx.envdevice_id == dep.id and mx.testcase_id == c.id } %>
 				<% if currentexecutions.count != 0 then %>
 					<% currentexecutions.each do |em| %>
-						<% if em.execution.result == "fail" then %>
-							%RED%X(CR:<%= em.execution.bug %>)%ENDCOLOR% 
-						<% else %>
-							%GREEN%V%ENDCOLOR%
+						<% if em.execution != nil then %>
+							<% if em.execution.result == "fail" then %>
+								%RED%X(CR:<%= em.execution.bug %>)%ENDCOLOR% 
+							<% else %>
+								%GREEN%V%ENDCOLOR%
+							<% end %>
 						<% end %>
 					<% end %>
 				<% end %>
@@ -64,3 +66,7 @@
 	<% end %>
 	
 <% end %>	
+
+---++ <%= index %>. System Configuration List<br>---<br>
+<% index = index + 1 %>
+&nbsp;&nbsp;&nbsp* In Building...
