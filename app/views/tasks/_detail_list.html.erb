@@ -45,7 +45,7 @@
 
 <!-- Show all failed testcases -->
 <% if current_user.lead? then %>
-	<% failexecutions = @taskexecutions.select { |texe| texe.result == "fail" } %>
+	<% failexecutions = @taskexecutions.select { |texe| texe.result == "fail" } if @taskexecutions != nil%>
 	<% if failexecutions != nil then %>
 		<ul>
 		<% failexecutions.uniq.each do |em| %>

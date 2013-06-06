@@ -56,7 +56,7 @@ class TasksController < ApplicationController
 		end
 	end
 	
-	@taskexecutions = @task.taskexecutions
+	@taskexecutions = @task.taskexecutions if @task != nil
 	
 	@devicetypes = Devicetype.all
 	@devices = @task.system.devices.sort_by{ |d| d[:devicetype_id]} if @task.system != nil
