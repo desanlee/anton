@@ -300,8 +300,18 @@ class TasksController < ApplicationController
   def twiki
 	@selecttask = params[:selecttask]
 	@task = Task.find_by_id(@selecttask)
+	
 	@taskobjects = @task.taskobjects
 	@targetlist = @task.targets
+	
+	@sysconfiglist = Array.new
+	@task.taskexecutions.each do |te|
+		if te.execution != nil then
+			if !@sysconfiglist.include? te.execution.sysconfig then
+				@sysconfiglist << te.execution.sysconfig
+			end
+		end
+	end
 	
 	render :layout => "justapage"
   end

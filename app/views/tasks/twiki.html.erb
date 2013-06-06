@@ -1,6 +1,6 @@
 <% index=1 %>
 
----+ <%= @task.name %> SQA Test Plan & Result<br>
+---+ !<%= @task.name %> SQA Test Plan & Result<br>
 
 %TOC%<br>
 
@@ -53,9 +53,9 @@
 					<% currentexecutions.each do |em| %>
 						<% if em.execution != nil then %>
 							<% if em.execution.result == "fail" then %>
-								%RED%X(CR:<%= em.execution.bug %>)%ENDCOLOR% 
+								On <%= em.execution.sysconfig.sutname%> %RED%X(CR:<%= em.execution.bug %>)%ENDCOLOR%<br> 
 							<% else %>
-								%GREEN%V%ENDCOLOR%
+								On <%= em.execution.sysconfig.sutname%> <%=%>%GREEN%V%ENDCOLOR%<br>
 							<% end %>
 						<% end %>
 					<% end %>
@@ -69,4 +69,16 @@
 
 ---++ <%= index %>. System Configuration List<br>---<br>
 <% index = index + 1 %>
-&nbsp;&nbsp;&nbsp* In Building...
+
+| Config Name | Conponents Inluded |<br>
+<% @sysconfiglist.each do |sc| %>
+| 
+<%= sc.sutname %> 
+| 
+<% if sc.current_hwc != nil then %>
+	<% sc.current_hwc.each do |hwc| %>
+		* <%= hwc.device.devicetype.name%> - <%= hwc.device.name %> on position <%= hwc.position %><br>
+	<% end %>
+<% end %>
+|<br>
+<% end %>

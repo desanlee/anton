@@ -75,6 +75,7 @@ function changeresulttype() {
 			<h2><br>No executions existed</h2>
 		<% end %>
 	</ul>
+	<hr>
 	<h2>Current System Configuration</h2>
 	<h4>Current FW is: <%= if @sysconfig.current_bios != nil then @sysconfig.current_bios.name else "None" end %></h4><br>
 	<h4>Current OS is: <%= if @sysconfig.current_os != nil then @sysconfig.current_os.name else "None" end %></h4><hr>

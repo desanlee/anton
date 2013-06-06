@@ -37,4 +37,27 @@ class Sysconfig < ActiveRecord::Base
 	self.current_oses.last
   end
   
+  def current_hwc
+	tmparray = Array.new
+	self.sysconfigrelationships.each do |d|
+		if d.device!= nil then
+			tmparray << d if d.device.devicetype.devicecate == "Hardware"
+		end
+	end
+	tmparray
+  end
+  
+  def current_sw
+	tmparray = Array.new
+	self.sysconfigrelationships.each do |d|
+		if d.device != nil then
+			tmparray << d.device if d.device.devicetype.devicecate != "Hardware"
+		end
+	end
+	tmparray
+  end
+  
+  def sutname
+	return self.sut.name + "-" + self.id.to_s
+  end
 end
