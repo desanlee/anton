@@ -8,6 +8,7 @@ class DevicesController < ApplicationController
   
   def edit
     @device = Device.find(params[:id])
+	@typelist = Devicetype.all
 	render :layout => "justapage"
   end
   

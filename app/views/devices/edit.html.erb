@@ -6,7 +6,10 @@
 
       <%= f.label :name %>
       <%= f.text_field :name %>
-
+	  
+	  <%= f.label "device type:" %>
+	  <%= f.collection_select :devicetype_id, @typelist, :id, :name %>
+	  
       <%= f.label :countnum %>
       <%= f.text_field :countnum %>
 
