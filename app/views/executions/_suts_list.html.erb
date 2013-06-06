@@ -29,8 +29,23 @@
 	</ul>
 	<h2>HW Configuration</h2>
 	<ul>
+		<% @tmp = Sysconfigrelationship.new %>
 		<% @sysconfig.current_hwc.each do |hwc|%>
-			<li><%= hwc.device.devicetype.name + "-" + hwc.device.name if hwc.device != nil %><%= " at position " + hwc.position.to_s if hwc.position != nil%></li>
+			<% if @tmp == nil then%>
+				<li><%= hwc.device.devicetype.name + "-" + hwc.device.name if hwc.device != nil %><%= " at position " + hwc.position.to_s if hwc.position != nil%>
+				<% @tmp = hwc %>
+			<% else %>
+				<% if hwc.device != nil and @tmp.device != nil then %>
+					<% if hwc.device.name == @tmp.device.name then %>
+						,<%= hwc.position.to_s if hwc.position != nil %>
+						<% @tmp = hwc %>
+					<% end %>
+				<% else %>
+					</li><li><%= hwc.device.devicetype.name + "-" + hwc.device.name if hwc.device != nil %><%= " at position " + hwc.position.to_s if hwc.position != nil%>
+					<% @tmp = hwc %>
+				<% end %>
+			<% end %>
 		<% end %>
+		</li>
 	</ul>
 <% end %>
