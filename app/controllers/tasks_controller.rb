@@ -60,9 +60,9 @@ class TasksController < ApplicationController
 	
 	@devicetypes = Devicetype.all
 	@devices = @task.system.devices.sort_by{ |d| d[:devicetype_id]} if @task.system != nil if @task != nil
-	@taskobjects = @task.taskobjects
+	@taskobjects = @task.taskobjects if @task != nil
 	if current_user.lead? then
-		@targetlist = @task.targets
+		@targetlist = @task.targets if @task != nil
 	else
 		@targetlist = @task.targets.select { |ta| ta.user_id == current_user.id } if @task != nil
 	end
