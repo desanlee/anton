@@ -50,16 +50,12 @@ function changeresulttype() {
 	<ul>
 		<% if @executions != nil then if @executions.count != 0 then %>
 			<table class="table table-striped table-bordered table-condensed">
-				<tr><td>Case Name</td><td>SW Env</td><td>Result</td><td>More Result Info</td><td>Tester</td><td></td></tr>
+				<tr><td>Case Name</td><td>Execution Date</td><td>Result</td><td>More Result Info</td><td>Tester</td><td></td></tr>
 				<% @index = 1 %>
 				<% @executions.each do |d| %>
 					<tr>
 						<td><%= d.testcase.name if d.testcase != nil%> <%= d.device.name if d.device != nil%></td>
-						<td>
-							<% d.realswconfig.each do |rsc| %>
-								<%= rsc.name %>- <%= rsc.devicetype.name %><br>
-							<% end %>
-						</td>
+						<td><%= d.created_at.to_date %></td>
 						<td><%= d.result %></td>
 						<td><%= if d.result == "fail" then "CR:" + d.bug else d.bug end %></td>
 						<td><%= d.user.email.chomp("@oracle.com") if d.user != nil %></td>
@@ -75,10 +71,6 @@ function changeresulttype() {
 			<h2><br>No executions existed</h2>
 		<% end %>
 	</ul>
-	<hr>
-	<h2>Current System Configuration</h2>
-	<h4>Current FW is: <%= if @sysconfig.current_bios != nil then @sysconfig.current_bios.name else "None" end %></h4><br>
-	<h4>Current OS is: <%= if @sysconfig.current_os != nil then @sysconfig.current_os.name else "None" end %></h4><hr>
 
 	
 <% else %>

@@ -18,3 +18,19 @@
 	<% end %>
 
 <% end %>
+
+<hr>
+<% if @sysconfig != nil then %>	
+	<h2>SW/FW Configuration</h2>
+	<ul>
+		<% @sysconfig.current_swc.each do |swc|%>
+			<li><%= swc.device.devicetype.name + "-" + swc.device.name if swc.device != nil %></li>
+		<% end %>
+	</ul>
+	<h2>HW Configuration</h2>
+	<ul>
+		<% @sysconfig.current_hwc.each do |hwc|%>
+			<li><%= hwc.device.devicetype.name + "-" + hwc.device.name if hwc.device != nil %><%= " at position " + hwc.position.to_s if hwc.position != nil%></li>
+		<% end %>
+	</ul>
+<% end %>

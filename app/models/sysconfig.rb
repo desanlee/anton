@@ -47,14 +47,27 @@ class Sysconfig < ActiveRecord::Base
 	return tmparray.sort_by{ |d| d.device.devicetype}
   end
   
-  def current_sw
-	tmparray = Array.new
-	self.sysconfigrelationships.each do |d|
-		if d.device != nil then
-			tmparray << d.device if d.device.devicetype.devicecate != "Hardware"
+  def current_swc
+	realrelationship = Array.new
+	swc = Array.new
+	self.sysconfigrelationships.each do |sr|
+		if sr.device != nil then
+			if sr.device.devicetype.devicecate != "Hardware" then
+				realrelationship << sr 
+			end
 		end
 	end
-	tmparray
+	tmprr = Sysconfigrelationship.new
+	realrelationship.sort_by { |p| [p.device.devicetype, p.created_at] }.reverse.each do |rr|
+		if tmprr.device == nil then
+			swc << rr
+			tmprr = rr
+		elsif rr.device.devicetype != tmprr.device.devicetype then
+			swc << rr
+			tmprr = rr
+		end
+	end
+	return swc
   end
   
   def sutname
