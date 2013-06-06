@@ -53,9 +53,9 @@
 					<% currentexecutions.each do |em| %>
 						<% if em.execution != nil then %>
 							<% if em.execution.result == "fail" then %>
-								<%= em.execution.sysconfig.sutname%> %RED%X(CR:<%= em.execution.bug %>)%ENDCOLOR%&lt;br&gt; 
+								<%= em.execution.sysconfig.sutname%> %RED%FAIL (CR:<%= em.execution.bug %>)%ENDCOLOR%&lt;br&gt; 
 							<% else %>
-								<%= em.execution.sysconfig.sutname%> <%=%>%GREEN%V%ENDCOLOR%&lt;br&gt;
+								<%= em.execution.sysconfig.sutname%> <%=%>%GREEN%PASS%ENDCOLOR%&lt;br&gt;
 							<% end %>
 						<% end %>
 					<% end %>

@@ -45,8 +45,8 @@ class TasksController < ApplicationController
 	@testcases = Testcase.select{|c| c[:casetype_id] != nil}.sort_by{ |c| c[:casetype_id]}
 	@users = User.all
 	
-	if @selecttask == nil then
-		@task = Task.first 
+	if @selecttask == nil and @tasklist != nil then
+		@task = @tasklist.first
 		@selecttask = @task.id if @task != nil
 	else
 		@task = Task.find_by_id(@selecttask)

@@ -23,7 +23,7 @@
 				<% end %>
 			</td>
 			<td>
-				<%= link_to "x", t,method: :delete, data: { confirm: "Sure?" }, class: "" %>
+				<%= link_to "x", t,method: :delete, data: { confirm: "Sure?" }, class: "" if current_user.lead? %>
 			</td></tr>
 		<% end %>
 		<% if @devices != nil and current_user == @task.user then %>
