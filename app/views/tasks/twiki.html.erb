@@ -53,9 +53,9 @@
 					<% currentexecutions.each do |em| %>
 						<% if em.execution != nil then %>
 							<% if em.execution.result == "fail" then %>
-								On <%= em.execution.sysconfig.sutname%> %RED%X(CR:<%= em.execution.bug %>)%ENDCOLOR%<br> 
+								On <%= em.execution.sysconfig.sutname%> %RED%X(CR:<%= em.execution.bug %>)%ENDCOLOR%&lt;br&gt; 
 							<% else %>
-								On <%= em.execution.sysconfig.sutname%> <%=%>%GREEN%V%ENDCOLOR%<br>
+								On <%= em.execution.sysconfig.sutname%> <%=%>%GREEN%V%ENDCOLOR%&lt;br&gt;
 							<% end %>
 						<% end %>
 					<% end %>
@@ -76,7 +76,7 @@
 | 
 <% if sc.current_hwc != nil then %>
 	<% sc.current_hwc.each do |hwc| %>
-		* <%= hwc.device.devicetype.name%> - <%= hwc.device.name %> on position <%= hwc.position %>"<br>"
+		* <%= hwc.device.devicetype.name%> - <%= hwc.device.name %> on position <%= hwc.position %>&lt;br&gt;
 	<% end %>
 <% end %>
 |<br>
