@@ -312,7 +312,7 @@ class TasksController < ApplicationController
 			end
 		end
 	end
-	
+	@sysconfiglist = @sysconfiglist.sort_by{ |d| d.sutname } if @sysconfiglist != nil
 	render :layout => "justapage"
   end
   
