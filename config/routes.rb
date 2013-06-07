@@ -36,7 +36,8 @@ Anton::Application.routes.draw do
   post '/testcases/selecttype'
   post '/testcases/addtype'
   post '/testcases/addcase'
-  
+  post '/testcases/twiki'
+	
   resources :suts
   resources :sysconfigrelationships
   resources :sysconfigs

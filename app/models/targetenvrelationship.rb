@@ -3,4 +3,5 @@ class Targetenvrelationship < ActiveRecord::Base
   
   belongs_to :targetenv, class_name: "Targetenv"
   belongs_to :device, class_name: "Device"
+
 end

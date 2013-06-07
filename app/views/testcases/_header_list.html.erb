@@ -1,5 +1,8 @@
 <div class="span3">
 <h1>Test Cases</h1>
+	<%= form_tag controller: "testcases", action: "twiki" do %>
+		<div><%= submit_tag "twiki" , :class => "submit label toright" %></div>
+	<% end %>
 </div>
 <div class="span8 toright">
 <%= form_tag controller: "testcases", action: "selectcate" do %>

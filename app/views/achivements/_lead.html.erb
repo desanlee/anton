@@ -1,4 +1,4 @@
-<h2>Testcase Running</h2>
+<h2>All Team's Testcase Running</h2>
 <div class="weeklystatus">
 	<% current_user.engineers.each do |euser| %>
 		<% userexecution = @userexecution[euser.id] %>
@@ -36,8 +36,15 @@
 	<% end %>	
 </div>
 
+<h2>Team Management</h2>
+<div class="weeklystatus">
+	<% current_user.tasks.each do |task| %>
+		&nbsp;&nbsp;&nbsp;* <% task.name %><br>
+	<% end %>
+</div>	
+	
 <h2>Team Members</h2>
-<div class="row weeklystatus">
+<div class="row weeklystatus bkgrd">
 	<div class="span8">
 		<% current_user.teamrelationships.each do |tr| %>
 			<div class="span label">
