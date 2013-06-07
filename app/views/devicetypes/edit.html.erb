@@ -1,0 +1,19 @@
+<div class="row ">
+<h3 class="offset1">Update Device Type</h3>
+<hr>
+  <div class="span6 offset1 editpage">
+    <%= form_for(@devicetype) do |f| %>
+
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+	  
+      <%= f.label :positionname %>
+      <%= f.text_field :positionname %>
+
+      <%= f.label :note %>
+      <%= f.text_area :note, class: "editpage" %>
+	  
+      <%= f.submit "Save", class: "btn btn-primary"  %>
+    <% end %>
+  </div>
+</div>
