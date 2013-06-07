@@ -76,7 +76,11 @@
 | 
 <% if sc.current_hwc != nil then %>
 	<% sc.current_hwc.each do |hwc| %>
-		* <%= hwc.device.devicetype.name%> - <%= hwc.device.name %> on position <%= hwc.position %>&lt;br&gt;
+		* <%= hwc.device.devicetype.name%> - <%= hwc.device.name %> 
+		<% if hwc.position != nil then %>
+			on <%= hwc.device.devicetype.positionname %><%= hwc.position %>
+		<% end %>
+		&lt;br&gt;
 	<% end %>
 <% end %>
 |<br>

@@ -7,7 +7,8 @@
 	<% if @typelist != nil then if @typelist.count != 0 then %>
 		<% @typelist.each do |t| %>
 			<div class="row">
-				<%= radio_button_tag "selecttype", t.id, if @selecttype.to_i == t.id then true else false end, onchange: "this.form.submit();", class: "span3"  %><%= t.name %>
+				<%= radio_button_tag "selecttype", t.id, if @selecttype.to_i == t.id then true else false end, onchange: "this.form.submit();", class: "span3"  %>
+				<%= link_to t.name, edit_devicetype_path(t),:onclick=>"window.open(this.href,'create_company', 'height=500, width=600');return false;" %>
 				<%= link_to "delete", t, method: :delete, data: { confirm: "Sure?" }, class: "span toright" if current_user.root?  %>
 			</div>
 		<% end %>

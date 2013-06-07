@@ -3,5 +3,4 @@ class Sysconfigrelationship < ActiveRecord::Base
   
   belongs_to :sysconfig, class_name: "Sysconfig"
   belongs_to :device, class_name: "Device"
-  
 end

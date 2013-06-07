@@ -106,11 +106,21 @@ class SysconfigsController < ApplicationController
 	@selectsut = params[:selectsut] 
 	@currentsysconfig_id = params[:currentsysconfig_id] 
 	
-	@sysconfigrelationship = Sysconfigrelationship.new
-	@sysconfigrelationship.sysconfig_id = @currentsysconfig_id
-	@sysconfigrelationship.device_id = params[:selectdevice]
-	@sysconfigrelationship.position = params[:deviceposition]
-	@sysconfigrelationship.save
+	positionlist = params[:deviceposition]
+	if positionlist != "" then
+		positionlist.split(',').each do |p|
+			@sysconfigrelationship = Sysconfigrelationship.new
+			@sysconfigrelationship.sysconfig_id = @currentsysconfig_id
+			@sysconfigrelationship.device_id = params[:selectdevice]
+			@sysconfigrelationship.position = p
+			@sysconfigrelationship.save
+		end
+	else
+		@sysconfigrelationship = Sysconfigrelationship.new
+		@sysconfigrelationship.sysconfig_id = @currentsysconfig_id
+		@sysconfigrelationship.device_id = params[:selectdevice]
+		@sysconfigrelationship.save
+	end
 	
 	self.index
 	render 'sysconfigs/index'
