@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   has_many :testcases, class_name: "Testcase"
   has_many :targets, class_name: "Target"
   has_many :tasks, class_name: "Task"
+  has_many :devices, class_name: "Device"
   
   has_many :teamrelationships, foreign_key: "lead_id", class_name: "Teamrelationship", dependent: :destroy
   has_many :engineers, through: :teamrelationships, :source => :engineer

@@ -38,9 +38,27 @@
 
 <h2>Team Management</h2>
 <div class="weeklystatus">
-	<% current_user.tasks.each do |task| %>
-		&nbsp;&nbsp;&nbsp;* <% task.name %><br>
+	<% if @leadachieve[:projects].count != 0 then %>
+		&nbsp;&nbsp;&nbsp;* Design testplan for new projects<br>
 	<% end %>
+	<% @leadachieve[:projects].each do |project| %>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Create testplan of " <%= project.name %> "<br>
+	<% end %>
+	
+	<% if @leadachieve[:tasks].count != 0 then %>
+		&nbsp;&nbsp;&nbsp;* Design new tasks<br>
+	<% end %>
+	<% @leadachieve[:tasks].each do |task| %>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Design test task " <%= task.name %> " for <%= task.task.name if task.task != nil %> <br>
+	<% end %>
+	
+	<% if @leadachieve[:devices].count != 0 then %>
+		&nbsp;&nbsp;&nbsp;* HW/SW/FW Management<br>
+	<% end %>
+	<% @leadachieve[:devices].each do |device| %>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Add new <%=device.devicetype.name if device.devicetype != nil %>: " <%= device.name %> "<br>
+	<% end %>
+	
 </div>	
 	
 <h2>Team Members</h2>

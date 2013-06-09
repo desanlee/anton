@@ -52,6 +52,33 @@ class AchivementsController < ApplicationController
 		rtnexecutions[:leftarray] = leftarray.uniq
 		return rtnexecutions
 	end
+
+	def leadachieve(user)
+		if !@lastweek
+			@currentweek = (Time.now).strftime("%W")
+			@currentweekbegin = (Time.now).at_beginning_of_week.strftime("%m.%d")
+			@currentweekend = ((Time.now).at_beginning_of_week + 4.day).strftime("%m.%d")
+		end
+		
+		createdprojects = Array.new
+		createdtasks = Array.new
+		createddevices = Array.new
+		
+		user.tasks.each do |t|
+			createdprojects << t if t.created_at.strftime("%W") == @currentweek
+		end
+		user.targets.each do |t|
+			createdtasks << t if t.created_at.strftime("%W") == @currentweek
+		end
+		user.devices.each do |d|
+			createddevices << d if d.created_at.strftime("%W") == @currentweek
+		end
+		leadachieves = Hash.new
+		leadachieves[:projects] = createdprojects.uniq
+		leadachieves[:tasks] = createdtasks.uniq
+		leadachieves[:devices] = createddevices.uniq
+		return leadachieves
+	end
 	
 	def index
 		@users = User.all
@@ -69,6 +96,7 @@ class AchivementsController < ApplicationController
 			current_user.engineers.each do |euser|
 				@userexecution[euser.id] = userexecution euser
 			end
+			@leadachieve = leadachieve current_user
 		end
 		
 	end

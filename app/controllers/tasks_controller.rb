@@ -119,7 +119,7 @@ class TasksController < ApplicationController
 	end
 	
 	allexecutions = allexecutions.uniq
-	Taskexecution.all.each do |t|
+	@task.taskexecutions.each do |t|
 		t.destroy
 	end
 	allexecutions.each do |eachexecution|
