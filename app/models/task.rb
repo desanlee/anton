@@ -10,4 +10,27 @@ class Task < ActiveRecord::Base
   
   validates :system_id, :presence => true
   
+  def targetcount
+	count = 0
+	if self.targets != nil then
+		self.targets.each do |target|
+			if target.targetenvs != nil then
+				count += target.targetenvs.first.targetcount
+			end
+		end
+	end
+	return count
+  end
+  
+  def finishedcount
+	count = 0
+	if self.targets != nil then
+		self.targets.each do |target|
+			if target.targetenvs != nil then
+				count += target.targetenvs.first.finishedcount
+			end
+		end
+	end
+	return count
+  end
 end

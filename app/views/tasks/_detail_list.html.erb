@@ -1,9 +1,13 @@
 <% if @target != nil then %>
 	<% if current_user.lead? then %>
-		<h2><%= link_to @task.name, edit_task_path(@task),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %></h2>
+		<h2><%= link_to @task.name, edit_task_path(@task),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
 	<% else %>
-		<h2>"<%= @task.name %>"</h2>
+		<h2>"<%= @task.name %>"
 	<% end %>
+	<% if @task.targetcount != 0 then %>
+		- <%= 100 * @task.finishedcount / @task.targetcount %>% Completed
+	<% end %>
+	</h2>
 	<h4 class="toright"> ( Latest updated time: <%= @task.update_time.to_formatted_s(:db) if @task.update_time != nil %> ) </h4>
 <% end %>
 <% if @taskobjects != nil then %>
@@ -69,6 +73,9 @@
 				<%= link_to @target.name, edit_target_path(@target),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
 			<% else %>
 				<%= @target.name %>
+			<% end %>
+			<% if @targetenv.targetcount != 0 then %>
+				- <%= 100 * @targetenv.finishedcount / @targetenv.targetcount %>% Completed
 			<% end %>
 			<% if current_user.lead? then %>
 				<div class="toright">

@@ -10,4 +10,19 @@ class Targetenv < ActiveRecord::Base
   has_many :depdevices, through: :targetdeprelationships, source: :device
   has_many :testcases, through: :targetcaserelationships, source: :testcase
   has_many :targetmatrixes, class_name: "Targetmatrix"
+  
+  def targetcount
+	return self.targetenvrelationships.count * self.targetenvrelationships.count
+  end
+  
+  def finishedcount
+	count = 0
+	self.devices.uniq.each do |d|
+		self.depdevices.uniq.each do |t|
+			count += 1 if ! self.targetmatrixes.select {|m| m.device_id == d.id and m.envdevice_id == t.id}.empty?
+		end
+	end
+	return count
+  end
+  
 end
