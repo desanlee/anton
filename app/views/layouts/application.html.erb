@@ -76,7 +76,8 @@
 		  </div><% end %>
             <ul class="nav pull-right">
 			  <% if current_user %>
-				<li><%= link_to current_user.email, '#'%></li>
+				<li><%= link_to current_user.email, user_path(current_user), :onclick=>"window.open(this.href,'create_company', 'height=650, width=800');return false;" %></li>
+
 				<li><%= link_to('LogOut', destroy_user_session_path, :method => :delete) %></li>
 				<li><%= link_to('ChangePwd', edit_registration_path(:user)) %></li>
 			  <% else %>
