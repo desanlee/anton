@@ -12,7 +12,7 @@ class Targetenv < ActiveRecord::Base
   has_many :targetmatrixes, class_name: "Targetmatrix"
   
   def targetcount
-	return self.targetenvrelationships.count * self.targetenvrelationships.count
+	return self.targetenvrelationships.count * self.targetdeprelationships.count
   end
   
   def finishedcount
