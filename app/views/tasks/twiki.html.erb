@@ -15,9 +15,9 @@
 ---++ <%= index %>. Objects For Test Tasks.<br>---<br>
 <% index = index + 1 %>
 
-| Test Objects | Release Date | Note |<br>
+| Test Objects | Note |<br>
 <% @taskobjects.each do |o| %>
-	| <%= o.device.name%> | <%= o.device.created_at.to_date%> | <%= o.device.note %>|<br>
+	| <%= o.device.name%> | <%= o.device.note %>|<br>
 <% end %><br>
 
 
@@ -44,7 +44,7 @@
 		<% end %><br>
 
 	<!-- Draw line of Device as Environment -->	
-		<% targetenv.depdevices.each do |dep| %>
+		<% targetenv.depdevices.sort_by{|d| d[:devicetype]}.each do |dep| %>
 			| |
 			<%= dep.name %> |
 			<% targetenv.testcases.each do |c| %>
@@ -69,10 +69,12 @@
 ---++ <%= index %>. System Configuration List<br>---<br>
 <% index = index + 1 %>
 
-<br>| Config Name | Conponents Inluded |<br>
+<br>| Config Name | Config Owner&lt;br&gt;Creation Time | Conponents Inluded |<br>
 <% @sysconfiglist.each do |sc| %>
 | 
 <%= sc.sutname %> 
+|
+<%= sc.user.email if sc.user != nil %>&lt;br&gt;<%= sc.created_at.to_date.to_s %> 
 | 
 <% if sc.current_hwc != nil then %>
 	<% sc.current_hwc.each do |hwc| %>
