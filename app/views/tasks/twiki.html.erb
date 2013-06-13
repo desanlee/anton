@@ -45,7 +45,7 @@
 
 	<!-- Draw line of Device as Environment -->	
 		<% targetenv.depdevices.sort_by{|d| d[:devicetype_id]}.each do |dep| %>
-			|* *|
+			| ^ |
 			*<%= dep.name %>*|
 			<% targetenv.testcases.each do |c| %>
 				<% currentexecutions = thematrix.select { |mx| mx.device_id == d.id and mx.envdevice_id == dep.id and mx.testcase_id == c.id } %>
