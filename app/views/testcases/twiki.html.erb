@@ -9,6 +9,13 @@
 &nbsp;&nbsp;&nbsp;* Here listed all testcases used by Beijing SQE team.<br>
 &nbsp;&nbsp;&nbsp;* All testcases are devied into 3 categories, "Info check", "Operation", "Stress".<br>
 &nbsp;&nbsp;&nbsp;* In each category, testcases are typed by the place in which cases are executed.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* BIOS: Tests're executed in BIOS, mainly right after F2 is pressed when POST.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* SP: Tests're executed in SP, web GUI or login SP by root/sunservice.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* OS Installation: Install OS or tests during the installation.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* OS: Tests're executed in OS.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Option Rom: Tests're executed in option card's option rom.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* OSA: Tests're executed via OSA Gui or tests of OSA boot and loading.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Mix: Tests will cover different places, from system boot to OS opperation.<br>
 
 <% tmptype = nil %>
 
@@ -18,14 +25,14 @@
 &nbsp;&nbsp;&nbsp;* "Infomation Check" testcases check infomation of system, including POST, OS installation, OS, etc.<br>
 &nbsp;&nbsp;&nbsp;* All abnormal information will be taken attention to, and be checked if they are bugs.<br>
 
-| Testcase Type&lt;br&gt(where cases are executed) | Testcase Name | Execution Steps |<br>
+| *Testcase Type&lt;br&gt(where cases are executed)* | *Testcase Name* | *Execution Steps* |<br>
 <% @infochecktestcases.each do |t| %>
 | 
 	<% if tmptype == nil then %>
 		<%= t.casetype.name if t.casetype != nil %>
 		<% tmptype = t.casetype %>
 	<% else %>
-		<%= t.casetype.name if t.casetype != tmptype %>
+		<% if t.casetype != tmptype then %><%= t.casetype.name%><% else %> ^ <% end %>
 		<% tmptype = t.casetype %>
 	<% end %>
 | <%= t.name %> | <%= t.steps.gsub("\n", '<br>') if t.steps != nil %> |<br>
@@ -37,14 +44,14 @@
 
 &nbsp;&nbsp;&nbsp;* "Operation" testcases operate systems, config all kinds of HW and SW/FW.<br>
 
-| Testcase Type&lt;br&gt(where cases are executed) | Testcase Name | Execution Steps |<br>
+| *Testcase Type&lt;br&gt(where cases are executed)* | *Testcase Name* | *Execution Steps* |<br>
 <% @operationtestcases.each do |t| %>
 | 
 	<% if tmptype == nil then %>
 		<%= t.casetype.name if t.casetype != nil %>
 		<% tmptype = t.casetype %>
 	<% else %>
-		<%= t.casetype.name if t.casetype != tmptype %>
+		<% if t.casetype != tmptype then %><%= t.casetype.name%><% else %> ^ <% end %>
 		<% tmptype = t.casetype %>
 	<% end %>
 | <%= t.name %> | <%= t.steps.gsub("\n", '<br>') if t.steps != nil %> |<br>
@@ -56,14 +63,14 @@
 
 &nbsp;&nbsp;&nbsp;* "System Level Stress" testcases run only system level stress test.<br>
 
-| Testcase Type&lt;br&gt(where cases are executed) | Testcase Name | Execution Steps |<br>
+| *Testcase Type&lt;br&gt(where cases are executed)* | *Testcase Name* | *Execution Steps* |<br>
 <% @stresstestcases.each do |t| %>
 | 
 	<% if tmptype == nil then %>
 		<%= t.casetype.name if t.casetype != nil %>
 		<% tmptype = t.casetype %>
 	<% else %>
-		<%= t.casetype.name if t.casetype != tmptype %>
+		<% if t.casetype != tmptype then %><%= t.casetype.name%><% else %> ^ <% end %>
 		<% tmptype = t.casetype %>
 	<% end %>
 | <%= t.name %> | <%= t.steps.gsub("\n", '<br>') if t.steps != nil %> |<br>
