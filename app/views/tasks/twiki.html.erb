@@ -44,7 +44,7 @@
 		<% end %><br>
 
 	<!-- Draw line of Device as Environment -->	
-		<% targetenv.depdevices.sort_by{|d| d[:devicetype]}.each do |dep| %>
+		<% targetenv.depdevices.sort_by{|d| d[:devicetype_id]}.each do |dep| %>
 			|* *|
 			*<%= dep.name %>*|
 			<% targetenv.testcases.each do |c| %>
