@@ -31,22 +31,22 @@
 <% index = index + 1 %>
 
 <!-- First line is testcase list -->
-	| Devices Under Test | Environment Devices |
+	| * Devices Under Test * | * Environment Devices * |
 	<% targetenv.testcases.each do |c| %>
-		<%= c.name %> |
+		* <%= c.name %> * |
 	<% end %><br>
 
 <!-- Draw line of Device under test -->				
 	<% targetenv.devices.each do |d| %>
-		| <%= d.name %> | Over All | 
+		| *<%= d.name %>* | * * | 
 		<% targetenv.testcases.each do |c| %>
 			&nbsp;|
 		<% end %><br>
 
 	<!-- Draw line of Device as Environment -->	
 		<% targetenv.depdevices.sort_by{|d| d[:devicetype]}.each do |dep| %>
-			| |
-			<%= dep.name %> |
+			|* *|
+			*<%= dep.name %>*|
 			<% targetenv.testcases.each do |c| %>
 				<% currentexecutions = thematrix.select { |mx| mx.device_id == d.id and mx.envdevice_id == dep.id and mx.testcase_id == c.id } %>
 				<% if currentexecutions.count != 0 then %>
@@ -69,7 +69,7 @@
 ---++ <%= index %>. System Configuration List<br>---<br>
 <% index = index + 1 %>
 
-<br>| Config Name | Config Owner&lt;br&gt;Creation Time | Conponents Inluded |<br>
+<br>| * Config Name * | * Config Owner&lt;br&gt;Creation Time * | * Conponents Inluded * |<br>
 <% @sysconfiglist.each do |sc| %>
 | 
 <%= sc.sutname %> 
