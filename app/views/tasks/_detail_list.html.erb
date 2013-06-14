@@ -13,7 +13,7 @@
 <% if @taskobjects != nil then %>
 	<table class="table table-striped table-bordered table-condensed">
 		<tr><td>Task Objects Name</td><td>Release Date</td><td>Finish Status </td><td></td></tr>
-		<% @taskobjects.each do |t| %>
+		<% @taskobjects.select {|ob| ob.setflag != "must"}.each do |t| %>
 			<tr><td><%= t.device.name %></td><td><%= t.device.created_at.to_date %></td>
 			<td>
 				<% if t.executioncount != nil then %>
@@ -29,23 +29,34 @@
 				<%= link_to "x", t,method: :delete, data: { confirm: "Sure?" }, class: "" if current_user.lead? %>
 			</td></tr>
 		<% end %>
+	</table>
+	<table class="table table-striped table-bordered table-condensed">
+		<% @taskobjects.select {|ob| ob.setflag == "must"}.each do |t| %>
+			<tr><td><%= t.device.name %></td><td><%= t.device.created_at.to_date %></td>
+			<td>Must Be Involved</td>
+			<td>
+				<%= link_to "x", t,method: :delete, data: { confirm: "Sure?" }, class: "" if current_user.lead? %>
+			</td>
+			</tr>		
+		<% end %>
+	</table>
+	<div class="span12">
 		<% if @devices != nil and current_user == @task.user then %>
-			<tr>
-				<td>
+
 					<%= form_tag controller: "tasks", action: "addtaskobject" do %>
 						<%= hidden_field_tag(:selecttask, @selecttask) %>
 						<%= hidden_field_tag(:selecttarget, @selecttarget) %>
+						<div class="span"><%= select_tag 'setflag', options_for_select( @setflags), :include_blank => true ,  :class => "textsize4" %></div>
 						<div class="span"><%= select_tag 'taskobject', options_from_collection_for_select( @devices, :id, :name), :class => "textsize6" %></div>
 						<div class="span"><%= submit_tag "+" , :class => "submit  btn " %></div>
 					<% end %>
-				</td><td></td><td></td>
-			</tr>
+
 		<% end %>
-	</table>	
+	</div>	
 <% else %>
 	<div class="alarmtext center">No test targets existed!</div>
 <% end %>
-
+<br><hr>
 <!-- Show all failed testcases -->
 <% if current_user.lead? then %>
 	<% failexecutions = @taskexecutions.select { |texe| texe.result == "fail" } if @taskexecutions != nil%>

@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
-  def paralist
-    ['all','any','whole']
+  def setflags
+    ['must']
   end
   
   def selectuser
@@ -29,6 +29,7 @@ class TasksController < ApplicationController
   
   def index
   
+    @setflags = self.setflags
 	@selecttask = session[:selecttask]
 	@selecttarget = session[:selecttarget]
 	
@@ -94,7 +95,7 @@ class TasksController < ApplicationController
 		end
 	end
 	
-	@envtypes = self.paralist
+	@envtypes = self.setflags
   end
 
   def calculate
@@ -109,9 +110,15 @@ class TasksController < ApplicationController
 	@task.save
 	
 	allexecutions = Array.new
-	@task.taskobjects.each do |d|
+	taskorobjects = @task.taskobjects.select {|ob| ob.setflag != "must"}
+	taskmustobjects = @task.taskobjects.select {|ob| ob.setflag == "must"}
+	taskmustdevices = Array.new
+	taskmustobjects.each do |ob|
+		taskmustdevices << ob.device
+	end
+	taskorobjects.each do |d|
 		d.executioncount = 0
-		d.device.realexecutions.each do |re|
+		d.device.realexecutionswithset(taskmustdevices).each do |re|
 			allexecutions << re
 			d.executioncount += 1
 		end
@@ -201,6 +208,7 @@ class TasksController < ApplicationController
   end
   
   def addtaskobject
+	@setflag = params[:setflag]
 	@selecttask = params[:selecttask]
 	@selecttarget = params[:selecttarget]
 	
@@ -208,6 +216,7 @@ class TasksController < ApplicationController
 	newtaskobject.user_id = current_user.id
 	newtaskobject.task_id = @selecttask
 	newtaskobject.device_id = params[:taskobject]
+	newtaskobject.setflag = @setflag if @setflag != nil
 	newtaskobject.save
 	
 	self.index

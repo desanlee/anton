@@ -45,6 +45,27 @@ class Device < ActiveRecord::Base
 	return executions
   end
   
+  def realexecutionswithset musthasdevices
+	if musthasdevices == nil then 
+		return self.realexecutions 
+	elsif musthasdevices.count == 0
+		return self.realexecutions 
+	end
+	executions = Array.new
+	self.sysconfigs.each do |cfg|
+		if !( cfg.devices & musthasdevices ).empty? then
+			cfg.executions.each do |exe|
+				if !(exe.realconfig & musthasdevices).empty? then 
+					if exe.realconfig.include? self then
+						executions << exe
+					end
+				end
+			end
+		end		
+	end
+	return executions
+  end
+  
   def longname
 	if self.devicetype_id != nil then
 		self.devicetype.name + " - " + self.name
