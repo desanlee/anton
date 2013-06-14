@@ -330,5 +330,56 @@ class TasksController < ApplicationController
 	@task.destroy
 	redirect_to :tasks
   end
-  
+
+  def clonetask
+	selecttask = params[:selecttask]
+	task = Task.find_by_id(selecttask)
+
+	newtask = task.dup
+	newtask.name = newtask.name + " - Cloned"
+	newtask.save
+	
+	task.taskobjects.each do |to|
+		newto = to.dup
+		newto.task_id = newtask.id
+		newto.executioncount = 0
+		newto.save
+	end
+	
+	task.targets.each do | tasktarget |
+		newtarget = tasktarget.dup
+		newtarget.task_id = newtask.id
+		newtarget.save
+		
+		if tasktarget.targetenvs != nil then	
+			te = tasktarget.targetenvs.first 
+
+			newtargetenv = te.dup
+			newtargetenv.target_id = newtarget.id
+			newtargetenv.save
+				
+			te.targetenvrelationships.each do |t|
+				newtargetenvrelationship = t.dup
+				newtargetenvrelationship.targetenv_id = newtargetenv.id
+				newtargetenvrelationship.save
+			end
+				
+			te.targetdeprelationships.each do |t|
+				newttargetdeprelationship = t.dup
+				newttargetdeprelationship.targetenv_id = newtargetenv.id
+				newttargetdeprelationship.save
+			end
+				
+			te.targetcaserelationships.each do |t|
+				newtargetcaserelationship = t.dup
+				newtargetcaserelationship.targetenv_id = newtargetenv.id
+				newtargetcaserelationship.save
+			end
+		end
+	end
+	
+	self.index
+	render 'tasks/index'
+  end
+    
 end
