@@ -13,6 +13,9 @@
 	  <%= f.label "testcase will be executed in stage of:" %>
       <%= f.collection_select :casetype_id, @typelist, :id, :name %>
 	  
+	  <%= f.label "testcase has label of:" %>
+      <%= f.collection_select :caseweight_id, @weightlist, :id, :name, {:include_blank => true} %>
+ 
 	  <% if @testcase.casecate == "Operation" then %>
 		<%= f.label "Execution will make what devie changed:" %>
 		<%= f.collection_select :devicetype_id, @devicetypes, :id, :name, {:include_blank => true} %>

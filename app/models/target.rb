@@ -1,10 +1,12 @@
 class Target < ActiveRecord::Base
-  attr_accessible :name, :note, :task_id, :user_id
+  attr_accessible :name, :note, :task_id, :user_id, :targetindex
   
   belongs_to :task, class_name: "Task"
   belongs_to :user, class_name: "User"
   has_many :targetenvs, class_name: "Targetenv", dependent: :destroy
   has_many :targetcases, class_name: "Targetcase"
+  
+  default_scope order: 'targets.targetindex ASC'
   
   def env
 	environ = self.targetenvs.first if self.targetenvs != nil

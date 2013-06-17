@@ -3,7 +3,7 @@
 <% if @testcases != nil then %>
 	<% if @testcases.count != 0 then %>
 		<table class="table table-striped table-bordered table-condensed">
-			<tr><td>TestCase Name</td><td>TestCase Parameter</td><td>Designed By</td><td></td></tr>
+			<tr><td>TestCase Name</td><td>Label</td><td>TestCase Parameter</td><td>Designed By</td><td></td></tr>
 			<% @testcases.each do |d| %>
 				<tr>
 					<td onmouseover="ShowContent('<%= d.name %>');" onmouseout="HideContent('<%= d.name %>');">
@@ -14,7 +14,8 @@
 						<% end %>
 					</td>
 					<div id='<%= d.name %>' class="showmoreinfo">Execution Steps:<hr><%= simple_format(d.steps) %></div>
-					<td><%=if d.devicetype != nil then d.devicetype.name else "None" end %></td>
+					<td><%=if d.caseweight != nil then d.caseweight.name else "" end %></td>
+					<td><%=if d.devicetype != nil then d.devicetype.name else "" end %></td>
 					<td><%= d.user.email if d.user != nil %></td>
 					<td>
 						<% if !d.executions.any? then%>

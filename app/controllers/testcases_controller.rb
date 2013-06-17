@@ -11,6 +11,7 @@ class TestcasesController < ApplicationController
   def edit
 	@catelist = self.catelist
 	@typelist = Casetype.all
+	@weightlist = Caseweight.all
 	@devicetypes = Devicetype.find_all_by_devicecate("Software") + Devicetype.find_all_by_devicecate("Firmware")
 	
     @testcase = Testcase.find(params[:id])
@@ -36,6 +37,7 @@ class TestcasesController < ApplicationController
 	
     @catelist = self.catelist
 	@typelist = Casetype.all
+	@weightlist = Caseweight.all
 	@testcases = Testcase.find_all_by_casecate_and_casetype_id(@selectcate, @selecttype)
 	
 	@devicetypes = Devicetype.find_all_by_devicecate("Software") + Devicetype.find_all_by_devicecate("Firmware")
@@ -70,6 +72,18 @@ class TestcasesController < ApplicationController
 	@casetype.user_id = current_user.id
 	@casetype.note = params[:note]
 	@casetype.save
+
+	self.index
+	render 'testcases/index'
+  end
+  
+  def addlabel    
+	caseweight = Caseweight.new
+	caseweight.name = params[:name]
+	caseweight.weight = params[:weight].to_i
+	caseweight.user_id = current_user.id
+	caseweight.note = params[:note]
+	caseweight.save
 
 	self.index
 	render 'testcases/index'

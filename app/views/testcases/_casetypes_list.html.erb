@@ -30,3 +30,30 @@
 	<div><%= submit_tag "Add Type" , :class => "submit" %></div>
 <% end %>
 <% end %>
+
+
+
+<% if current_user.root? then %>
+	<h2>Labels for Testcases</h2><hr>
+
+	<% if @weightlist != nil then if @weightlist.count != 0 then %>
+		<% @weightlist.each do |t| %>
+			<div class="row">
+				<div class="span"><%= t.name %> - weight:<%= t.weight %></div>
+				<%= link_to "delete", t, method: :delete, data: { confirm: "Sure?" }, class: "span toright" if current_user.root? %>
+			</div>
+		<% end %>
+	<% else %>
+		<h2><br>No label existed</h2>
+	<% end %>
+	<% else %>
+		<h2><br>No label existed</h2>
+	<% end %>
+<hr>
+	<%= form_tag controller: "testcases", action: "addlabel" do |t| %>
+		<div><%= text_field_tag :name,"",placeholder: "Label Name" %></div>
+		<div><%= text_field_tag :weight,"",placeholder: "1 - 10" %></div>
+		<div><%= text_area_tag :note,"",placeholder: "Note..." %></div>
+		<div><%= submit_tag "Add Label" , :class => "submit" %></div>
+	<% end %>
+<% end %>

@@ -29,14 +29,17 @@ Anton::Application.routes.draw do
   post '/systems/adddevice'   
   
   resources :casetypes
+  resources :caseweights
   resources :testcases
   
   match '/testcases/', to: 'testcases#index'
   post '/testcases/selectcate'
   post '/testcases/selecttype'
   post '/testcases/addtype'
+  post '/testcases/addlabel'
   post '/testcases/addcase'
   post '/testcases/twiki'
+  
 	
   resources :suts
   resources :sysconfigrelationships

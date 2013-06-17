@@ -1,7 +1,8 @@
 class Testcase < ActiveRecord::Base
-  attr_accessible :casecate, :casetype_id, :name, :devicetype_id, :steps, :user_id
+  attr_accessible :casecate, :casetype_id, :name, :devicetype_id, :caseweight_id, :steps, :user_id
   
   belongs_to :casetype, class_name: "Casetype"
+  belongs_to :caseweight, class_name: "Caseweight"
   belongs_to :devicetype, class_name: "Devicetype"
   belongs_to :user, class_name: "User"
   
@@ -19,6 +20,14 @@ class Testcase < ActiveRecord::Base
 		self.casetype.name + " - " + self.executions.count.to_s + " - "  + self.name
 	else
 		"Notype - " + self.name
+	end
+  end
+  
+  def caseweightid
+	if self.caseweight_id != nil then
+		return self.caseweight_id
+	else
+		return 999
 	end
   end
   

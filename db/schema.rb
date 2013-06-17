@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130614013023) do
+ActiveRecord::Schema.define(:version => 20130617092831) do
 
   create_table "avlrelationships", :force => true do |t|
     t.integer  "system_id"
@@ -26,6 +26,15 @@ ActiveRecord::Schema.define(:version => 20130614013023) do
   create_table "casetypes", :force => true do |t|
     t.string   "name"
     t.integer  "user_id"
+    t.string   "note"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "caseweights", :force => true do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.integer  "weight"
     t.string   "note"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -176,8 +185,9 @@ ActiveRecord::Schema.define(:version => 20130614013023) do
     t.integer  "user_id"
     t.integer  "task_id"
     t.string   "note"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "targetindex"
   end
 
   create_table "taskexecutions", :force => true do |t|
@@ -229,6 +239,7 @@ ActiveRecord::Schema.define(:version => 20130614013023) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.integer  "devicetype_id"
+    t.integer  "caseweight_id"
   end
 
   create_table "users", :force => true do |t|

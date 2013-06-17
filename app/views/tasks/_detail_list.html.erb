@@ -137,8 +137,30 @@
 			<% end %>
 			<table class="table table-bordered table-condensed">
 				<% @colum = 0 %>
-				<tr>
+				
+				
+<!-- Add a new line before first line, show testcase label -->
+				<tr><td colspan=2></td>	
+				<% tmpweight = 0 %>
+				<% tmpnum = 1 %>
+				<% @envtestcases.each do |c| %>
+					<% if c.testcase.caseweight != nil then %>
+						<% if tmpweight != c.testcase.caseweight_id then %>
+							<% tmpweight = c.testcase.caseweight_id %>
+							<% tmpnum = @envtestcases.select{ |cr| cr.testcase.caseweight_id == tmpweight }.count %>
+							<td colspan=<%= tmpnum %> >
+								<%= c.testcase.caseweight.name %>
+							</td>
+						<% end %>
+					<% else %>
+						<td></td>
+					<% end %>
+					
+					<% @colum = @colum + 1 %>
+				<% end %>
+				</tr>
 <!-- First line is testcase list -->
+				<tr>
 					<td>Devices Under Test</td>
 					<% depexist = false %>
 					<% if @envdepdevices != nil then%>

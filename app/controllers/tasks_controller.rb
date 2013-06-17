@@ -79,20 +79,18 @@ class TasksController < ApplicationController
 	if @target != nil then
 		@targetenv = @target.targetenvs.first 
 		
-		if @targetenv != nil then
-			@envdevices = @targetenv.targetenvrelationships
-			@envdepdevices = @targetenv.targetdeprelationships
-			@envtestcases = @targetenv.targetcaserelationships
-			@thematrix = @targetenv.targetmatrixes 
-		else
+		if @targetenv == nil then
 			@targetenv = Targetenv.new
 			@targetenv.target_id = @target.id
 			@targetenv.save
-			@envdevices = @targetenv.targetenvrelationships
-			@envdepdevices = @targetenv.targetdeprelationships
-			@envtestcases = @targetenv.targetcaserelationships
-			@thematrix = @targetenv.targetmatrixes 
 		end
+		@envdevices = @targetenv.targetenvrelationships
+		@envdepdevices = @targetenv.targetdeprelationships
+		@envtestcases = @targetenv.targetcaserelationships
+		if @envtestcases != nil then
+			@envtestcases = @envtestcases.sort_by{ |cr| cr.testcase.caseweightid }
+		end
+		@thematrix = @targetenv.targetmatrixes 
 	end
 	
 	@envtypes = self.setflags
