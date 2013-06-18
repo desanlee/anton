@@ -80,6 +80,7 @@ class TestcasesController < ApplicationController
   def addlabel    
 	caseweight = Caseweight.new
 	caseweight.name = params[:name]
+	caseweight.labelindex = params[:labelindex].to_i
 	caseweight.weight = params[:weight].to_i
 	caseweight.user_id = current_user.id
 	caseweight.note = params[:note]

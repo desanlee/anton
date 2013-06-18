@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130617092831) do
+ActiveRecord::Schema.define(:version => 20130618032214) do
 
   create_table "avlrelationships", :force => true do |t|
     t.integer  "system_id"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(:version => 20130617092831) do
     t.string   "note"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "labelindex"
   end
 
   create_table "devices", :force => true do |t|
