@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130618032214) do
+ActiveRecord::Schema.define(:version => 20130618071744) do
 
   create_table "avlrelationships", :force => true do |t|
     t.integer  "system_id"
@@ -21,6 +21,14 @@ ActiveRecord::Schema.define(:version => 20130618032214) do
     t.string   "note"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "blacklists", :force => true do |t|
+    t.integer  "targetenv_id"
+    t.integer  "trelationship_id"
+    t.integer  "erelationship_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "casetypes", :force => true do |t|

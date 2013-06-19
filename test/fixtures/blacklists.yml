@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  targetenv_id: 1
+  trelationship_id: 1
+  erelationship_id: 1
+
+two:
+  targetenv_id: 1
+  trelationship_id: 1
+  erelationship_id: 1

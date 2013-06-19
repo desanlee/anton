@@ -87,6 +87,8 @@ class TasksController < ApplicationController
 		@envdevices = @targetenv.targetenvrelationships
 		@envdepdevices = @targetenv.targetdeprelationships
 		@envtestcases = @targetenv.targetcaserelationships
+		@blacklists = @targetenv.blacklists
+		
 		if @envtestcases != nil then
 			@envtestcases = @envtestcases.sort_by{ |cr| cr.testcase.caseweightid }
 		end
@@ -321,6 +323,17 @@ class TasksController < ApplicationController
 	end
 	@sysconfiglist = @sysconfiglist.sort_by{ |d| d.sutname } if @sysconfiglist != nil
 	render :layout => "justapage"
+  end
+  
+  def addinblacklist	
+	blacklistitem = Blacklist.new
+	blacklistitem.targetenv_id = params[:selecttargetenv]
+	blacklistitem.trelationship_id = params[:trelationship_id]
+	blacklistitem.erelationship_id = params[:erelationship_id]
+	blacklistitem.save
+	
+	self.index						
+	render 'tasks/index'	
   end
   
   def destroy

@@ -5,6 +5,7 @@ class Testcase < ActiveRecord::Base
   belongs_to :caseweight, class_name: "Caseweight"
   belongs_to :devicetype, class_name: "Devicetype"
   belongs_to :user, class_name: "User"
+  belongs_to :targetmatrix, class_name: "Targetmatrix"
   
   has_many :executions, class_name: "Execution"
   

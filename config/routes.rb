@@ -87,6 +87,7 @@ Anton::Application.routes.draw do
   post '/tasks/selectuser'
   post '/tasks/twiki'
   post '/tasks/clonetask'
+  post '/tasks/addinblacklist'
   
   resources :achivements
   
@@ -99,6 +100,7 @@ Anton::Application.routes.draw do
   resources :targetcaserelationships
   resources :targetenvrelationships
   resources :targetdeprelationships
+  resources :blacklists
   resources :teamrelationships
   resources :taskobjects
   resources :users

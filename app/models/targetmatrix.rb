@@ -3,5 +3,6 @@ class Targetmatrix < ActiveRecord::Base
   
   belongs_to :targetenv, class_name: "Targetenv"
   belongs_to :execution, class_name: "Execution"
+  belongs_to :testcase, class_name: "Testcase"
  
 end

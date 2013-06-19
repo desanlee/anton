@@ -1,6 +1,8 @@
 <% index=1 %>
 
 ---+ !<%= @task.name %> SQA Test Plan & Result<br>
+---++ <%= @task.percentage %>% Completed, ( Latest updated time: <%= @task.update_time.to_formatted_s(:db) if @task.update_time != nil %> )
+<br>
 
 %TOC%<br>
 
@@ -27,9 +29,14 @@
 	<% targetenv = target.targetenvs.first %>
 	<% thematrix = targetenv.targetmatrixes %>
 						
----++ <%= index %>. <%= target.name %><br>---<br>
+---++ <%= index %>. <%= target.name %> - <%= target.percentage %>% Completed <br>---<br>
 <% index = index + 1 %>
 
+<!-- Add a new line before first line, show testcase label -->
+| | |<% tmpweight = 0 %>
+<% tmpnum = 1 %>
+<% targetenv.testcases.each do |c| %><% if c.caseweight != nil then %><% if tmpweight != c.caseweight_id then %><% tmpweight = c.caseweight_id %>*<%=c.caseweight.name%>*|<% else %>|<% end %><% else %>* *|<% end %><% end %><br>
+	
 <!-- First line is testcase list -->
 	| * Devices Under Test * | * Environment Devices * |
 	<% targetenv.testcases.each do |c| %>
@@ -37,31 +44,39 @@
 	<% end %><br>
 
 <!-- Draw line of Device under test -->				
-	<% targetenv.devices.each do |d| %>
-		| *<%= d.name %>* | * * | 
+	<% targetenv.targetenvrelationships.each do |d| %>
+		| *<%= d.device.name %>* | * * | 
 		<% targetenv.testcases.each do |c| %>
 			&nbsp;|
 		<% end %><br>
 
-	<!-- Draw line of Device as Environment -->	
-		<% targetenv.depdevices.sort_by{|d| d[:devicetype_id]}.each do |dep| %>
-			| ^ |
-			*<%= dep.name %>*|
-			<% targetenv.testcases.each do |c| %>
-				<% currentexecutions = thematrix.select { |mx| mx.device_id == d.id and mx.envdevice_id == dep.id and mx.testcase_id == c.id } %>
-				<% if currentexecutions.count != 0 then %>
-					<% currentexecutions.each do |em| %>
-						<% if em.execution != nil then %>
-							<% if em.execution.result == "fail" then %>
-								<%= em.execution.sysconfig.sutname%> %RED%FAIL (CR:<%= em.execution.bug %>)%ENDCOLOR%&lt;br&gt; 
-							<% else %>
-								<%= em.execution.sysconfig.sutname%> <%=%>%GREEN%PASS%ENDCOLOR%&lt;br&gt;
+<!-- Draw line of Device as Environment -->	
+		<% tmpdeprelationships = targetenv.targetdeprelationships.select{|tr| tr.device != nil} %>
+		<% tmpdeprelationships.sort_by{|tr| tr.device.devicetype_id }.each do |dep| %>
+<!-- See if line is in Blacklist -->
+		<% blacklistflag = false %>
+		<% blacklists = targetenv.blacklists.select {|b| b.trelationship_id == d.id && b.erelationship_id == dep.id} %>
+		<% blacklistflag = true if !blacklists.empty? %>
+<!-- See if line is in Blacklist, finished -->
+			<% if !blacklistflag then %>
+				| ^ |
+				*<%= dep.device.name %>*|
+				<% targetenv.testcases.each do |c| %>
+					<% currentexecutions = thematrix.select { |mx| mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.id } %>
+					<% if currentexecutions.count != 0 then %>
+						<% currentexecutions.each do |em| %>
+							<% if em.execution != nil then %>
+								<% if em.execution.result == "fail" then %>
+									<%= em.execution.sysconfig.sutname%> %RED%FAIL (CR:<%= em.execution.bug %>)%ENDCOLOR%&lt;br&gt; 
+								<% else %>
+									<%= em.execution.sysconfig.sutname%> <%=%>%GREEN%PASS%ENDCOLOR%&lt;br&gt;
+								<% end %>
 							<% end %>
 						<% end %>
 					<% end %>
-				<% end %>
-				&nbsp;|
-			<% end %> <br>
+					&nbsp;|
+				<% end %> <br>
+			<% end %>
 		<% end %>
 	<% end %>
 <% end %>	

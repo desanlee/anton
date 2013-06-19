@@ -18,4 +18,12 @@ class Target < ActiveRecord::Base
 	return environ
   end
   
+  def percentage
+	if self.env.totalweight == 0 then 
+		return 0 
+	else
+		return 100 * self.env.finishedweight / self.env.totalweight
+	end
+  end
+  
 end

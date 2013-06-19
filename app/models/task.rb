@@ -10,12 +10,12 @@ class Task < ActiveRecord::Base
   
   validates :system_id, :presence => true
   
-  def targetcount
+  def totalcount
 	count = 0
 	if self.targets != nil then
 		self.targets.each do |target|
 			if target.targetenvs != nil then
-				count += target.targetenvs.first.targetcount
+				count += target.targetenvs.first.totalcount
 			end
 		end
 	end
@@ -32,5 +32,37 @@ class Task < ActiveRecord::Base
 		end
 	end
 	return count
+  end
+  
+  def totalweight
+	count = 0
+	if self.targets != nil then
+		self.targets.each do |target|
+			if target.targetenvs != nil then
+				count += target.targetenvs.first.totalweight
+			end
+		end
+	end
+	return count
+  end
+  
+  def finishedweight
+	count = 0
+	if self.targets != nil then
+		self.targets.each do |target|
+			if target.targetenvs != nil then
+				count += target.targetenvs.first.finishedweight			
+			end
+		end
+	end
+	return count
+  end
+  
+  def percentage
+	if self.totalweight == 0 then 
+		return 0 
+	else
+		return 100 * self.finishedweight / self.totalweight
+	end
   end
 end

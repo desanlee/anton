@@ -4,8 +4,8 @@
 	<% else %>
 		<h2>"<%= @task.name %>"
 	<% end %>
-	<% if @task.targetcount != 0 then %>
-		- <%= 100 * @task.finishedcount / @task.targetcount %>% Completed
+	<% if @task.totalcount != 0 then %>
+		- <%= @task.percentage %>% Completed
 	<% end %>
 	</h2>
 	<h4 class="toright"> ( Latest updated time: <%= @task.update_time.to_formatted_s(:db) if @task.update_time != nil %> ) </h4>
@@ -85,8 +85,8 @@
 			<% else %>
 				<%= @target.name %>
 			<% end %>
-			<% if @targetenv.targetcount != 0 then %>
-				- <%= 100 * @targetenv.finishedcount / @targetenv.targetcount %>% Completed
+			<% if @targetenv.totalcount != 0 then %>
+				- <%= @target.percentage %>% Completed
 			<% end %>
 			<% if current_user.lead? then %>
 				<div class="toright">
@@ -149,7 +149,7 @@
 							<% tmpweight = c.testcase.caseweight_id %>
 							<% tmpnum = @envtestcases.select{ |cr| cr.testcase.caseweight_id == tmpweight }.count %>
 							<td colspan=<%= tmpnum %> >
-								<%= c.testcase.caseweight.name %>
+								<strong><center><%= c.testcase.caseweight.name %></center></strong>
 							</td>
 						<% end %>
 					<% else %>
@@ -161,18 +161,17 @@
 				</tr>
 <!-- First line is testcase list -->
 				<tr>
-					<td>Devices Under Test</td>
+					<td><strong>Devices Under Test</strong></td>
 					<% depexist = false %>
 					<% if @envdepdevices != nil then%>
 						<% depexist = true if @envdepdevices.count > 0 %>
-						<td>Test Environment</td>
+						<td><strong>Test Environment</strong></td>
 					<% end %>
 					<% @envtestcases.each do |c| %>
 						<td>
+							<%= c.testcase.name %>
 							<% if current_user.lead? then %>
-								<%= link_to c.testcase.name, c, :selecttask => @task.id, :selecttarget => @target.id,method: :delete, data: { confirm: "Sure?" }, class: "" %>
-							<% else %>
-								<%= c.testcase.name %>
+								<%= link_to "x", c, :selecttask => @task.id, :selecttarget => @target.id,method: :delete, data: { confirm: "Sure?" }, class: "" %>
 							<% end %>
 						</td>
 						<% @colum = @colum + 1 %>
@@ -183,13 +182,11 @@
 					<tr>
 	<!-- The first row -->
 						<td>
+							<%= d.device.name %>
 							<% if current_user.lead? then %>
-								<%= link_to d.device.name, d, method: :delete, data: { confirm: "Sure?" }, class: "" %>
-							<% else %>
-								<%= d.device.name %>
+								<%= link_to "x", d, method: :delete, data: { confirm: "Sure?" }, class: "" %>
 							<% end %>
 						</td>
-						
 						<td></td> 
 						<% @envtestcases.each do |c| %>
 							<td>
@@ -200,17 +197,33 @@
 <!-- test environment result, if there're any,  will be filled here -->
 					<% if depexist == true then %>  
 						<% @envdepdevices.each do |dep| %>
+							<% blacklistflag = false %>
+							<% blacklists = @blacklists.select {|b| b.trelationship_id == d.id && b.erelationship_id == dep.id} %>
+							<% blacklistflag = true if !blacklists.empty? %>
 							<tr><td></td>
-								<td>
+								<td><div>
 								<% if dep.device != nil then %>
+									<%= dep.device.name %>
 									<% if current_user.lead? then %>
-										<%= link_to dep.device.name, dep, method: :delete, data: { confirm: "Sure?" }, class: "" %></td>
+										<%= link_to "x", dep, method: :delete, data: { confirm: "Sure?" }, class: "" %>
+									<% end %>
+									<% if blacklistflag == true then %>
+										<%= link_to "UB", blacklists.first, method: :delete, data: { confirm: "Sure?" }, class: "toright" %>
 									<% else %>
-										<%= dep.device.name %>
+										<%= form_tag controller: "tasks", action: "addinblacklist" do %>
+											<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
+											<%= hidden_field_tag(:trelationship_id, d.id) %>
+											<%= hidden_field_tag(:erelationship_id, dep.id) %>
+											<%= submit_tag "B" , :class => "submit toright" %>
+										<% end %>
 									<% end %>
 								<% end %>
+								</td>
 								<% @envtestcases.each do |c| %>
 									<td>
+									<% if blacklistflag == true then %>
+										NP
+									<% else %>
 										<% currentexecutions = @thematrix.select { |mx| mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.testcase_id } %>
 										<% if currentexecutions.count != 0 then %>
 											<% currentexecutions.each do |em| %>
@@ -225,6 +238,7 @@
 												<% end %>
 											<% end %>
 										<% end %>
+									<% end %>
 									</td>
 								<% end %>
 							</tr>
