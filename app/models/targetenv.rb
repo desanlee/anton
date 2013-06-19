@@ -76,4 +76,8 @@ class Targetenv < ActiveRecord::Base
 	return lists
   end
   
+  def orderedtestcases
+	return self.testcases.sort_by {|c| c.caseweightid}
+  end
+  
 end

@@ -35,18 +35,18 @@
 <!-- Add a new line before first line, show testcase label -->
 | | |<% tmpweight = 0 %>
 <% tmpnum = 1 %>
-<% targetenv.testcases.each do |c| %><% if c.caseweight != nil then %><% if tmpweight != c.caseweight_id then %><% tmpweight = c.caseweight_id %>*<%=c.caseweight.name%>*|<% else %>|<% end %><% else %>* *|<% end %><% end %><br>
+<% targetenv.orderedtestcases.each do |c| %><% if c.caseweight != nil then %><% if tmpweight != c.caseweight_id then %><% tmpweight = c.caseweight_id %>*<%=c.caseweight.name%>*|<% else %>|<% end %><% else %>* *|<% end %><% end %><br>
 	
 <!-- First line is testcase list -->
 	| * Devices Under Test * | * Environment Devices * |
-	<% targetenv.testcases.each do |c| %>
+	<% targetenv.orderedtestcases.each do |c| %>
 		* <%= c.name %> * |
 	<% end %><br>
 
 <!-- Draw line of Device under test -->				
 	<% targetenv.targetenvrelationships.each do |d| %>
 		| *<%= d.device.name %>* | * * | 
-		<% targetenv.testcases.each do |c| %>
+		<% targetenv.orderedtestcases.each do |c| %>
 			&nbsp;|
 		<% end %><br>
 
@@ -61,7 +61,7 @@
 			<% if !blacklistflag then %>
 				| ^ |
 				*<%= dep.device.name %>*|
-				<% targetenv.testcases.each do |c| %>
+				<% targetenv.orderedtestcases.each do |c| %>
 					<% currentexecutions = thematrix.select { |mx| mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.id } %>
 					<% if currentexecutions.count != 0 then %>
 						<% currentexecutions.each do |em| %>
