@@ -10,7 +10,7 @@ class Targetenv < ActiveRecord::Base
 
   has_many :devices, through: :targetenvrelationships, source: :device
   has_many :depdevices, through: :targetdeprelationships, source: :device
-  has_many :testcases, through: :targetcaserelationships, source: :testcase
+  has_many :testcases, through: :targetcaserelationships, source: :testcase, order: 'caseweight_id ASC'
   has_many :targetmatrixes, class_name: "Targetmatrix"
   
   def totalcount
