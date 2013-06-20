@@ -19,10 +19,10 @@ class Target < ActiveRecord::Base
   end
   
   def percentage
-	if self.env.totalweight == 0 then 
+	if self.env.totalcount == 0 then 
 		return 0 
 	else
-		return 100 * self.env.finishedweight / self.env.totalweight
+		return 100 * self.env.finishedcount / self.env.totalcount
 	end
   end
   

@@ -3,6 +3,7 @@ class Sut < ActiveRecord::Base
   
   has_many :sysconfigs, class_name: "Sysconfig"
   belongs_to :system, class_name: "System"
+  belongs_to :holder, class_name: "User"
   
   validates :name, :presence => true
   

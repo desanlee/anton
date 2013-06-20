@@ -59,10 +59,10 @@ class Task < ActiveRecord::Base
   end
   
   def percentage
-	if self.totalweight == 0 then 
+	if self.totalcount == 0 then 
 		return 0 
 	else
-		return 100 * self.finishedweight / self.totalweight
+		return 100 * self.finishedcount / self.totalcount
 	end
   end
 end

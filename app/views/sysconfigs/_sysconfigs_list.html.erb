@@ -1,9 +1,7 @@
 <% if @selectsut != nil then %>
 	<% if @current_user.lead? then %>
 		<div class="row">
-			<h2>SUT Assignment</h2>
-			<div class="center span10">This Server belongs to <%= User.find_by_id(Sut.find_by_id(@selectsut).holder_id).email %> currently</div>
-			<div class="center span10"> - </div>
+			<h2>This Server belongs to <%= User.find_by_id(Sut.find_by_id(@selectsut).holder_id).name %> currently</h2>
 			<%= form_tag controller: "sysconfigs", action: "selectuser" do %>
 				<%= hidden_field_tag(:selectsut, @selectsut) %>
 				<div class="span10 center">Assign SUT to: <%= select_tag 'selectuser', options_from_collection_for_select( @users, :id, :email) %></div>

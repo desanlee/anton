@@ -16,7 +16,7 @@
 					<div id='<%= d.name %>' class="showmoreinfo">Execution Steps:<hr><%= simple_format(d.steps) %></div>
 					<td><%=if d.caseweight != nil then d.caseweight.name else "" end %></td>
 					<td><%=if d.devicetype != nil then d.devicetype.name else "" end %></td>
-					<td><%= d.user.email if d.user != nil %></td>
+					<td><%= d.user.name if d.user != nil %></td>
 					<td>
 						<% if !d.executions.any? then%>
 							<%= link_to "x", d, method: :delete, data: { confirm: "Sure?" }, class: "toright" if current_user.root? or current_user == d.user %>

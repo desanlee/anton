@@ -50,4 +50,9 @@ class User < ActiveRecord::Base
   def visitor?
     "visitor".in? self.charactors
   end
+  
+  def name
+	self.email.chomp("@oracle.com")
+  end
+  
 end

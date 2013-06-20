@@ -7,9 +7,10 @@
 		<% @sutlist.each do |t| %>
 			<div class="row">
 				<%= radio_button_tag "selectsut", t.id, if @selectsut.to_i == t.id then true else false end, onchange: "this.form.submit();", class: "span3"  %>
-				<%= t.system.name + "-" %>
+				<%= t.system.name + " " %>
 				<%= link_to t.name, edit_sut_path(t), :onclick=>"window.open(this.href,'create_company', 'height=650, width=600');return false;" %>
-				<%= link_to "delete", t, method: :delete, data: { confirm: "Sure?" }, class: "span toright" if current_user.lead?  %>
+				(<%= t.holder.name %>)
+				<%= link_to "x", t, method: :delete, data: { confirm: "Sure?" }, class: "span toright" if current_user.lead?  %>
 			</div>
 		<% end %>
 	<% else %>
