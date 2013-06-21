@@ -17,6 +17,18 @@ class Device < ActiveRecord::Base
   
   default_scope order: 'devices.name ASC'
   
+  def biosmode?
+	if self.devicetype.name == "BIOS Mode Setting" then true else false end
+  end 
+  
+  def biosmode
+	if self.name == "UEFI Mode" then 
+		return "(U)" 
+	else
+		return "(L)"
+	end
+  end
+  
   def spbios?
     if self.devicetype.name == "SP_BIOS" then true else false end
   end

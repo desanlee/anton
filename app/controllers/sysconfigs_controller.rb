@@ -135,13 +135,40 @@ class SysconfigsController < ApplicationController
 	@newconfig.user_id = current_user.id
 	@newconfig.save
 	
-	Sysconfigrelationship.find_all_by_sysconfig_id(@currentsysconfig_id).each do |r|
-		@newrelation = Sysconfigrelationship.new
-		@newrelation.sysconfig_id = @newconfig.id
-		@newrelation.device_id = r.device_id
-		@newrelation.position = r.position
-		@newrelation.user_id = r.user_id
-		@newrelation.save
+	allrelationships = Sysconfigrelationship.find_all_by_sysconfig_id(@currentsysconfig_id)
+	hwrelationships = allrelationships.select {|r| r.device.devicetype.devicecate == "Hardware"}
+	if hwrelationships != nil then 
+		hwrelationships.each do |r|
+			@newrelation = Sysconfigrelationship.new
+			@newrelation.sysconfig_id = @newconfig.id
+			@newrelation.device_id = r.device_id
+			@newrelation.position = r.position
+			@newrelation.user_id = current_user.id
+			@newrelation.save
+		end
+	end
+	swrelationships = allrelationships.select {|r| r.device.devicetype.devicecate != "Hardware"}
+	if swrelationships != nil then 
+		tmprelation = nil
+		swrelationships.sort_by {|r| r.device.devicetype_id}.reverse.each do |sr|
+			if tmprelation != nil then
+				if tmprelation.device.devicetype_id != sr.device.devicetype_id then
+					@newrelation = Sysconfigrelationship.new
+					@newrelation.sysconfig_id = @newconfig.id
+					@newrelation.device_id = sr.device_id
+					@newrelation.user_id = current_user.id
+					@newrelation.save
+					tmprelation = sr
+				end
+			else
+				@newrelation = Sysconfigrelationship.new
+				@newrelation.sysconfig_id = @newconfig.id
+				@newrelation.device_id = sr.device_id
+				@newrelation.user_id = current_user.id
+				@newrelation.save
+				tmprelation = sr
+			end 
+		end
 	end
 	
 	self.index

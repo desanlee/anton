@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130618071744) do
+ActiveRecord::Schema.define(:version => 20130621061146) do
 
   create_table "avlrelationships", :force => true do |t|
     t.integer  "system_id"
@@ -163,8 +163,10 @@ ActiveRecord::Schema.define(:version => 20130618071744) do
   create_table "targetenvrelationships", :force => true do |t|
     t.integer  "targetenv_id"
     t.integer  "device_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.integer  "devicecount"
+    t.integer  "deviceposition"
   end
 
   create_table "targetenvs", :force => true do |t|
@@ -182,11 +184,13 @@ ActiveRecord::Schema.define(:version => 20130618071744) do
     t.integer  "testcase_id"
     t.integer  "execution_id"
     t.datetime "update_time"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
     t.integer  "envdevice_id"
     t.string   "result"
     t.string   "bug"
+    t.integer  "devicecount"
+    t.integer  "deviceposition"
   end
 
   create_table "targets", :force => true do |t|

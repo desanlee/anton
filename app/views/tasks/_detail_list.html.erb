@@ -104,37 +104,41 @@
 <!-- Draw tables -->		
 		<% if @targetenv != nil %>
 			<% if current_user == @task.user then %>
-<!-- Select X -->
-				<div class="span">
+			<div class = "row  weeklystatus" >
+<!-- Select X1 -->
+				<div class="span6">
 				<%= form_tag controller: "tasks", action: "adddevice" do %>
 					<%= hidden_field_tag(:selecttask, @selecttask) %>
 					<%= hidden_field_tag(:selecttarget, @selecttarget) %>
 					<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
-					<div class="span">DEVICES for X: <%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :longname), :class => "textsize4" if @devices != nil %></div>
+					<div class="span">TOTAL:<%= text_field_tag 'devicecount', "", placeholder: "", class: "textsize1" %></div>
+					<div class="span">CUT:<%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :longname), :class => "textsize8" if @devices != nil %></div>
 					<div class="span"><%= submit_tag "+" , :class => "submit  btn " %></div>
 				<% end %>
 				</div>
-<!-- Select Y -->
-				<div class="span">
-				<%= form_tag controller: "tasks", action: "addtestcase" do %>
-					<%= hidden_field_tag(:selecttask, @selecttask) %>
-					<%= hidden_field_tag(:selecttarget, @selecttarget) %>
-					<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
-					<div class="span">TESTCASE for Y: <%= select_tag 'selecttestcase', options_from_collection_for_select( @testcases, :id, :longname), :class => "textsize4"  %></div>
-					<div class="span"><%= submit_tag "+" , :class => "submit  btn " %></div>
-				<% end %>
-				</div>
-<!-- Select Env -->
-				<div class="span">
+<!-- Select X2 -->
+				<div class="span4">
 					<%= form_tag controller: "tasks", action: "adddepdevice" do %>
 						<%= hidden_field_tag(:selecttask, @selecttask) %>
 						<%= hidden_field_tag(:selecttarget, @selecttarget) %>
 						<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
-						<div class="span">SHOW ENVIRONMENT: <%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :longname), :class => "textsize4"  %></div>
+						<div class="span">ENV: <%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :longname), :class => "textsize8"  %></div>
 						<div class="span"><%= submit_tag "+" , :class => "submit  btn " %></div>
 					<% end %>
 				</div>
+<!-- Select Y -->
+				<div class="span12">
+				<%= form_tag controller: "tasks", action: "addtestcase" do %>
+					<%= hidden_field_tag(:selecttask, @selecttask) %>
+					<%= hidden_field_tag(:selecttarget, @selecttarget) %>
+					<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
+					<div class="span">TESTCASE: <%= select_tag 'selecttestcase', options_from_collection_for_select( @testcases, :id, :longname), :class => "textsize16"  %></div>
+					<div class="span"><%= submit_tag "+" , :class => "submit  btn " %></div>
+				<% end %>
+				</div>
+			</div>
 			<% end %>
+			
 			<table class="table table-bordered table-condensed">
 				<% @colum = 0 %>
 				
@@ -161,7 +165,7 @@
 				</tr>
 <!-- First line is testcase list -->
 				<tr>
-					<td><strong>Devices Under Test</strong></td>
+					<td><strong>Components UT</strong></td>
 					<% depexist = false %>
 					<% if @envdepdevices != nil then%>
 						<% depexist = true if @envdepdevices.count > 0 %>
@@ -182,6 +186,7 @@
 					<tr>
 	<!-- The first row -->
 						<td>
+							<%= d.devicecount.to_s + " X " if d.devicecount != nil %>
 							<%= d.device.name %>
 							<% if current_user.lead? then %>
 								<%= link_to "x", d, method: :delete, data: { confirm: "Sure?" }, class: "" %>
@@ -224,7 +229,11 @@
 									<% if blacklistflag == true then %>
 										NP
 									<% else %>
-										<% currentexecutions = @thematrix.select { |mx| mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.testcase_id } %>
+										<% if d.devicecount != nil then%>
+											<% currentexecutions = @thematrix.select { |mx| mx.devicecount == d.devicecount and mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.testcase_id } %>
+										<% else%>
+											<% currentexecutions = @thematrix.select { |mx| mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.testcase_id } %>
+										<% end %>
 										<% if currentexecutions.count != 0 then %>
 											<% currentexecutions.each do |em| %>
 												<% if em.execution != nil then %>

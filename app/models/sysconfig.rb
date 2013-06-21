@@ -9,6 +9,20 @@ class Sysconfig < ActiveRecord::Base
   
   has_many :executions, class_name: "Execution"
   
+  def current_biosmode
+	tmparray = Array.new
+    self.sysconfigrelationships.each do |d|
+		if d.device != nil then
+			tmparray << d.device if d.device.biosmode?
+		end
+	end
+	if tmparray.last!= nil then
+		return tmparray.last.biosmode
+	else
+		return ""
+	end
+  end
+  
   def current_bioses
 	tmparray = Array.new
     self.sysconfigrelationships.each do |d|

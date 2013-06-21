@@ -45,7 +45,7 @@
 
 <!-- Draw line of Device under test -->				
 	<% targetenv.targetenvrelationships.each do |d| %>
-		| *<%= d.device.name %>* | * * | 
+		| *<%= d.devicecount.to_s + " X " if d.devicecount != nil %><%= d.device.name %>* | * * | 
 		<% targetenv.orderedtestcases.each do |c| %>
 			&nbsp;|
 		<% end %><br>
@@ -62,10 +62,15 @@
 				| ^ |
 				*<%= dep.device.name %>*|
 				<% targetenv.orderedtestcases.each do |c| %>
-					<% currentexecutions = thematrix.select { |mx| mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.id } %>
+					<% if d.devicecount != nil then%>
+						<% currentexecutions = thematrix.select { |mx| mx.devicecount == d.devicecount and mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.id } %>
+					<% else%>
+						<% currentexecutions = thematrix.select { |mx| mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.id } %>
+					<% end %>
 					<% if currentexecutions.count != 0 then %>
 						<% currentexecutions.each do |em| %>
 							<% if em.execution != nil then %>
+								<%= em.execution.sysconfig.current_biosmode %>
 								<% if em.execution.result == "fail" then %>
 									<%= em.execution.sysconfig.sutname%> %RED%FAIL (CR:<%= em.execution.bug %>)%ENDCOLOR%&lt;br&gt; 
 								<% else %>

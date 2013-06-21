@@ -60,7 +60,7 @@ class Execution < ActiveRecord::Base
 		end
 	end
 	
-	return realdevicelist.uniq
+	return realdevicelist
 	
   end
   
