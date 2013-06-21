@@ -162,14 +162,26 @@ class TasksController < ApplicationController
 				realexecutions.each do |ex|
 / Check the device type is devicecount or deviceposition or nothing/
 					dlist = ex.realconfig.select {|rc| rc == d}
-					if dlist != nil then 
-						te.depdevices.each do |dd|
-							if tmpte.devicecount != nil then
-								if tmpte.devicecount == dlist.count then
+					if dlist != nil then
+						if dlist.count != 0 then 
+							te.depdevices.each do |dd|
+								if tmpte.devicecount != nil then
+									if tmpte.devicecount == dlist.count then
+										matrixitem = Targetmatrix.new
+										matrixitem.targetenv_id = te.id
+										matrixitem.device_id = d.id
+										matrixitem.devicecount = tmpte.devicecount
+										matrixitem.envdevice_id = dd.id
+										matrixitem.testcase_id = ex.testcase_id
+										matrixitem.execution_id = ex.id
+										matrixitem.result = ex.result
+										matrixitem.bug = ex.bug
+										matrixitem.save
+									end
+								else   
 									matrixitem = Targetmatrix.new
 									matrixitem.targetenv_id = te.id
 									matrixitem.device_id = d.id
-									matrixitem.devicecount = tmpte.devicecount
 									matrixitem.envdevice_id = dd.id
 									matrixitem.testcase_id = ex.testcase_id
 									matrixitem.execution_id = ex.id
@@ -177,16 +189,6 @@ class TasksController < ApplicationController
 									matrixitem.bug = ex.bug
 									matrixitem.save
 								end
-							else   
-								matrixitem = Targetmatrix.new
-								matrixitem.targetenv_id = te.id
-								matrixitem.device_id = d.id
-								matrixitem.envdevice_id = dd.id
-								matrixitem.testcase_id = ex.testcase_id
-								matrixitem.execution_id = ex.id
-								matrixitem.result = ex.result
-								matrixitem.bug = ex.bug
-								matrixitem.save
 							end
 						end
 					end

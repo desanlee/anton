@@ -39,6 +39,7 @@ class Execution < ActiveRecord::Base
   
   def realconfig
 	realdevicelist = Array.new
+	realswlist = Array.new
 	realrelationship = Array.new
 	self.sysconfig.sysconfigrelationships.each do |sr|
 		if sr.device != nil then
@@ -52,15 +53,15 @@ class Execution < ActiveRecord::Base
 	tmprr = Sysconfigrelationship.new
 	realrelationship.sort_by { |p| [p.device.devicetype, p.created_at] }.reverse.each do |rr|
 		if tmprr.device == nil then
-			realdevicelist << rr.device
+			realswlist << rr.device
 			tmprr = rr
 		elsif rr.device.devicetype != tmprr.device.devicetype then
-			realdevicelist << rr.device
+			realswlist << rr.device
 			tmprr = rr
 		end
 	end
 	
-	return realdevicelist
+	return realdevicelist << realswlist.uniq
 	
   end
  
