@@ -63,6 +63,5 @@ class Execution < ActiveRecord::Base
 	return realdevicelist
 	
   end
-  
-  
+ 
 end

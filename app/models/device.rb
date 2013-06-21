@@ -67,8 +67,8 @@ class Device < ActiveRecord::Base
 	self.sysconfigs.each do |cfg|
 		if !( cfg.devices & musthasdevices ).empty? then
 			cfg.executions.each do |exe|
-				if !(exe.realconfig & musthasdevices).empty? then 
-					if exe.realconfig.include? self then
+				if !(exe.realconfig.uniq & musthasdevices).empty? then 
+					if exe.realconfig.uniq.include? self then
 						executions << exe
 					end
 				end
