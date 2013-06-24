@@ -138,6 +138,7 @@
 				</div>
 			</div>
 			<% end %>
+
 			
 			<table class="table table-bordered table-condensed">
 				<% @colum = 0 %>
@@ -232,7 +233,7 @@
 										<% if d.devicecount != nil then%>
 											<% currentexecutions = @thematrix.select { |mx| mx.devicecount == d.devicecount and mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.testcase_id } %>
 										<% else%>
-											<% currentexecutions = @thematrix.select { |mx| mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.testcase_id } %>
+											<% currentexecutions = @thematrix.select { |mx| mx.devicecount == nil and mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.testcase_id } %>
 										<% end %>
 										<% if currentexecutions.count != 0 then %>
 											<% currentexecutions.each do |em| %>
