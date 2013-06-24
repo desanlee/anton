@@ -178,7 +178,7 @@ class TasksController < ApplicationController
 											matrixitem.bug = ex.bug
 											matrixitem.save
 										end
-									elsif dlist.count == 1 then
+									else
 										matrixitem = Targetmatrix.new
 										matrixitem.targetenv_id = te.id
 										matrixitem.device_id = d.id
