@@ -13,7 +13,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* OS Installation: Install OS or tests during the installation.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* OS: Tests're executed in OS.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Option Rom: Tests're executed in option card's option rom.<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* OSA: Tests're executed via OSA Gui or tests of OSA boot and loading.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* !OSA: Tests're executed via !OSA Gui or tests of !OSA boot and loading.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Mix: Tests will cover different places, from system boot to OS opperation.<br>
 
 <% tmplabel = nil %>
@@ -28,14 +28,16 @@
 	<% if tmplabel == nil then %>
 		| *<%= t.caseweightname %>* |||||<br>
 		<% tmplabel = t.caseweightid %>
+		<% tmptype = nil %>
 	<% else %>
 		<% if t.caseweightid != tmplabel then %>|*<%= t.caseweightname%>*|||||<br><% end %>
 		<% tmplabel = t.caseweightid %>
+		<% tmptype = nil %>
 	<% end %>
 	
 | 
 	<% if tmptype == nil then %>
-		<%= t.casetype.name if t.casetype != nil %>
+		<%= t.casetype.name if t.casetype != nil %> 
 		<% tmptype = t.casetype %>
 	<% else %>
 		<% if t.casetype != tmptype then %><%= t.casetype.name if t.casetype != nil %><% else %> ^ <% end %>
