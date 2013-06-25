@@ -7,7 +7,7 @@
 		<% @devicelist.each do |d| %>
 			<tr>
 				<td onmouseover="ShowContent('<%= d.name %>');" onmouseout="HideContent('<%= d.name %>');">
-					<%= link_to d.name, edit_device_path(d),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
+					<%= link_to d.name, edit_device_path(d),:onclick=>"window.open(this.href,'create_company', 'height=800, width=600');return false;" %>
 				</td>
 				<div id='<%= d.name %>' class="showmoreinfo">Note:<hr><%= simple_format(d.note) %></div>
 				<td><%= d.created_at.to_date %></td>
