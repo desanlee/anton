@@ -30,9 +30,8 @@
 		<% tmplabel = t.caseweightid %>
 		<% tmptype = nil %>
 	<% else %>
-		<% if t.caseweightid != tmplabel then %>|*<%= t.caseweightname%>*|||||<br><% end %>
+		<% if t.caseweightid != tmplabel then %>|*<%= t.caseweightname%>*|||||<br><% tmptype = nil %><% end %>
 		<% tmplabel = t.caseweightid %>
-		<% tmptype = nil %>
 	<% end %>
 	
 | 
