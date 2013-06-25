@@ -108,17 +108,8 @@ class TestcasesController < ApplicationController
   end
 
   def twiki
-	@infochecktestcases = Testcase.find_all_by_casecate("Info Check")
-	@infochecktestcases = @infochecktestcases.select {|d| d.casetype != nil}
-	@infochecktestcases = @infochecktestcases.sort_by{ |d| d.casetype } if @infochecktestcases != nil
-	
-	@operationtestcases = Testcase.find_all_by_casecate("Operation")
-	@operationtestcases = @operationtestcases.select {|d| d.casetype != nil}
-	@operationtestcases = @operationtestcases.sort_by{ |d| d.casetype } if @operationtestcases != nil
-	
-	@stresstestcases = Testcase.find_all_by_casecate("Stress")
-	@stresstestcases = @stresstestcases.select {|d| d.casetype != nil}
-	@stresstestcases = @stresstestcases.sort_by{ |d| d.casetype } if @stresstestcases != nil
+	@testcases = Testcase.all
+	@testcases = @testcases.sort_by{ |d| d.casecode } if @testcases != nil
 	
 	render :layout => "justapage"
   end

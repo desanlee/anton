@@ -32,4 +32,16 @@ class Testcase < ActiveRecord::Base
 	end
   end
   
+  def casecode
+	return self.caseweightid.to_s + "-" + self.id.to_s
+  end
+  
+  def caseweightname
+	if self.caseweight_id != nil then
+		return self.caseweight.name
+	else
+		return "Other Test Cases"
+	end
+  end
+  
 end
