@@ -26,7 +26,7 @@ class Testcase < ActiveRecord::Base
   
   def caseweightid
 	if self.caseweight_id != nil then
-		return self.caseweight_id
+		return self.caseweight.labelindex
 	else
 		return 999
 	end
