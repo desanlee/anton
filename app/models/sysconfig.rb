@@ -58,7 +58,7 @@ class Sysconfig < ActiveRecord::Base
 			tmparray << d if d.device.devicetype.devicecate == "Hardware"
 		end
 	end
-	return tmparray.sort_by{ |d| d.device_id}
+	return tmparray.sort_by{ |d| d.device_id}.reverse
   end
   
   def current_swc
