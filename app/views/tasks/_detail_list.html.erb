@@ -1,8 +1,8 @@
 <% if @target != nil then %>
 	<% if current_user.lead? then %>
-		<h2><%= link_to @task.name, edit_task_path(@task),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
+		<h2><%if !@task.active? then%>(EXPIRED!) <%end%><%= link_to @task.name, edit_task_path(@task),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
 	<% else %>
-		<h2>"<%= @task.name %>"
+		<h2><%if !@task.active? then%>(EXPIRED!) <%end%> "<%= @task.name %>"
 	<% end %>
 	<% if @task.totalcount != 0 then %>
 		- <%= @task.percentage %>% Completed
@@ -80,6 +80,7 @@
 <hr>
 	<h2>
 		<div>
+			<%if !@target.active? then%>(EXPIRED!) <%end%>
 			<% if current_user.lead? then %>
 				<%= link_to @target.name, edit_target_path(@target),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
 			<% else %>
@@ -212,15 +213,16 @@
 									<%= dep.device.name %>
 									<% if current_user.lead? then %>
 										<%= link_to "x", dep, method: :delete, data: { confirm: "Sure?" }, class: "" %>
-									<% end %>
-									<% if blacklistflag == true then %>
-										<%= link_to "UB", blacklists.first, method: :delete, data: { confirm: "Sure?" }, class: "toright" %>
-									<% else %>
-										<%= form_tag controller: "tasks", action: "addinblacklist" do %>
-											<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
-											<%= hidden_field_tag(:trelationship_id, d.id) %>
-											<%= hidden_field_tag(:erelationship_id, dep.id) %>
-											<%= submit_tag "B" , :class => "submit toright" %>
+									
+										<% if blacklistflag == true then %>
+											<%= link_to "UB", blacklists.first, method: :delete, data: { confirm: "Sure?" }, class: "toright" %>
+										<% else %>
+											<%= form_tag controller: "tasks", action: "addinblacklist" do %>
+												<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
+												<%= hidden_field_tag(:trelationship_id, d.id) %>
+												<%= hidden_field_tag(:erelationship_id, dep.id) %>
+												<%= submit_tag "B" , :class => "submit toright" %>
+											<% end %>
 										<% end %>
 									<% end %>
 								<% end %>

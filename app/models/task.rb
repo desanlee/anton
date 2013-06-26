@@ -65,4 +65,31 @@ class Task < ActiveRecord::Base
 		return 100 * self.finishedcount / self.totalcount
 	end
   end
+  
+  def active?
+	if self.status != -1 then
+		return true
+	else
+		return false
+	end
+  end
+  
+  def enable
+	self.status = 1
+	self.save
+	self.targets.each do |t|
+		t.status = 1
+		t.save
+	end
+  end
+  
+  def disable
+	self.status = -1
+	self.save
+	self.targets.each do |t|
+		t.status = -1
+		t.save
+	end
+  end
+  
 end

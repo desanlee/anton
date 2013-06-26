@@ -88,6 +88,8 @@ Anton::Application.routes.draw do
   post '/tasks/twiki'
   post '/tasks/clonetask'
   post '/tasks/addinblacklist'
+  post '/tasks/changestatus'  
+  
   
   resources :achivements
   

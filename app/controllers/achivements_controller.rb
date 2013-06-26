@@ -8,6 +8,9 @@ class AchivementsController < ApplicationController
 		end
 		
 		usertargets = user.targets
+		if usertargets != nil then
+			usertargets = usertargets.select{|t| t.active?}
+		end
 		userexecutions = Array.new
 		user.executions.each do |e|
 			userexecutions << e if e.created_at.strftime("%W") == @currentweek

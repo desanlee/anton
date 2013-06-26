@@ -10,19 +10,23 @@ function detailinfo(para1, para2) {
 		<% if current_user.lead? then %>
 			<%= form_tag controller: "tasks", action: "twiki" do %>
 				<%= hidden_field_tag(:selecttask, @selecttask) %>
-				<div><%= submit_tag "twiki" , :class => "submit label toright" %></div>
+				<div class="span"><%= submit_tag "twiki" , :class => "submit label" %></div>
 			<% end %>
 			<%= form_tag controller: "tasks", action: "clonetask" do %>
 				<%= hidden_field_tag(:selecttask, @selecttask) %>
-				<div><%= submit_tag "clone" , :class => "submit label toright" %></div>
+				<div class="span"><%= submit_tag "clone" , :class => "submit label" %></div>
+			<% end %>
+			<%= form_tag controller: "tasks", action: "changestatus" do %>
+				<%= hidden_field_tag(:selecttask, @selecttask) %>
+				<div class="span"><%= submit_tag "Status" , :class => "submit label" %></div>
 			<% end %>
 		<% end %>
 	</div>
-	<div class="span3">
+	<div class="span4">
 		<div class="span">
 		<%= form_tag controller: "tasks", action: "selecttask" do %>
 			<% if @tasklist != nil then if @tasklist.count != 0 then %>
-				<%= select_tag 'selecttask', options_from_collection_for_select( @tasklist, :id, :name, @selecttask ), :class => "textsize8", onchange: "this.form.submit();"  %>
+				<%= select_tag 'selecttask', options_from_collection_for_select( @tasklist, :id, :name, @selecttask ), :class => "textsize10", onchange: "this.form.submit();"  %>
 				<%= link_to "x", @task, method: :delete, data: { confirm: "Sure?" }, class: "" if current_user.lead? %>
 			<% else %>
 				<h2><br>No tasks existed</h2>
@@ -42,7 +46,7 @@ function detailinfo(para1, para2) {
 		<% end %>
 		</div>
 	</div>
-	<div class="span4">
+	<div class="span3">
 
 		<% if @selecttask != nil then %>
 		<div class="span">
@@ -51,12 +55,13 @@ function detailinfo(para1, para2) {
 				<%= select_tag 'selecttarget', options_from_collection_for_select( @targetlist, :id, :name, @selecttarget ), :class => "textsize8", onchange: "this.form.submit();"  if @targetlist != nil%>
 				<%= link_to "x", @target, method: :delete, data: { confirm: "Sure?" }, class: "" if current_user.lead? and @target != nil %>
 			<% end %>
-		</div><div class="span">	
+		</div>
+		<div class="span">	
 			<% if current_user.lead? then %>
 				<%= form_tag controller: "tasks", action: "addtarget" do |t| %>
 					<%= hidden_field_tag(:selecttask, @selecttask) %>
 					<div><%= text_field_tag :name,"",placeholder: "Add New Target", onfocus: 'detailinfo("detailtarget","block")' %></div>
-					<div id = "detailtarget", style="display:none"><%= text_area_tag :note, "", :class => "textsize8", placeholder: "Note..." %>
+					<div id = "detailtarget", style="display:none"><%= text_area_tag :note, "", :class => "textsize10", placeholder: "Note..." %>
 					<%= submit_tag "Add New Target" , :class => "submit btn btn-mini btn-danger" %></div>
 				<% end %>
 			<% end %>
@@ -68,7 +73,7 @@ function detailinfo(para1, para2) {
 		<%= form_tag controller: "tasks", action: "calculate" do %>
 			<%= hidden_field_tag(:selecttask, @selecttask) %>
 			<%= hidden_field_tag(:selecttarget, @selecttarget) %>
-			<div class="span3"><%= submit_tag "Update Data" , :class => "submit btn btn-danger" if current_user.lead? %></div>
+			<div class="span2"><%= submit_tag "Update" , :class => "submit btn-large btn-danger" if current_user.lead? %></div>
 		<% end %>
 	</div>
 

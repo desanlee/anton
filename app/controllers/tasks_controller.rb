@@ -413,5 +413,20 @@ class TasksController < ApplicationController
 	self.index
 	render 'tasks/index'
   end
-    
+
+  def changestatus
+	selecttask = params[:selecttask]
+	task = Task.find_by_id(selecttask)
+	
+	if task.active? then
+		task.disable
+	else
+		task.enable
+	end
+  
+  	self.index
+	render 'tasks/index'
+
+  end 
+  
 end
