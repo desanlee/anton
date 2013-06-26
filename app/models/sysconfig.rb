@@ -58,7 +58,7 @@ class Sysconfig < ActiveRecord::Base
 			tmparray << d if d.device.devicetype.devicecate == "Hardware"
 		end
 	end
-	return tmparray.sort_by{ |d| d.device.devicetype}
+	return tmparray.sort_by{ |d| d.device_id}
   end
   
   def current_swc
@@ -72,7 +72,7 @@ class Sysconfig < ActiveRecord::Base
 		end
 	end
 	tmprr = Sysconfigrelationship.new
-	realrelationship.sort_by { |p| [p.device.devicetype, p.created_at] }.reverse.each do |rr|
+	realrelationship.sort_by { |p| [p.device.devicetype_id, p.position] }.reverse.each do |rr|
 		if tmprr.device == nil then
 			swc << rr
 			tmprr = rr
