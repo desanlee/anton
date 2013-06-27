@@ -64,5 +64,19 @@ class Execution < ActiveRecord::Base
 	return realdevicelist + realswlist.uniq
 	
   end
- 
+
+  def hwrelationship
+	realrelationship = Array.new
+	self.sysconfig.sysconfigrelationships.each do |sr|
+		if sr.device != nil then
+			if sr.device.devicetype.devicecate == "Hardware" then
+				realrelationship << sr 
+			end
+		end
+	end
+	
+	return realrelationship.sort_by { |p| [p.device.devicetype, p.position] }
+	
+  end
+  
 end

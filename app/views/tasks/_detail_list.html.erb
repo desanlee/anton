@@ -242,9 +242,9 @@
 												<% if em.execution != nil then %>
 													<font onmouseover="ShowContent('<%= em.execution.id %>');" onmouseout="HideContent('<%= em.execution.id %>');">
 														<% if em.execution.result == "fail" then %>
-															<%= link_to ' x ', execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-danger"  %>(cr:<%=em.execution.bug%>)
+															<%= link_to ' x ', execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=900, width=600');return false;", :class => "btn-mini btn-danger"  %>(cr:<%=em.execution.bug%>)
 														<% else %>
-															<%= link_to " v ", execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;", :class => "btn-mini btn-success" %>
+															<%= link_to " v ", execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=900, width=600');return false;", :class => "btn-mini btn-success" %>
 														<% end %>
 													</font>
 												<% end %>
