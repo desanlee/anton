@@ -1,19 +1,22 @@
 <div class="row ">
 	<h3 class="offset1">Execution Environment</h3><hr>
-	<div class="offset1">
+	<div class="span4 offset1">
 		<ul>
 			<li>Test Engineer Is: <%= @execution.user.name %>, SUT Is: <%= @execution.sysconfig.sut.name %></li>
 			<li>Execution Date Is: <%= @execution.created_at.to_date %></li>
-		</ul>
-	</div>
 
-	<div class="offset1">
+		</ul>
+		<br>
 		<ul>
 		<% @execution.realswconfig.each do |d| %>
 			<li>
 				<%= d.devicetype.name if d.devicetype != nil %> - <%= d.name %>
 			</li>
 		<% end %>
+		</ul>
+	</div>
+	<div class="span5">
+		<ul>
 		<% @execution.hwrelationship.each do |h| %>
 			<li>
 				<%= h.device.name if h.device != nil %> on <%= h.position %>
