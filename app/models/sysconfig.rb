@@ -81,7 +81,7 @@ class Sysconfig < ActiveRecord::Base
 			tmprr = rr
 		end
 	end
-	return swc
+	return swc.reverse
   end
   
   def sutname
