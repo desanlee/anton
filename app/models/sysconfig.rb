@@ -67,12 +67,12 @@ class Sysconfig < ActiveRecord::Base
 	self.sysconfigrelationships.each do |sr|
 		if sr.device != nil then
 			if sr.device.devicetype.devicecate != "Hardware" then
-				realrelationship << sr 
+				realrelationship << sr
 			end
 		end
 	end
 	tmprr = Sysconfigrelationship.new
-	realrelationship.sort_by { |p| [p.device.devicetype_id, p.position] }.each do |rr|
+	realrelationship.sort_by { |p| [p.device.devicetype_id, p.created_at] }.reverse.each do |rr|
 		if tmprr.device == nil then
 			swc << rr
 			tmprr = rr
