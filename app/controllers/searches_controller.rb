@@ -3,12 +3,13 @@ class SearchesController < ApplicationController
   def index
 	@devices = Device.all.sort_by{ |d| d[:devicetype_id]} 
 	
-	@executions = @searchobject.realexecutions
+	@executions = @searchobject.realexecutions if @searchobject != nil
 	@tasks = Array.new
-	@executions.each do |e|
-		@tasks = @tasks | e.tasks
+	if @executions != nil then
+		@executions.each do |e|
+			@tasks = @tasks | e.tasks
+		end
 	end
-	
   end
   
   def search
