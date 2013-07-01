@@ -7,6 +7,7 @@ class Task < ActiveRecord::Base
   has_many :taskobjects, class_name: "Taskobject", dependent: :destroy
   has_many :devices, through: :taskobjects, source: :device
   has_many :taskexecutions, class_name: "Taskexecution", dependent: :destroy
+  has_many :executions, through: :taskexecutions, source: :execution
   
   validates :system_id, :presence => true
   

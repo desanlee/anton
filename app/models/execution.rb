@@ -7,6 +7,9 @@ class Execution < ActiveRecord::Base
   belongs_to :device, class_name: "Device"
   belongs_to :targetmatrix, class_name: "Targetmatrix"
   
+  has_many :reversed_taskexecutions, class_name: "Taskexecution", dependent: :destroy
+  has_many :tasks, through: :reversed_taskexecutions, source: :task
+  
   validates :testcase_id, :presence => true
   
   default_scope order: 'executions.created_at DESC'

@@ -5,19 +5,23 @@
 		<h4>Testcase Execution Statistics</h4>
 		<ul>
 			<li>Total Executions Count: <%= @executioncount %></li>
-			<li>"Info Check" Executions Percentage:<%= 100 * @infocheckcount / @executioncount %>%, Count: <%= @infocheckcount %></li>
-			<li>"Operation" Executions Percentage:<%= 100 * @operationcount / @executioncount %>%, Count: <%= @operationcount %></li>
-			<li>"Stress" Executions Percentage:<%= 100 * @stresscount / @executioncount %>%, Count: <%= @stresscount %></li>
+			<% if @executioncount > 0 then %>
+				<li>"Info Check" Executions Percentage:<%= 100 * @infocheckcount / @executioncount %>%, Count: <%= @infocheckcount %></li>
+				<li>"Operation" Executions Percentage:<%= 100 * @operationcount / @executioncount %>%, Count: <%= @operationcount %></li>
+				<li>"Stress" Executions Percentage:<%= 100 * @stresscount / @executioncount %>%, Count: <%= @stresscount %></li>
+			<% end %>
 		</ul>
 		
 		<br>
 		<h4>Testcase Design Statistics</h4>
 		<ul>
 			<li>Total Testcases Designed: <%= @testcasecount %></li>
-			<li>All References Count: <%= @executedcount %></li>
-			<li>"Info Check" Testcases Percentage:<%= 100 * @infocheckcasecount / @testcasecount %>%, Count: <%= @infocheckcasecount %></li>
-			<li>"Operation" Testcases Percentage:<%= 100 * @operationcasecount / @testcasecount %>%, Count: <%= @operationcasecount %></li>
-			<li>"Stress" Testcases Percentage:<%= 100 * @stresscasecount / @testcasecount %>%, Count: <%= @stresscasecount %></li>
+			<% if @testcasecount > 0 then %>
+				<li>All References Count: <%= @executedcount %></li>
+				<li>"Info Check" Testcases Percentage:<%= 100 * @infocheckcasecount / @testcasecount %>%, Count: <%= @infocheckcasecount %></li>
+				<li>"Operation" Testcases Percentage:<%= 100 * @operationcasecount / @testcasecount %>%, Count: <%= @operationcasecount %></li>
+				<li>"Stress" Testcases Percentage:<%= 100 * @stresscasecount / @testcasecount %>%, Count: <%= @stresscasecount %></li>
+			<% end %>
 		</ul>
 		
 		<br>

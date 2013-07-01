@@ -1,0 +1,17 @@
+<% provide(:searchpage, 'btn-large') %>
+
+<div class="row">
+	<div class="bkgrd span12">
+		<%= render 'searches/header_list' %>
+	</div>
+</div>
+
+<div id="allcontent" class="row-fluid">
+	<div id="leftcontent" class="bkgrd span4">
+		<%= render 'searches/device_list' %>
+	</div>
+
+	<div id="rightcontent" class="bkgrd span8">
+		<%= render 'searches/result_list' %>
+	</div>
+</div>
