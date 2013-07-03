@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.8'
 
 gem 'bootstrap-sass', '2.0.0'
-gem 'devise'
+gem 'devise', '2.2.4'
 gem 'execjs'
 gem 'therubyracer' 
 gem 'will_paginate', '3.0.3'
