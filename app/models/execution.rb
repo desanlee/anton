@@ -78,7 +78,7 @@ class Execution < ActiveRecord::Base
 		end
 	end
 	
-	return realrelationship.sort_by { |p| [p.device.devicetype, p.position] }
+	return realrelationship.sort_by { |p| [p.device.devicetype, p.defaultposition] }
 	
   end
   

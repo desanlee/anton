@@ -3,4 +3,11 @@ class Sysconfigrelationship < ActiveRecord::Base
   
   belongs_to :sysconfig, class_name: "Sysconfig"
   belongs_to :device, class_name: "Device"
+  
+  def defaultposition
+	if self.position != nil then return self.position
+	else return -1
+	end
+  end
+  
 end

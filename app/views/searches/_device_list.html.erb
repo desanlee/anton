@@ -1,13 +1,19 @@
 <h2>Condition</h2><hr>
 
-<div class="span">
+<div class="row"><div class="span4">
 	<%= form_tag controller: "searches", action: "search" do |t| %>
 		<%= hidden_field_tag(:devicecate, @selectcate) %>
-		<% if @searchobject != nil then %>
-			<div><%= select_tag 'searchobject', options_from_collection_for_select( @devices, :id, :longname, @searchobject.id), :class => "textsize6" %></div>
-		<% else %>
-			<div><%= select_tag 'searchobject', options_from_collection_for_select( @devices, :id, :longname), :class => "textsize6" %></div>
-		<% end %>
-		<div><%= submit_tag "Search" , :class => "submit btn btn-primary btn-danger" %></div>
+		<div class="span4">
+			<% if @searchobject != nil then %>
+				<%= select_tag 'searchobject', options_from_collection_for_select( @devices, :id, :longname, @searchobject.id), :class => "textsize6" %>
+			<% else %>
+				<%= select_tag 'searchobject', options_from_collection_for_select( @devices, :id, :longname), :class => "textsize6" %>
+			<% end %>
+		</div>
+		<div class="span4">Count:</div>
+		<div class="span4"><%= text_field_tag :count,"",placeholder: "" %></div>
+		<div class="span4">Position:</div>
+		<div class="span4"><%= text_field_tag :position,"",placeholder: "" %></div>
+		<div class="toright"><%= submit_tag "Search" , :class => "submit btn btn-primary btn-danger" %></div>
 	<% end %>
-</div>
+</div></div>

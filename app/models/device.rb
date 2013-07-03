@@ -77,6 +77,51 @@ class Device < ActiveRecord::Base
 	end
 	return executions
   end
+
+  def realexecutionswithcount countpara
+	executions = Array.new
+	if self.devicetype.devicecate == "Hardware" then
+		self.sysconfigs.each do |cfg|
+			if cfg.devices.select{|d| d.id == self.id}.count == countpara.to_i then
+				cfg.executions.each do |exe|
+					executions << exe
+				end
+			end
+		end
+	else
+		self.sysconfigs.each do |cfg|
+			cfg.executions.each do |exe|
+				if exe.realswconfig.include? self then
+					executions << exe
+				end
+			end
+		end		
+	end
+	return executions
+  end
+  
+  def realexecutionswithposition positionpara
+	executions = Array.new
+	if self.devicetype.devicecate == "Hardware" then
+		self.sysconfigs.each do |cfg|
+			if !cfg.sysconfigrelationships.select{|sr| sr.device_id = self.id and sr.position == positionpara.to_i}.empty? then
+				cfg.executions.each do |exe|
+					executions << exe
+				end
+			end
+		end
+	else
+		self.sysconfigs.each do |cfg|
+			cfg.executions.each do |exe|
+				if exe.realswconfig.include? self then
+					executions << exe
+				end
+			end
+		end		
+	end
+	return executions
+  end
+  
   
   def longname
 	if self.devicetype != nil then
