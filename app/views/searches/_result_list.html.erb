@@ -32,20 +32,23 @@
 						<% end %>
 						
 						<% if tmpcaseid == 0 or tmpcaseid != e.testcase.id then %>
+							<% if tmpcaseid != e.testcase.id then %>
+							</td></tr>
+							<% end %>
 							<% tmpcaseid = e.testcase.id %>
 							<tr>
 								<td><%= e.testcase.name if e.testcase != nil %></td>
 								<td>
-									<% if e.result == "fail" then %>
-										<%= link_to ' x ', execution_path(e),:onclick=>"window.open(this.href,'create_company', 'height=900, width=900');return false;", :class => "btn-mini btn-danger"  %>(cr:<%=e.bug%>)
-									<% else %>
-										<%= link_to " v ", execution_path(e),:onclick=>"window.open(this.href,'create_company', 'height=900, width=900');return false;", :class => "btn-mini btn-success" %>
-									<% end %>
-								</td>					
-							</tr>
 						<% end %>
+						
+						<% if e.result == "fail" then %>
+							<%= link_to ' x ', execution_path(e),:onclick=>"window.open(this.href,'create_company', 'height=900, width=900');return false;", :class => "btn-mini btn-danger"  %>(cr:<%=e.bug%>)
+						<% else %>
+							<%= link_to " v ", execution_path(e),:onclick=>"window.open(this.href,'create_company', 'height=900, width=900');return false;", :class => "btn-mini btn-success" %>
+						<% end %>
+						
 					<% end %>
-					</table>
+					</td></tr></table>
 				<% end %>
 			</div>
 		<% end %>
