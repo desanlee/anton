@@ -10,9 +10,9 @@
 				<%= select_tag 'searchobject', options_from_collection_for_select( @devices, :id, :longname), :class => "textsize6" %>
 			<% end %>
 		</div>
-		<div class="span">Count:(can be blank)</div>
+		<div class="span">How Many:(can be blank)</div>
 		<div class="span7"><%= text_field_tag :count,session[:count],placeholder: "" %></div>
-		<div class="span">Position:(can be blank)</div>
+		<div class="span">Where Is:(can be blank)</div>
 		<div class="span7"><%= text_field_tag :position,session[:position],placeholder: "" %></div>
 		<div class="span4 toright"><%= submit_tag "Search" , :class => "submit btn btn-primary btn-danger" %></div>
 	<% end %>
