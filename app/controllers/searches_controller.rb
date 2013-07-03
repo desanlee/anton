@@ -40,8 +40,8 @@ class SearchesController < ApplicationController
   
   def search
 	session[:searchobject] = params[:searchobject] if params[:searchobject] != nil
-	session[:count] = params[:count] if params[:count] != nil
-	session[:position] = params[:position] if params[:position] != nil
+	session[:count] = params[:count]
+	session[:position] = params[:position]
 	
 	self.index
 	render 'searches/index'
