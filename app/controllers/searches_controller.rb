@@ -14,7 +14,7 @@ class SearchesController < ApplicationController
 	if @searchobject != nil then
 		if paracount > 0 then
 			@executions = @searchobject.realexecutionswithcount paracount
-		elsif paraposition >= 0 then
+		elsif params[:position] then
 			@executions = @searchobject.realexecutionswithposition paraposition
 		else
 			@executions = @searchobject.realexecutions
