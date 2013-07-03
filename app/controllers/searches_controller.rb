@@ -12,9 +12,9 @@ class SearchesController < ApplicationController
 	@devices = @devices.select{|d| d.devicetype.devicecate == "Hardware"}.sort_by{ |d| d[:devicetype_id]} 
 	
 	if @searchobject != nil then
-		if paracount > 0 then
+		if !session[:count].empty? then
 			@executions = @searchobject.realexecutionswithcount paracount
-		elsif params[:position] then
+		elsif !session[:position].empty? then
 			@executions = @searchobject.realexecutionswithposition paraposition
 		else
 			@executions = @searchobject.realexecutions
@@ -40,8 +40,8 @@ class SearchesController < ApplicationController
   
   def search
 	session[:searchobject] = params[:searchobject] if params[:searchobject] != nil
-	session[:count] = params[:count]
-	session[:position] = params[:position]
+	session[:count] = params[:count] 
+	session[:position] = params[:position] 
 	
 	self.index
 	render 'searches/index'
