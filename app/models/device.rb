@@ -104,7 +104,7 @@ class Device < ActiveRecord::Base
 	executions = Array.new
 	if self.devicetype.devicecate == "Hardware" then
 		self.sysconfigs.each do |cfg|
-			if !cfg.sysconfigrelationships.select{|sr| sr.device_id = self.id and sr.position == positionpara.to_i}.empty? then
+			if !cfg.sysconfigrelationships.select{|sr| sr.device_id == self.id and sr.position == positionpara.to_i}.empty? then
 				cfg.executions.each do |exe|
 					executions << exe
 				end
