@@ -8,7 +8,7 @@
 <% end %>
 
 <div class="tabbable tabs">
-	<% if !params[:tab] then params[:tab] = "tab" + @tasks.first.id.to_s end if @tasks != nil %>
+	<% if !params[:tab] then params[:tab] = "tab" + @tasks.first.id.to_s end if @tasks.count != 0 %>
 	
 	<ul class="nav nav-tabs">
 		
