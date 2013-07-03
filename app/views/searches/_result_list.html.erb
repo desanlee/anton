@@ -1,6 +1,10 @@
 
-<% if @tasks.empty? then %>
-<h2> No test cases have been executed towards <%= @searchobject.name %></h2>
+<% if @searchobject != nil then%>
+	<% if @tasks.empty? then %>
+	<h2> No test cases have been executed towards <%= @searchobject.name %></h2>
+	<% end %>
+<% else %>
+	<h2>Select A Hardware Component First</h2>
 <% end %>
 
 <div class="tabbable tabs">
