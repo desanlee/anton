@@ -1,6 +1,6 @@
 <h2>Condition</h2><hr>
 
-<div class="row"><div class="span4">
+<div class="row"><div class="span7">
 	<%= form_tag controller: "searches", action: "search" do |t| %>
 		<%= hidden_field_tag(:devicecate, @selectcate) %>
 		<div class="span4">
@@ -10,10 +10,10 @@
 				<%= select_tag 'searchobject', options_from_collection_for_select( @devices, :id, :longname), :class => "textsize6" %>
 			<% end %>
 		</div>
-		<div class="span4">Count:</div>
-		<div class="span4"><%= text_field_tag :count,"",placeholder: "" %></div>
-		<div class="span4">Position:</div>
-		<div class="span4"><%= text_field_tag :position,"",placeholder: "" %></div>
-		<div class="toright"><%= submit_tag "Search" , :class => "submit btn btn-primary btn-danger" %></div>
+		<div class="span">Count:(can be blank)</div>
+		<div class="span7"><%= text_field_tag :count,session[:count],placeholder: "" %></div>
+		<div class="span">Position:(can be blank)</div>
+		<div class="span7"><%= text_field_tag :position,session[:position],placeholder: "" %></div>
+		<div class="span4 toright"><%= submit_tag "Search" , :class => "submit btn btn-primary btn-danger" %></div>
 	<% end %>
 </div></div>

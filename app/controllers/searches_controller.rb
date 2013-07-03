@@ -8,7 +8,8 @@ class SearchesController < ApplicationController
 	@task = Task.find_by_id(params[:selecttask].to_i) if params[:selecttask] != nil
 	@searchobject = Device.find_by_id(searchobject_id)
 	
-	@devices = Device.all.sort_by{ |d| d[:devicetype_id]} 
+	@devices = Device.select{|d| d.devicetype != nil}
+	@devices = @devices.select{|d| d.devicetype.devicecate == "Hardware"}.sort_by{ |d| d[:devicetype_id]} 
 	
 	if @searchobject != nil then
 		if paracount > 0 then
