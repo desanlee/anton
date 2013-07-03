@@ -4,13 +4,14 @@
 	<h2> No test cases have been executed towards <%= @searchobject.name %></h2>
 	<% end %>
 <% else %>
-	<h2>Select A Hardware Component First</h2>
+	<h2>Select A Hardware First</h2>
 <% end %>
 
 <div class="tabbable tabs">
-
+	<% if !params[:tab] then params[:tab] = "tab" + @tasks.first.id.to_s end if @tasks != nil %>
+	
 	<ul class="nav nav-tabs">
-
+		
 		<% @tasks.each do |t|%>
 			<% tabname = "tab" + t.id.to_s %>
 			<li class="<%= 'active' if params[:tab] == tabname %>" >

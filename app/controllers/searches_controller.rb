@@ -28,6 +28,10 @@ class SearchesController < ApplicationController
 		end
 	end
 	
+	if @tasks != nil then
+		@task = @tasks.first if @task == nil
+	end
+	
 	if @task != nil then
 		@selectedexecutions = @executions & @task.executions
 		if @selectedexecutions != nil then
