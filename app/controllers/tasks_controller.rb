@@ -332,6 +332,7 @@ class TasksController < ApplicationController
 	@task = Task.find_by_id(@selecttask)
 	
 	@newdevices = @task.system.devices.select{|d| d.created_at > @task.created_at}
+	@newdevices = @newdevices.sort_by{|d| d.created_at } if @newdevices != nil
 	
 	@taskobjects = @task.taskobjects
 	@targetlist = @task.targets

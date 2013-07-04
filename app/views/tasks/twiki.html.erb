@@ -9,7 +9,7 @@
 ---++ <%= index %>. Hight Lights<br>---<br>
 <% index = index + 1 %>
 <% @newdevices.each do |nd| %>
-&nbsp&nbsp&nbsp* <%= nd.name %> is added to project task on <%= nd.created_at.to_date.to_s %>.<br>
+&nbsp&nbsp&nbsp* <%= nd.devicetype.name %> <%= nd.name %> is added to project task on <%= nd.created_at.to_date.to_s %>.<br>
 <% end %>
 
 ---++ <%= index %>. Background<br>---<br>
