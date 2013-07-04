@@ -8,18 +8,20 @@
 
 ---++ <%= index %>. Hight Lights<br>---<br>
 <% index = index + 1 %>
-&nbsp;&nbsp;&nbsp;NA<br>
+<% @newdevices.each do |nd| %>
+&nbsp&nbsp&nbsp* <%= nd.name %> is added to project task on <%= nd.created_at.to_date.to_s %>.<br>
+<% end %>
 
 ---++ <%= index %>. Background<br>---<br>
 <% index = index + 1 %>
-&nbsp;&nbsp;&nbsp;NA<br>
+<%= @task.note.gsub("\n", '<br>') %><br>
 
 ---++ <%= index %>. Objects For Test Tasks.<br>---<br>
 <% index = index + 1 %>
 
-| Test Objects | Note |<br>
-<% @taskobjects.each do |o| %>
-	| <%= o.device.name%> | <%= o.device.note %>|<br>
+| *Test Objects* | *Date* | *Note* |<br>
+<% @taskobjects.sort_by{|t| t.created_at}.select{|t| t.setflag == nil}.each do |o| %>
+	| <%= o.device.name%> | <%= o.device.created_at.to_date.to_s %> | <%= o.device.note %> |<br>
 <% end %><br>
 
 
@@ -31,6 +33,7 @@
 						
 ---++ <%= index %>. <%= target.name %> - <%= target.percentage %>% Completed <br>---<br>
 <% index = index + 1 %>
+<%= target.note.gsub("\n", '<br>') %><br>
 
 <!-- Add a new line before first line, show testcase label -->
 | | |<% tmpweight = 0 %>

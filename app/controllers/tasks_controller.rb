@@ -331,6 +331,8 @@ class TasksController < ApplicationController
 	@selecttask = params[:selecttask]
 	@task = Task.find_by_id(@selecttask)
 	
+	@newdevices = @task.system.devices.select{|d| d.created_at > @task.created_at}
+	
 	@taskobjects = @task.taskobjects
 	@targetlist = @task.targets
 	

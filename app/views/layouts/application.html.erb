@@ -71,7 +71,7 @@
 				<%= link_to "TestCase", '/testcases', class: "btn "+yield(:testcasepage) if current_user.lead? or current_user.engineer? %>
 				<%= link_to "Config", '/sysconfigs', class: "btn btn-primary "+yield(:configpage) if current_user.lead? or current_user.engineer?%>
 				<%= link_to "Execute", '/executions', class: "btn btn-primary "+yield(:executionpage) if current_user.engineer?%>
-				<%= link_to "Task", '/tasks', class: "btn btn-success "+yield(:taskpage) if current_user.lead? or current_user.engineer?%>
+				<%= link_to "Task", '/tasks', class: "btn btn-success "+yield(:taskpage) if current_user.lead? or current_user.engineer? or current_user.manager? %>
 				<%= link_to "Status", '/achivements', class: "btn btn-success "+yield(:achivepage) if current_user.lead? or current_user.engineer?%>
 				<%= link_to "Search", '/searches', class: "btn btn-warning "+yield(:searchpage) %>
 		  </div><% end %>
