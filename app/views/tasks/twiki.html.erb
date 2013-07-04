@@ -20,7 +20,7 @@
 <% index = index + 1 %>
 
 | *Test Objects* | *Date* | *Note* |<br>
-<% @taskobjects.sort_by{|t| t.created_at}.select{|t| t.setflag == nil}.each do |o| %>
+<% @taskobjects.sort_by{|t| t.device.devicetype_id}.each do |o| %>
 	| <%= o.device.name%> | <%= o.device.created_at.to_date.to_s %> | <%= o.device.note %> |<br>
 <% end %><br>
 
