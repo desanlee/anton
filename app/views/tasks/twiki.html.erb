@@ -74,10 +74,11 @@
 						<% currentexecutions.each do |em| %>
 							<% if em.execution != nil then %>
 								<%= em.execution.sysconfig.current_biosmode %>
+								[[http://10.113.218.221:3001/executions/<%=em.execution.id%>][<%= em.execution.sysconfig.sutname%>]]
 								<% if em.execution.result == "fail" then %>
-									<%= em.execution.sysconfig.sutname%> %RED%FAIL (CR:<%= em.execution.bug %>)%ENDCOLOR%&lt;br&gt; 
+									%RED%FAIL (CR:<%= em.execution.bug %>)%ENDCOLOR%&lt;br&gt; 
 								<% else %>
-									<%= em.execution.sysconfig.sutname%> <%=%>%GREEN%PASS%ENDCOLOR%&lt;br&gt;
+									%GREEN%PASS%ENDCOLOR%&lt;br&gt;
 								<% end %>
 							<% end %>
 						<% end %>
