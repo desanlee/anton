@@ -9,7 +9,11 @@ class SearchesController < ApplicationController
 	@searchobject = Device.find_by_id(searchobject_id)
 	
 	@devices = Device.select{|d| d.devicetype != nil}
-	@devices = @devices.select{|d| d.devicetype.devicecate == "Hardware"}.sort_by{ |d| d[:devicetype_id]} 
+	if current_user.email == "ji.x.li@oracle.com" then
+		@devices = @devices.sort_by{ |d| d[:devicetype_id]} 
+	else
+		@devices = @devices.select{|d| d.devicetype.devicecate == "Hardware"}.sort_by{ |d| d[:devicetype_id]} 
+	end
 	
 	if @searchobject != nil then
 		if !session[:count].empty? then
