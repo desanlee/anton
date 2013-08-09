@@ -25,6 +25,8 @@ class SysconfigsController < ApplicationController
 		@sutlist = Sut.find_all_by_holder_id(current_user.id)
 	end
 	
+	@sutlist = @sutlist.sort{|s| s.system_id} if @sutlist != nil
+	
 	if @selectsut == nil then 
 		if @sutlist != nil then
 			@sut = @sutlist.first if @sutlist.first != nil
