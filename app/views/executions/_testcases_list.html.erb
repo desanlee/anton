@@ -11,7 +11,7 @@ function changeresulttype() {
 
 <% if @selectsut != nil then %>
 
-	<h2>Execute A Testcase On <%= @sysconfig.sut.name %></h2>
+	<h2>Execute A Testcase On <%= @sysconfig.sut.name %></h2><hr>
 
 	<div class="row">
 		<%= form_tag controller: "executions", action: "selecttype" do %>

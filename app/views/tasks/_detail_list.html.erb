@@ -1,265 +1,365 @@
-<% if @target != nil then %>
-	<% if current_user.lead? then %>
-		<h2><%if !@task.active? then%>(EXPIRED!) <%end%><%= link_to @task.name, edit_task_path(@task),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
-	<% else %>
-		<h2><%if !@task.active? then%>(EXPIRED!) <%end%> "<%= @task.name %>"
+<div class="tabbable tabs">
+<% if !params[:tab] then params[:tab] = "taboverall" end if @tasks != nil %>
+
+<ul class="nav nav-tabs">
+	<% if current_user.lead? and @task != nil then %>
+		<% tabname = "taboverall"%>
+		<li class="<%= 'active' if params[:tab] == tabname %>" >
+			<%= link_to "Project Info", tasks_path(:tab => tabname, :selecttarget => 0) %>
+		</li>
 	<% end %>
-	<% if @task.totalcount != 0 then %>
-		- <%= @task.percentage %>% Completed
+	<% @targetlist.each do |t|%>
+		<% tabname = t.id.to_s %>
+		<li class="<%= 'active' if @target != nil and @target.id == t.id %>" >
+			<%= link_to t.name, tasks_path(:tab => tabname, :selecttarget => t.id) %>
+		</li>
 	<% end %>
-	</h2>
-	<h4 class="toright"> ( Latest updated time: <%= @task.update_time.to_formatted_s(:db) if @task.update_time != nil %> ) </h4>
-<% end %>
-<% if @taskobjects != nil then %>
-	<table class="table table-striped table-bordered table-condensed">
-		<tr><td>Task Objects Name</td><td>Release Date</td><td>Finish Status </td><td></td></tr>
-		<% @taskobjects.select {|ob| ob.setflag != "must"}.each do |t| %>
-			<tr><td><%= t.device.name %></td><td><%= t.device.created_at.to_date %></td>
-			<td>
-				<% if t.executioncount != nil then %>
-					<% (t.executioncount / 10 + 1).times do %>
-						<font class="btn-small btn-success"> 
-					<% end %>
-					<%= t.executioncount %> Cases
-				<% else %>
-					<%= t.executioncount %> 0 Cases have been completed
-				<% end %>
-			</td>
-			<td>
-				<%= link_to "x", t,method: :delete, data: { confirm: "Sure?" }, class: "" if current_user.lead? %>
-			</td></tr>
-		<% end %>
-	</table>
-	<table class="table table-striped table-bordered table-condensed">
-		<% @taskobjects.select {|ob| ob.setflag == "must"}.each do |t| %>
-			<tr><td><%= t.device.name %></td><td><%= t.device.created_at.to_date %></td>
-			<td>Must Be Involved</td>
-			<td>
-				<%= link_to "x", t,method: :delete, data: { confirm: "Sure?" }, class: "" if current_user.lead? %>
-			</td>
-			</tr>		
-		<% end %>
-	</table>
-	<div class="span12">
-		<% if @devices != nil and current_user == @task.user then %>
+</ul>
 
-					<%= form_tag controller: "tasks", action: "addtaskobject" do %>
-						<%= hidden_field_tag(:selecttask, @selecttask) %>
-						<%= hidden_field_tag(:selecttarget, @selecttarget) %>
-						<div class="span"><%= select_tag 'setflag', options_for_select( @setflags), :include_blank => true ,  :class => "textsize4" %></div>
-						<div class="span"><%= select_tag 'taskobject', options_from_collection_for_select( @devices, :id, :name), :class => "textsize6" %></div>
-						<div class="span"><%= submit_tag "+" , :class => "submit  btn " %></div>
-					<% end %>
+<div class="tab-content">
 
-		<% end %>
-	</div>	
-<% else %>
-	<div class="alarmtext center">No test targets existed!</div>
-<% end %>
-<br><hr>
-<!-- Show all failed testcases -->
-<% if current_user.lead? then %>
-	<% failexecutions = @taskexecutions.select { |texe| texe.result == "fail" } if @taskexecutions != nil%>
-	<% if failexecutions != nil then %>
-		<ul>
-		<% failexecutions.uniq.each do |em| %>
-			<% execution = em.execution %>
-			<li><%= link_to "view", execution_path(execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
-			, <%= link_to "edit", edit_execution_path(execution),:onclick=>"window.open(this.href,'create_company', 'height=400, width=500');return false;" %>
-			, <%= execution.created_at.to_date if execution != nil %>, <%= execution.testcase.name if execution.testcase != nil if execution != nil %>, by <%= execution.user.email if execution.user != nil if execution != nil %>,<%= execution.result %>, <%= execution.bug%></li>
-		<% end %>
-		</ul>
-	<% end %>
-<% end %>
-<!-- Draw tables for matrixes -->
-
-<% if @target != nil then %>
-	<% if @target != nil then %>
-	
-<!-- Title of Matrix and Creation of new matrix -->
-<hr>
-	<h2>
-		<div>
-			<%if !@target.active? then%>(EXPIRED!) <%end%>
-			<% if current_user.lead? then %>
-				<%= link_to @target.name, edit_target_path(@target),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
-			<% else %>
-				<%= @target.name %>
-			<% end %>
-			<% if @targetenv.totalcount != 0 then %>
-				- <%= @target.percentage %>% Completed
-			<% end %>
-			<% if current_user.lead? then %>
-				<div class="toright">
-					<%= form_tag controller: "tasks", action: "selectuser" do %>
-						<%= hidden_field_tag(:selecttask, @selecttask) %>
-						<%= hidden_field_tag(:selecttarget, @selecttarget) %>
-						<div class="span"><%= select_tag 'selectuser', options_from_collection_for_select( @users, :id, :email, @target.user.id ) %></div>
-						<div class="span"><%= submit_tag "OK" , :class => "submit btn " %></div>
-					<% end %>
-				</div>
-			<% end %>
-		</div>
-	</h2>
-
-<!-- Draw tables -->		
-		<% if @targetenv != nil %>
-			<% if current_user == @task.user then %>
-			<div class = "row  weeklystatus" >
-<!-- Select X1 -->
-				<div class="span6">
-				<%= form_tag controller: "tasks", action: "adddevice" do %>
-					<%= hidden_field_tag(:selecttask, @selecttask) %>
-					<%= hidden_field_tag(:selecttarget, @selecttarget) %>
-					<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
-					<div class="span">TOTAL:<%= text_field_tag 'devicecount', "", placeholder: "", class: "textsize1" %></div>
-					<div class="span">CUT:<%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :longname), :class => "textsize8" if @devices != nil %></div>
-					<div class="span"><%= submit_tag "+" , :class => "submit  btn " %></div>
-				<% end %>
-				</div>
-<!-- Select X2 -->
-				<div class="span4">
-					<%= form_tag controller: "tasks", action: "adddepdevice" do %>
-						<%= hidden_field_tag(:selecttask, @selecttask) %>
-						<%= hidden_field_tag(:selecttarget, @selecttarget) %>
-						<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
-						<div class="span">ENV: <%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :longname), :class => "textsize8"  %></div>
-						<div class="span"><%= submit_tag "+" , :class => "submit  btn " %></div>
-					<% end %>
-				</div>
-<!-- Select Y -->
-				<div class="span12">
-				<%= form_tag controller: "tasks", action: "addtestcase" do %>
-					<%= hidden_field_tag(:selecttask, @selecttask) %>
-					<%= hidden_field_tag(:selecttarget, @selecttarget) %>
-					<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
-					<div class="span">TESTCASE: <%= select_tag 'selecttestcase', options_from_collection_for_select( @testcases, :id, :longname), :class => "textsize16"  %></div>
-					<div class="span"><%= submit_tag "+" , :class => "submit  btn " %></div>
-				<% end %>
-				</div>
-			</div>
-			<% end %>
-
+	<% tabname = "taboverall" %>
+	<div id='<%=tabname%>' class="<%= if (params[:tab] == tabname) then 'tab-pane active'  else 'tab-pane' end%>" >
 			
-			<table class="table table-bordered table-condensed">
-				<% @colum = 0 %>
-				
-				
-<!-- Add a new line before first line, show testcase label -->
-				<tr><td colspan=2></td>	
-				<% tmpweight = 0 %>
-				<% tmpnum = 1 %>
-				<% @envtestcases.each do |c| %>
-					<% if c.testcase.caseweight != nil then %>
-						<% if tmpweight != c.testcase.caseweight_id then %>
-							<% tmpweight = c.testcase.caseweight_id %>
-							<% tmpnum = @envtestcases.select{ |cr| cr.testcase.caseweight_id == tmpweight }.count %>
-							<td colspan=<%= tmpnum %> >
-								<strong><center><%= c.testcase.caseweight.name %></center></strong>
-							</td>
+		<% if @task != nil then %>
+			<h2> Project: <%= @task.name %> <%if !@task.active? then%>(EXPIRED!) <%end%>
+			<% if current_user.lead? then %>
+				<%= link_to "edit", edit_task_path(@task),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
+			<% end %>
+			<% if @task.totalcount != 0 then %>
+				- <%= @task.percentage %>% Completed
+			<% end %>
+			</h2><hr>
+				<% if current_user.lead? then %>
+					<div class="span toright">
+						<%= form_tag controller: "tasks", action: "calculate" do %>
+							<%= hidden_field_tag(:selecttask, @selecttask) %>
+							<%= hidden_field_tag(:selecttarget, @selecttarget) %>
+							<div class="span2"><%= submit_tag "Update" , :class => "submit btn-large btn-danger" if current_user.lead? %></div>
 						<% end %>
-					<% else %>
-						<td></td>
+					</div>
+			
+					<%= form_tag controller: "tasks", action: "twiki" do %>
+						<%= hidden_field_tag(:selecttask, @selecttask) %>
+						<div class="span"><%= submit_tag "twiki" , :class => "submit label" %></div>
 					<% end %>
-					
-					<% @colum = @colum + 1 %>
+					<%= form_tag controller: "tasks", action: "clonetask" do %>
+						<%= hidden_field_tag(:selecttask, @selecttask) %>
+						<div class="span"><%= submit_tag "clone" , :class => "submit label" %></div>
+					<% end %>
+					<%= form_tag controller: "tasks", action: "changestatus" do %>
+						<%= hidden_field_tag(:selecttask, @selecttask) %>
+						<div class="span"><%= submit_tag "Status" , :class => "submit label" %></div>
+					<% end %>
 				<% end %>
-				</tr>
-<!-- First line is testcase list -->
-				<tr>
-					<td><strong>Components UT</strong></td>
-					<% depexist = false %>
-					<% if @envdepdevices != nil then%>
-						<% depexist = true if @envdepdevices.count > 0 %>
-						<td><strong>Test Environment</strong></td>
-					<% end %>
-					<% @envtestcases.each do |c| %>
-						<td>
-							<%= c.testcase.name %>
-							<% if current_user.lead? then %>
-								<%= link_to "x", c, :selecttask => @task.id, :selecttarget => @target.id,method: :delete, data: { confirm: "Sure?" }, class: "" %>
+				
+			<h4> ( Latest updated time: <%= @task.update_time.to_formatted_s(:db) if @task.update_time != nil %> ) </h4>
+		<% end %>
+		
+		<% if @taskobjects != nil then %>
+			<table class="table table-striped table-bordered table-condensed">
+				<tr><td>Task Objects Name</td><td>Release Date</td><td>Finish Status </td><td></td></tr>
+				<% @taskobjects.select {|ob| ob.setflag != "must"}.each do |t| %>
+					<tr><td><%= t.device.name %></td><td><%= t.device.created_at.to_date %></td>
+					<td>
+						<% if t.executioncount != nil then %>
+							<% (t.executioncount / 10 + 1).times do %>
+								<font class="btn-small btn-success"> 
 							<% end %>
-						</td>
-						<% @colum = @colum + 1 %>
-					<% end %>
-				</tr>
-<!-- Draw each lines -->				
-				<% @envdevices.each do |d| %>
-					<tr>
-	<!-- The first row -->
-						<td>
-							<%= d.devicecount.to_s + " X " if d.devicecount != nil %>
-							<%= d.device.name %>
-							<% if current_user.lead? then %>
-								<%= link_to "x", d, method: :delete, data: { confirm: "Sure?" }, class: "" %>
-							<% end %>
-						</td>
-						<td></td> 
-						<% @envtestcases.each do |c| %>
-							<td>
-	<!-- test total result will be filled here, a new line -->
-							</td>
+							<%= t.executioncount %> Cases
+						<% else %>
+							<%= t.executioncount %> 0 Cases have been completed
 						<% end %>
-					</tr>
-<!-- test environment result, if there're any,  will be filled here -->
-					<% if depexist == true then %>  
-						<% @envdepdevices.each do |dep| %>
-							<% blacklistflag = false %>
-							<% blacklists = @blacklists.select {|b| b.trelationship_id == d.id && b.erelationship_id == dep.id} %>
-							<% blacklistflag = true if !blacklists.empty? %>
-							<tr><td></td>
-								<td><div>
-								<% if dep.device != nil then %>
-									<%= dep.device.name %>
-									<% if current_user.lead? then %>
-										<%= link_to "x", dep, method: :delete, data: { confirm: "Sure?" }, class: "" %>
-									
-										<% if blacklistflag == true then %>
-											<%= link_to "UB", blacklists.first, method: :delete, data: { confirm: "Sure?" }, class: "toright" %>
-										<% else %>
-											<%= form_tag controller: "tasks", action: "addinblacklist" do %>
-												<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
-												<%= hidden_field_tag(:trelationship_id, d.id) %>
-												<%= hidden_field_tag(:erelationship_id, dep.id) %>
-												<%= submit_tag "B" , :class => "submit toright" %>
-											<% end %>
-										<% end %>
-									<% end %>
+					</td>
+					<td>
+						<%= link_to "x", t,method: :delete, data: { confirm: "Sure?" }, class: "" if current_user.lead? %>
+					</td></tr>
+				<% end %>
+			</table>
+			<table class="table table-striped table-bordered table-condensed">
+				<% @taskobjects.select {|ob| ob.setflag == "must"}.each do |t| %>
+					<tr><td><%= t.device.name %></td><td><%= t.device.created_at.to_date %></td>
+					<td>Must Be Involved</td>
+					<td>
+						<%= link_to "x", t,method: :delete, data: { confirm: "Sure?" }, class: "" if current_user.lead? %>
+					</td>
+					</tr>		
+				<% end %>
+			</table>
+			<div class="span12">
+				<% if @devices != nil and current_user == @task.user then %>
+
+							<%= form_tag controller: "tasks", action: "addtaskobject" do %>
+								<%= hidden_field_tag(:selecttask, @selecttask) %>
+								<%= hidden_field_tag(:selecttarget, @selecttarget) %>
+								<div class="span"><%= select_tag 'setflag', options_for_select( @setflags), :include_blank => true ,  :class => "textsize4" %></div>
+								<div class="span"><%= select_tag 'taskobject', options_from_collection_for_select( @devices, :id, :name), :class => "textsize6" %></div>
+								<div class="span"><%= submit_tag "+" , :class => "submit  btn " %></div>
+							<% end %>
+
+				<% end %>
+			</div>	
+		<% else %>
+			<div class="alarmtext center">No test targets existed!</div>
+		<% end %>
+		<br><hr>
+		
+		<!-- Show all tasks status -->
+		<ul>
+			<h2>Tasks Overview</h2><hr>
+			<% @task.targets.each do |t|%>
+				<li><%= t.name %> - (RE: <%= t.user.name %>) - <%= t.percentage %>% completed.</li>
+			<% end %>
+		</ul>
+		<!-- Show all failed testcases -->
+		<% if current_user.lead? then %>
+			<h2>Bug Lists</h2><hr>
+			<% failexecutions = @taskexecutions.select { |texe| texe.result == "fail" } if @taskexecutions != nil%>
+			<% if failexecutions != nil then %>
+				<ul>
+				<% failexecutions.uniq.each do |em| %>
+					<% execution = em.execution %>
+					<li><%= link_to "view", execution_path(execution),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
+					, <%= link_to "edit", edit_execution_path(execution),:onclick=>"window.open(this.href,'create_company', 'height=400, width=500');return false;" %>
+					, <%= execution.created_at.to_date if execution != nil %>, <%= execution.testcase.name if execution.testcase != nil if execution != nil %>, by <%= execution.user.email if execution.user != nil if execution != nil %>,<%= execution.result %>, <%= execution.bug%></li>
+				<% end %>
+				</ul>
+			<% end %>
+		<% end %>
+		
+	</div>
+
+<!-- -----------------------------Draw tables for detailed info, the matrixes------------------------------ -->
+
+	<div id='tabdetail' class="<%= if (params[:tab] != 'taboverall') then 'tab-pane active'  else 'tab-pane' end%>" >
+
+		<% if @target != nil then %>
+			<% if @target != nil then %>
+			
+		<!-- Title of Matrix and Creation of new matrix -->
+			<h2>
+				<div>
+					<%if !@target.active? then%>(EXPIRED!) <%end%>
+					Task: <%= @target.name %>
+					<% if current_user.lead? then %>
+						<%= link_to "edit", edit_target_path(@target),:onclick=>"window.open(this.href,'create_company', 'height=600, width=600');return false;" %>
+					<% end %>
+					<% if @targetenv.totalcount != 0 then %>
+						- <%= @target.percentage %>% Completed
+					<% end %>
+					<% if current_user.lead? then %>
+						<div class="toright">
+							<%= form_tag controller: "tasks", action: "selectuser" do %>
+								<%= hidden_field_tag(:selecttask, @selecttask) %>
+								<%= hidden_field_tag(:selecttarget, @selecttarget) %>
+								<div class="span">Assign to: <%= select_tag 'selectuser', options_from_collection_for_select( @users, :id, :email, @target.user.id ) %></div>
+								<div class="span"><%= submit_tag "OK" , :class => "submit btn " %></div>
+							<% end %>
+						</div>
+					<% end %>
+				</div>
+			</h2>
+			
+		<!-- Draw tables -->		
+				<% if @targetenv != nil %>
+					<% if current_user == @task.user then %>
+					<div class = "row  weeklystatus" >
+		<!-- Select X1 -->
+						<div class="span">
+						<%= form_tag controller: "tasks", action: "adddevice" do %>
+							<%= hidden_field_tag(:selecttask, @selecttask) %>
+							<%= hidden_field_tag(:selecttarget, @selecttarget) %>
+							<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
+							<div class="span">TOTAL:<%= text_field_tag 'devicecount', "", placeholder: "", class: "textsize1" %></div>
+							<div class="span">CUT:<%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :longname), :class => "textsize8" if @devices != nil %></div>
+							<div class="span"><%= submit_tag "+" , :class => "submit  btn " %></div>
+						<% end %>
+						</div>
+		<!-- Select X2 -->
+						<div class="span">
+							<%= form_tag controller: "tasks", action: "adddepdevice" do %>
+								<%= hidden_field_tag(:selecttask, @selecttask) %>
+								<%= hidden_field_tag(:selecttarget, @selecttarget) %>
+								<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
+								<div class="span">ENV: <%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :longname), :class => "textsize8"  %></div>
+								<div class="span"><%= submit_tag "+" , :class => "submit  btn " %></div>
+							<% end %>
+						</div>
+		<!-- Select Y -->
+						<div class="span">
+						<%= form_tag controller: "tasks", action: "addtestcase" do %>
+							<%= hidden_field_tag(:selecttask, @selecttask) %>
+							<%= hidden_field_tag(:selecttarget, @selecttarget) %>
+							<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
+							<div class="span">TESTCASE: <%= select_tag 'selecttestcase', options_from_collection_for_select( @testcases, :id, :longname), :class => "textsize8"  %></div>
+							<div class="span"><%= submit_tag "+" , :class => "submit  btn " %></div>
+						<% end %>
+						</div>
+					</div>
+					<% end %>
+
+					
+					<% noenv = true if @envdepdevices.count == 0 %>
+					<table class="table table-bordered table-condensed">
+						<% @colum = 0 %>
+						
+						
+		<!-- Add a new line before first line, show testcase label -->
+						<tr>
+						<% if noenv then %><td></td><%else%><td colspan=2></td><% end %>
+							
+						<% tmpweight = 0 %>
+						<% tmpnum = 1 %>
+						<% @envtestcases.each do |c| %>
+							<% if c.testcase.caseweight != nil then %>
+								<% if tmpweight != c.testcase.caseweight_id then %>
+									<% tmpweight = c.testcase.caseweight_id %>
+									<% tmpnum = @envtestcases.select{ |cr| cr.testcase.caseweight_id == tmpweight }.count %>
+									<td colspan=<%= tmpnum %> >
+										<strong><center><%= c.testcase.caseweight.name %></center></strong>
+									</td>
 								<% end %>
+							<% else %>
+								<td></td>
+							<% end %>
+							
+							<% @colum = @colum + 1 %>
+						<% end %>
+						</tr>
+		<!-- First line is testcase list -->
+						<tr>
+							<td><strong>Components UT</strong></td>
+
+							<% if @envdepdevices != nil then%>
+								<% if !noenv then%>
+									<td><strong>Test Environment</strong></td>
+								<% end %>
+							<% end %>
+							
+							<% @envtestcases.each do |c| %>
+								<td>
+									<%= c.testcase.name %>
+									<% if current_user.lead? then %>
+										<%= link_to "x", c, :selecttask => @task.id, :selecttarget => @target.id,method: :delete, data: { confirm: "Sure?" }, class: "" %>
+									<% end %>
 								</td>
+								<% @colum = @colum + 1 %>
+							<% end %>
+						</tr>
+		<!-- Draw each lines -->				
+						<% @envdevices.each do |d| %>
+							<tr>
+			<!-- The first row -->
+								<td>
+									<%= d.devicecount.to_s + " X " if d.devicecount != nil %>
+									<%= d.device.name %>
+									<% if current_user.lead? then %>
+										<%= link_to "x", d, method: :delete, data: { confirm: "Sure?" }, class: "" %>
+									<% end %>
+								</td>
+								<% if !noenv then %>
+								
+								<td></td> 
 								<% @envtestcases.each do |c| %>
 									<td>
-									<% if blacklistflag == true then %>
-										NP
-									<% else %>
-										<% if d.devicecount != nil then%>
-											<% currentexecutions = @thematrix.select { |mx| mx.devicecount == d.devicecount and mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.testcase_id } %>
-										<% else%>
-											<% currentexecutions = @thematrix.select { |mx| mx.devicecount == nil and mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.testcase_id } %>
-										<% end %>
-										<% if currentexecutions.count != 0 then %>
-											<% currentexecutions.each do |em| %>
-												<% if em.execution != nil then %>
-													<font onmouseover="ShowContent('<%= em.execution.id %>');" onmouseout="HideContent('<%= em.execution.id %>');">
-														<% if em.execution.result == "fail" then %>
-															<%= link_to ' x ', execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=900, width=900');return false;", :class => "btn-mini btn-danger"  %>(cr:<%=em.execution.bug%>)
-														<% else %>
-															<%= link_to " v ", execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=900, width=900');return false;", :class => "btn-mini btn-success" %>
-														<% end %>
-													</font>
-												<% end %>
-											<% end %>
-										<% end %>
-									<% end %>
+			<!-- test total result will be filled here, a new line -->
 									</td>
 								<% end %>
 							</tr>
-						<% end %>
-					<% end %>
-				<% end %>		
-			</table>
+								<% end %>
+		<!-- test environment result, if there're any,  will be filled here -->
+							<% if noenv then %>
+
+							<% @envtestcases.each do |c| %>
+								<td>
+								<% if d.devicecount != nil then%>
+									<% currentexecutions = @thematrix.select { |mx| mx.devicecount == d.devicecount and mx.device_id == d.device_id and mx.testcase_id == c.testcase_id } %>
+								<% else %>
+									<% currentexecutions = @thematrix.select { |mx| mx.devicecount == nil and mx.device_id == d.device_id and mx.testcase_id == c.testcase_id } %>
+								<% end %>
+								<% if currentexecutions.count != 0 then %>
+									<% currentexecutions.each do |em| %>
+										<% if em.execution != nil then %>
+											<font onmouseover="ShowContent('<%= em.execution.id %>');" onmouseout="HideContent('<%= em.execution.id %>');">
+											<% if em.execution.result == "fail" then %>
+												<%= link_to ' x ', execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=900, width=900');return false;", :class => "btn-mini btn-danger"  %>(cr:<%=em.execution.bug%>)
+											<% else %>
+												<%= link_to " v ", execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=900, width=900');return false;", :class => "btn-mini btn-success" %>
+											<% end %>
+											</font>
+										<% end %>
+									<% end %>
+								<% end %>
+							
+								</td>
+							<% end %>
+							</tr>
+							<% else %>
+								<% @envdepdevices.each do |dep| %>
+									<% blacklistflag = false %>
+									<% blacklists = @blacklists.select {|b| b.trelationship_id == d.id && b.erelationship_id == dep.id} %>
+									<% blacklistflag = true if !blacklists.empty? %>
+									<tr><td></td>
+										<td><div>
+										<% if dep.device != nil then %>
+											<%= dep.device.name %>
+											<% if current_user.lead? then %>
+												<%= link_to "x", dep, method: :delete, data: { confirm: "Sure?" }, class: "" %>
+											
+												<% if blacklistflag == true then %>
+													<%= link_to "UB", blacklists.first, method: :delete, data: { confirm: "Sure?" }, class: "toright" %>
+												<% else %>
+													<%= form_tag controller: "tasks", action: "addinblacklist" do %>
+														<%= hidden_field_tag(:selecttargetenv, @targetenv.id) %>
+														<%= hidden_field_tag(:trelationship_id, d.id) %>
+														<%= hidden_field_tag(:erelationship_id, dep.id) %>
+														<%= submit_tag "B" , :class => "submit toright" %>
+													<% end %>
+												<% end %>
+											<% end %>
+										<% else %>
+											<%= link_to "x", dep, method: :delete, data: { confirm: "Sure?" }, class: "" %>
+										<% end %>
+										</td>
+										<% @envtestcases.each do |c| %>
+											<td>
+											<% if blacklistflag == true then %>
+												NP
+											<% else %>
+												<% if d.devicecount != nil then%>
+													<% currentexecutions = @thematrix.select { |mx| mx.devicecount == d.devicecount and mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.testcase_id } %>
+												<% else%>
+													<% currentexecutions = @thematrix.select { |mx| mx.devicecount == nil and mx.device_id == d.device_id and mx.envdevice_id == dep.device_id and mx.testcase_id == c.testcase_id } %>
+												<% end %>
+												<% if currentexecutions.count != 0 then %>
+													<% currentexecutions.each do |em| %>
+														<% if em.execution != nil then %>
+															<font onmouseover="ShowContent('<%= em.execution.id %>');" onmouseout="HideContent('<%= em.execution.id %>');">
+																<% if em.execution.result == "fail" then %>
+																	<%= link_to ' x ', execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=900, width=900');return false;", :class => "btn-mini btn-danger"  %>(cr:<%=em.execution.bug%>)
+																<% else %>
+																	<%= link_to " v ", execution_path(em.execution),:onclick=>"window.open(this.href,'create_company', 'height=900, width=900');return false;", :class => "btn-mini btn-success" %>
+																<% end %>
+															</font>
+														<% end %>
+													<% end %>
+												<% end %>
+											<% end %>
+											</td>
+										<% end %>
+									</tr>
+								<% end %>
+							<% end %>
+						<% end %>		
+					</table>
+				<% end %>
+			<% else %>
+					<div class="alarmtext center">Select A target first!</div>
+			<% end %>
 		<% end %>
-	<% else %>
-			<div class="alarmtext center">Select A target first!</div>
-	<% end %>
-<% end %>
+
+	</div>
+
+
+</div>
+</div>

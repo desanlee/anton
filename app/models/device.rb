@@ -5,6 +5,7 @@ class Device < ActiveRecord::Base
   has_many :systems, through: :reverse_avlrelationships, :source => :system
 
   belongs_to :devicetype, class_name: "Devicetype"
+  belongs_to :user, class_name: "User"
   
   has_many :reverse_sysconfigrelationships, foreign_key: "device_id", class_name:  "Sysconfigrelationship", dependent: :destroy
   has_many :sysconfigs, through: :reverse_sysconfigrelationships, :source => :sysconfig

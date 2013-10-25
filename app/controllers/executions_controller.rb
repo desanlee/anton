@@ -4,6 +4,7 @@ class ExecutionsController < ApplicationController
 	@selectsut = session[:selectsut]
 	
 	@sutlist = Sut.find_all_by_holder_id(current_user.id)
+	@sutlist = @sutlist.sort_by!{|s| s.system_id} if @sutlist != nil
 	if @sutlist != nil then
 		if @selectsut == nil then @selectsut = @sutlist.first.id if @sutlist.first != nil end
 	end

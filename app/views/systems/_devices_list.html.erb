@@ -1,4 +1,4 @@
-<h2><%= @selectcate %> Components Under Test</h2><hr>
+<h2><%= @selectcate %> System AVL</h2><hr>
 
 <ul>
 	<% if @devicelist != nil then %>
@@ -26,24 +26,22 @@
 
 <% if @selectsystem != nil then %>
 	<% if current_user == System.find_by_id(@selectsystem).user then %>
-		<div class="row newpost"><h2>Add <%= @selectcate %> To System</h2>
+		<div class="row newpost"><h2>Add SW/HW/FW To System AVL</h2>
 		<%= form_tag controller: "systems", action: "selecttype" do %>
 			<%= hidden_field_tag(:devicecate, @selectcate) %>
 			<%= hidden_field_tag(:selectsystem, @selectsystem) %>
 			<div class="span10">
-				<div class="span"><%= select_tag 'devicetype', options_from_collection_for_select( @devicetypes, :id, :name, @selecttype ), onchange: "this.form.submit();" %></div>
+				<div class="span"><%= select_tag 'devicetype', options_from_collection_for_select( @devicetypes, :id, :longname, @selecttype ), onchange: "this.form.submit();" %></div>
 			</div>
 		<% end %>
 
 		<%= form_tag controller: "systems", action: "adddevice" do %>
-			<%= hidden_field_tag(:devicecate, @selectcate) %>
 			<%= hidden_field_tag(:selectsystem, @selectsystem) %>
-			<%= hidden_field_tag(:devicetype, @selecttype) %>
 			<div class="span10">
 				<div class="span"><%= select_tag 'selectdevice', options_from_collection_for_select( @devices, :id, :name) %></div>
 				<div class="span"><%= text_field_tag :maxnum, "", placeholder: "Max Quantity", class: "textsize4" if @selectcate == "Hardware" %></div>
-				<div class="span"><%= text_area_tag :note, "",placeholder: "Note...", class: "textsize26" %></div>
-				<div class="span"><%= submit_tag "Add In", class: "btn btn-primary btn-success" %></div>
+				<div class="span9"><%= text_area_tag :note, "",placeholder: "Note...", class: "textsize26" %></div>
+				<div class="span9"><%= submit_tag "Add In", class: "btn btn-primary btn-success" %></div>
 			</div>
 		<% end %>
 	</div>

@@ -8,7 +8,7 @@
 		<% @typelist.each do |t| %>
 			<div class="row">
 				<%= radio_button_tag "selecttype", t.id, if @selecttype.to_i == t.id then true else false end, onchange: "this.form.submit();", class: "span3"  %><%= t.name %>
-				<%= link_to "delete", t, method: :delete, data: { confirm: "Sure?" }, class: "span toright" if current_user.root? %>
+				<%= link_to "x", t, method: :delete, data: { confirm: "Sure?" }, class: "span toright" if current_user.root? %>
 			</div>
 		<% end %>
 	<% else %>
@@ -21,19 +21,17 @@
 <% end %>
 
 <% if current_user.root? then %>
-<hr>
-<%= form_tag controller: "testcases", action: "addtype" do |t| %>
-	<%= hidden_field_tag(:casecate, @selectcate) %>
-	<%= hidden_field_tag(:casetype, @selecttype) %>
-	<div><%= text_field_tag :name,"",placeholder: "Type Name" %></div>
-	<div><%= text_area_tag :note,"",placeholder: "Note..." %></div>
-	<div><%= submit_tag "Add Type" , :class => "submit" %></div>
-<% end %>
-<% end %>
+<div class="row newpost">
+	<h2>New Testcase Type</h2>
+	<hr>
+	<%= form_tag controller: "testcases", action: "addtype" do |t| %>
+		<%= hidden_field_tag(:casecate, @selectcate) %>
+		<%= hidden_field_tag(:casetype, @selecttype) %>
+		<div><%= text_field_tag :name,"",placeholder: "Case Type Name" %></div>
+		<div><%= text_area_tag :note,"",placeholder: "Note..." %></div>
+		<div><%= submit_tag "Add Type" , :class => "submit" %></div>
+	<% end %>
 
-
-
-<% if current_user.root? then %>
 	<h2>Labels for Testcases</h2><hr>
 
 	<% if @weightlist != nil then if @weightlist.count != 0 then %>
@@ -42,7 +40,7 @@
 				<div class="span">
 				<%= t.labelindex %> - <%= link_to t.name, edit_caseweight_path(t), :onclick=>"window.open(this.href,'create_company', 'height=650, width=600');return false;" %> - weight:<%= t.weight %>
 				</div>
-				<%= link_to "delete", t, method: :delete, data: { confirm: "Sure?" }, class: "span toright" if current_user.root? %>
+				<%= link_to "x", t, method: :delete, data: { confirm: "Sure?" }, class: "span toright" if current_user.root? %>
 			</div>
 		<% end %>
 	<% else %>
@@ -51,7 +49,7 @@
 	<% else %>
 		<h2><br>No label existed</h2>
 	<% end %>
-<hr>
+	<hr>
 	<%= form_tag controller: "testcases", action: "addlabel" do |t| %>
 		<div><%= text_field_tag :name,"",placeholder: "Label Name" %></div>
 		<div><%= text_field_tag :labelindex,"",placeholder: "Label Index" %></div>
@@ -59,4 +57,5 @@
 		<div><%= text_area_tag :note,"",placeholder: "Note..." %></div>
 		<div><%= submit_tag "Add Label" , :class => "submit" %></div>
 	<% end %>
+</div>	
 <% end %>

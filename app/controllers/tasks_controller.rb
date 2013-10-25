@@ -32,6 +32,7 @@ class TasksController < ApplicationController
     @setflags = self.setflags
 	@selecttask = session[:selecttask]
 	@selecttarget = session[:selecttarget]
+	@selecttarget = params[:selecttarget]
 	
 	if current_user.lead? then 
 		@tasklist = current_user.tasks 

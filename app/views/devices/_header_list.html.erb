@@ -1,7 +1,6 @@
-<div class="span3">
-<h1>My Devices</h1>
-</div>
-<div class="span8 toright">
+
+<h2>My Devices</h2>
+
 <%= form_tag remote: true, controller: "devices", action: "selectcate" do %>
 	<%= hidden_field_tag(:devicecate, @selectcate) %>
 	<%= hidden_field_tag(:devicetype, @selecttype) %>
@@ -9,4 +8,5 @@
 		<div class="span2"><%= radio_button_tag 'selectcate', c, if @selectcate == c then true else false end, onchange: "this.form.submit();" %><%= c %></div>
 	<% end %>
 <% end %>
-</div>
+
+<hr>

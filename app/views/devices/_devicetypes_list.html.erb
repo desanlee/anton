@@ -1,4 +1,4 @@
-<h2>Device Types</h2><hr>
+<h2>SW/HW/FW Types</h2><hr>
 
 <%= form_tag controller: "devices", action: "selecttype" do %>
 	<%= hidden_field_tag(:devicecate, @selectcate) %>
@@ -8,8 +8,8 @@
 		<% @typelist.each do |t| %>
 			<div class="row">
 				<%= radio_button_tag "selecttype", t.id, if @selecttype.to_i == t.id then true else false end, onchange: "this.form.submit();", class: "span3"  %>
-				<%= link_to t.name, edit_devicetype_path(t),:onclick=>"window.open(this.href,'create_company', 'height=500, width=600');return false;" %>
-				<%= link_to "delete", t, method: :delete, data: { confirm: "Sure?" }, class: "span toright" if current_user.root?  %>
+				<%= link_to t.longname, edit_devicetype_path(t),:onclick=>"window.open(this.href,'create_company', 'height=500, width=600');return false;" %>
+				<%= link_to "x", t, method: :delete, data: { confirm: "Sure?" }, class: "span toright" if current_user.root?  %>
 			</div>
 		<% end %>
 	<% else %>
@@ -23,11 +23,12 @@
 
 <% if current_user.root? then %>
 <hr>
-<%= form_tag controller: "devices", action: "addtype" do |t| %>
-	<%= hidden_field_tag(:devicecate, @selectcate) %>
-	<%= hidden_field_tag(:devicetype, @selecttype) %>
-	<div><%= text_field_tag :name,"",placeholder: "Type Name" %></div>
-	<div><%= text_area_tag :note, "",placeholder: "Note..." %></div>
-	<div><%= submit_tag "Add Type" , :class => "submit btn btn-primary btn-danger" %></div>
-<% end %>
+<div class="row newpost">
+	<%= form_tag controller: "devices", action: "addtype" do |t| %>
+		<div><%= select_tag 'devicecate', options_for_select( @catelist), :class => "textsize6" %></div>
+		<div><%= text_field_tag :name,"",placeholder: "Type Name" %></div>
+		<div><%= text_area_tag :note, "",placeholder: "Note..." %></div>
+		<div><%= submit_tag "Add Type" , :class => "submit btn btn-primary btn-danger" %></div>
+	<% end %>
+</div>
 <% end %>

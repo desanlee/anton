@@ -16,10 +16,8 @@
 	  <%= f.label "testcase has label of:" %>
       <%= f.collection_select :caseweight_id, @weightlist, :id, :name, {:include_blank => true} %>
  
-	  <% if @testcase.casecate == "Operation" then %>
-		<%= f.label "Execution will make what devie changed:" %>
-		<%= f.collection_select :devicetype_id, @devicetypes, :id, :name, {:include_blank => true} %>
-	  <% end %>
+	  <%= f.label "Execution will make what devie changed:" %>
+	  <%= f.collection_select :devicetype_id, @devicetypes, :id, :name, {:include_blank => true} %>
 
       <%= f.label "Execution steps:" %>
       <%= f.text_area :steps, class: "editpage" %>

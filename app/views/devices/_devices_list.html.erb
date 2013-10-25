@@ -1,9 +1,9 @@
-<h2>Device List</h2><hr>
+<h2>SW/HW/FW List</h2><hr>
 
 <ul>
 	<% if @devicelist != nil then if @devicelist.count != 0 then %>
 		<table class="table table-striped table-bordered table-condensed">
-		<tr><td>Device Name</td><td>Created At</td><td>Count Num</td><td></td></tr>
+		<tr><td>SW/HW/FW Name</td><td>Created At</td><td>Created By</td><td>Count Num</td><td>Used In</td><td>Opt</td></tr>
 		<% @devicelist.each do |d| %>
 			<tr>
 				<td onmouseover="ShowContent('<%= d.name %>');" onmouseout="HideContent('<%= d.name %>');">
@@ -11,7 +11,12 @@
 				</td>
 				<div id='<%= d.name %>' class="showmoreinfo">Note:<hr><%= simple_format(d.note) %></div>
 				<td><%= d.created_at.to_date %></td>
+				<td><%= d.user.name %></td>
 				<td><%= d.countnum %></td>
+				<td><% d.systems.each do |s| %>
+					<div class="btn"><%= s.name %></div>
+					<% end %>
+				</td>
 				<td><%= link_to "x", d, method: :delete, data: { confirm: "Sure?" }, class: "" %></td>
 			</tr>
 		<% end %>
@@ -27,16 +32,14 @@
 <hr>
 
 <%= form_tag controller: "devices", action: "adddevice" do %>
-	<%= hidden_field_tag(:devicecate, @selectcate) %>
-	<%= hidden_field_tag(:devicetype, @selecttype) %>
+
 	<div class="row newpost">
 		<h2>Add New Device In</h2>
+		<div class="span10"><%= select_tag 'devicetype', options_from_collection_for_select( @typelist, :id, :longname), :class => "textsize6" %></div>
 		<div class="span10"><%= text_field_tag :name,"",placeholder: "Device Name (Can not be null)", class: "textsize24" %></div>
-		<% if @selectcate == "Hardware" then %>
-			<div class="span">Count: <%= text_field_tag :count,"0", class: "textsize2" %></div>
-			<div class="span4"><%= text_field_tag :model,"",placeholder: "Model",  class: "textsize8 " %></div>
-			<div class="span3"><%= text_field_tag :pn,"",placeholder: "PN",  class: "textsize8 " %></div>
-		<% end %>
+		<div class="span">Count: <%= text_field_tag :count,"0", class: "textsize2" %></div>
+		<div class="span4"><%= text_field_tag :model,"",placeholder: "Model",  class: "textsize8 " %></div>
+		<div class="span3"><%= text_field_tag :pn,"",placeholder: "PN",  class: "textsize8 " %></div>
 		<div class="span10"><%= text_area_tag :note, "",placeholder: "Note...",  class: "textsize24 " %></div>
 		<div class="span4 toright"><%= submit_tag "Add New Device In" , :class => "submit  btn btn-danger" %></div>
 	</div>

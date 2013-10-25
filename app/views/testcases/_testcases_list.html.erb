@@ -1,4 +1,8 @@
-<h2>Testcase List</h2><hr>
+<h2>Testcase List</h2>
+<%= form_tag controller: "testcases", action: "twiki" do %>
+	<div><%= submit_tag "twiki" , :class => "submit label toright" %></div>
+<% end %>
+<hr>
 
 <% if @testcases != nil then %>
 	<% if @testcases.count != 0 then %>
@@ -10,7 +14,7 @@
 						<% if current_user.root? or current_user == d.user then%>
 							<%= link_to d.name, edit_testcase_path(d), :onclick=>"window.open(this.href,'create_company', 'height=650, width=600');return false;" %>
 						<% else %>
-							<%= d.name %>
+							<%= d.longname %>
 						<% end %>
 					</td>
 					<div id='<%= d.name %>' class="showmoreinfo">Execution Steps:<hr><%= simple_format(d.steps) %></div>
@@ -38,14 +42,12 @@
 <h2>Create a case</h2>
 
 	<%= form_tag controller: "testcases", action: "addcase" do %>
-		<%= hidden_field_tag(:casecate, @selectcate) %>
-		<%= hidden_field_tag(:casetype, @selecttype) %>
 		<div class="span10">
-			<div class="span">Testcase Name: <br><%= text_field_tag :name, "", class: "textsize16" %></div>
-			<% if @selectcate == "Operation" then %>
-				<div class="span">Make Env Change: <br><%= select_tag 'devicetype', options_from_collection_for_select( @devicetypes, :id, :name ), include_blank: 'None', class: "textsize4" %></div>
-			<% end %>
-			<div class="span10">Execution Steps:<%= text_area_tag :steps, "", class: "textsize24" %></div>
+			<div class="span12">Testcase Name: <br><%= text_field_tag :name, "", class: "textsize24" %></div>
+			<div class="span">Testcase is executed on stage of: <br><%= select_tag 'casetype', options_from_collection_for_select(@typelist, :id, :name), :class => "textsize8" %></div>
+			<div class="span">Testcase Type: <br><%= select_tag 'casecate', options_for_select(@catelist), :class => "textsize8" %></div>
+			<div class="span">Make Env Change: <br><%= select_tag 'devicetype', options_from_collection_for_select( @devicetypes, :id, :name ), include_blank: 'None', class: "textsize8" %></div>
+			<div class="span12">Execution Steps: <br><%= text_area_tag :steps, "", class: "textsize24" %></div>
 			<div class="span3 toright"><%= submit_tag "Add New Case" , :class => "submit btn btn-success toright" %></div>
 		</div>
 	<% end %>

@@ -4,4 +4,12 @@ class Devicetype < ActiveRecord::Base
   has_many :testcases, foreign_key: "devicetype_id"
   
   validates :name, :presence => true
+  
+  def longname
+	if self.devicecate then
+		return self.devicecate + " - " + self.name
+	else
+		return "NoneCategory-" + self.name
+	end
+  end
 end

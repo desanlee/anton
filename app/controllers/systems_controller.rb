@@ -10,7 +10,7 @@ class SystemsController < ApplicationController
 	if @selectcate == nil then @selectcate = 'Hardware' end
 	if @selectsystem == nil then @selectsystem = System.first.id if System.first != nil end
 	
-	@devicetypes = Devicetype.find_all_by_devicecate(@selectcate)
+	@devicetypes = Devicetype.all.sort_by{|s| s.longname}
 	if @selecttype == nil then @selecttype = @devicetypes.first.id if @devicetypes.first != nil end
 	@devices = Device.find_all_by_devicetype_id_and_user_id(@selecttype, current_user.id)
 	

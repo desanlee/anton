@@ -1,12 +1,15 @@
 <% provide(:taskpage, 'btn-large') %>
 
-<div class="row">
 
-<div class="bkgrd span12">
-	<%= render 'tasks/task_list' %>
-
-	<%= render 'tasks/detail_list' %>
+<div class="row-fluid">
+	<div class="bkgrd span3">
+		<%= render 'tasks/task_list' %>
+	</div>
+	
+	<div class="bkgrd span9">
+		<%= render 'tasks/detail_list' %>
+	</div>
 </div>
 
-</div>
+
 

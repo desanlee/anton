@@ -27,7 +27,7 @@ class DevicesController < ApplicationController
 	@selecttype = session[:selecttype]
 	
 	if @selectcate == nil then @selectcate = self.catelist.first end
-	@typelist = Devicetype.find_all_by_devicecate(@selectcate)
+	@typelist = Devicetype.all.sort_by{|c| c.longname}
 	if @selecttype == nil then @selecttype = @typelist.first.id if @typelist.first != nil end
 
     @catelist = self.catelist 

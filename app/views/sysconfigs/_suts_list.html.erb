@@ -9,6 +9,7 @@
 				<%= radio_button_tag "selectsut", t.id, if @selectsut.to_i == t.id then true else false end, onchange: "this.form.submit();", class: "span3"  %>
 				<%= t.system.name + " " %>
 				<%= link_to t.name, edit_sut_path(t), :onclick=>"window.open(this.href,'create_company', 'height=650, width=600');return false;" %>
+				 - <%= t.spip %> - 
 				(<%= t.holder.name %>)
 				<%= link_to "x", t, method: :delete, data: { confirm: "Sure?" }, class: "span toright" if current_user.lead?  %>
 			</div>

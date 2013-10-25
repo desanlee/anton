@@ -35,22 +35,12 @@ class TestcasesController < ApplicationController
 	if @selectcate == nil then @selectcate = 'Info Check' end
 	if @selecttype == nil then @selecttype = Casetype.first.id if Casetype.first != nil end
 	
-    @catelist = self.catelist
+	@catelist = self.catelist
 	@typelist = Casetype.all
 	@weightlist = Caseweight.all
-	@testcases = Testcase.find_all_by_casecate_and_casetype_id(@selectcate, @selecttype)
+	@testcases = Testcase.find_all_by_casetype_id(@selecttype)
 	
 	@devicetypes = Devicetype.find_all_by_devicecate("Software") + Devicetype.find_all_by_devicecate("Firmware")
-  end
-
-  def selectcate
-	@selectcate = params[:selectcate] 
-	@selecttype = params[:casetype] 
-	
-	session[:selectcate] = params[:selectcate] 
-	
-	self.index
-	render 'testcases/index'
   end
   
   def selecttype

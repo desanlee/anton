@@ -8,7 +8,8 @@
 		<% @systemlist.each do |s| %>
 			<div class="row">
 				<%= radio_button_tag "selectsystem", s.id, if @selectsystem.to_i == s.id then true else false end, onchange: "this.form.submit();" , class: "span3" %><%= s.name %>
-				<%= link_to "delete", s, method: :delete, data: { confirm: "Sure?" }, class: "span toright"  if s.user == current_user %>
+				 - <%= s.user.name if s.user != nil %>
+				<%= link_to "x", s, method: :delete, data: { confirm: "Sure?" }, class: "span toright"  if s.user == current_user %>
 			</div>
 		<% end %>
 	<% else %>
