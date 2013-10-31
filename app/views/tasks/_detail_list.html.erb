@@ -19,6 +19,9 @@
 <div class="tab-content">
 
 	<% tabname = "taboverall" %>
+	System command return: <%= @linuxreturn %><br>
+	System command output:<br> <%= @linuxoutput %><br>
+	
 	<div id='<%=tabname%>' class="<%= if (params[:tab] == tabname) then 'tab-pane active'  else 'tab-pane' end%>" >
 			
 		<% if @task != nil then %>

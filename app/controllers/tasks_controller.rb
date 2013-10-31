@@ -3,6 +3,11 @@ class TasksController < ApplicationController
     ['must']
   end
   
+  def createsvn
+	@linuxoutput = `dmesg`
+	@linuxreturn = $?
+  end
+  
   def selectuser
 	@selecttask = params[:selecttask]
 	@selecttarget = params[:selecttarget]
@@ -100,6 +105,8 @@ class TasksController < ApplicationController
   end
 
   def calculate
+	self.createsvn
+	
 	@totalcases = 0
 	@selecttask = params[:selecttask]
 	@selecttarget = params[:selecttarget]
