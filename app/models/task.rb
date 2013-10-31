@@ -93,4 +93,12 @@ class Task < ActiveRecord::Base
 	end
   end
   
+  def svnname
+	return "anton/projects/project-" + self.id.to_s
+  end
+  
+  def svnlink
+	return "http://nsgbj-twiki.cn.oracle.com/svn/sysvf/testresults/" + self.svnname
+  end
+  
 end
