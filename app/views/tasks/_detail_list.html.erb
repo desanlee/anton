@@ -19,7 +19,7 @@
 <div class="tab-content">
 
 	<% tabname = "taboverall" %>
-	Logs are located in: <%= @task.svnlink %><hr>
+	<h4>Logs are located in: <%= @task.svnlink %></h4><hr>
 	<div id='<%=tabname%>' class="<%= if (params[:tab] == tabname) then 'tab-pane active'  else 'tab-pane' end%>" >
 			
 		<% if @task != nil then %>
