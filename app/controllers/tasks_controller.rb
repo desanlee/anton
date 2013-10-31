@@ -113,7 +113,6 @@ class TasksController < ApplicationController
 	@selecttarget = params[:selecttarget]
 	
 	@task = Task.find_by_id(@selecttask)
-	self.createsvn @task
 	
 	@target = Target.find_by_id(@selecttarget)
 	
@@ -232,6 +231,7 @@ class TasksController < ApplicationController
 	newtask.save
 	
 	session[:selecttask] = newtask.id
+	self.createsvn newtask
 	
 	self.index
 	render 'tasks/index'	
