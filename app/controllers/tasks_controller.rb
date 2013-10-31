@@ -3,8 +3,8 @@ class TasksController < ApplicationController
     ['must']
   end
   
-  def createsvn
-	@svnpath = "anton/projects/project-"+self.id.to_s
+  def createsvn task
+	@svnpath = "anton/projects/project-"+ task.id.to_s
 	`rendersvn create @svnpath`
   end
   
@@ -105,13 +105,14 @@ class TasksController < ApplicationController
   end
 
   def calculate
-	self.createsvn
 	
 	@totalcases = 0
 	@selecttask = params[:selecttask]
 	@selecttarget = params[:selecttarget]
 	
 	@task = Task.find_by_id(@selecttask)
+	self.createsvn @task
+	
 	@target = Target.find_by_id(@selecttarget)
 	
 	@task.update_time = Time.now
