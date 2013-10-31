@@ -4,8 +4,8 @@ class TasksController < ApplicationController
   end
   
   def createsvn
-	@linuxoutput = `dmesg`
-	@linuxreturn = $?
+	@svnpath = "anton/projects/project-"+self.id.to_s
+	`rendersvn create @svnpath`
   end
   
   def selectuser
