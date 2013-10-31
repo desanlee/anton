@@ -87,4 +87,13 @@ class Sysconfig < ActiveRecord::Base
   def sutname
 	return self.sut.name + "-" + self.id.to_s
   end
+  
+  def svnname
+	return "anton/configs/"+ self.sut.system.id.to_s + "-" + self.sut.id.to_s + "-" + self.id.to_s
+  end
+  
+  def svnlink
+	return "http://nsgbj-twiki.cn.oracle.com/svn/sysvf/testresults/" + self.svnname
+  end
+  
 end

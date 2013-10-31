@@ -12,6 +12,7 @@ function changeresulttype() {
 <% if @selectsut != nil then %>
 
 	<h2>Execute A Testcase On <%= @sysconfig.sut.name %></h2><hr>
+	<h4>Logs are located in: <%= @sysconfig.svnlink %></h4><hr>
 
 	<div class="row">
 		<%= form_tag controller: "executions", action: "selecttype" do %>

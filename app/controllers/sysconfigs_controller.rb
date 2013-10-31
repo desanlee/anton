@@ -1,5 +1,12 @@
 class SysconfigsController < ApplicationController
 
+  def createsvn config
+	svnpath = "anton/configs/"+ config.sut.system.id.to_s + "-" + config.sut.id.to_s + "-" + config.id.to_s
+	@linuxcmd = "rendersvn create " + svnpath
+	system( @linuxcmd )
+	@linuxreturn = $?
+  end
+  
   def edit
     @sysconfig = Sysconfig.find(params[:id])
 	@selectsut = session[:selectsut]
@@ -136,6 +143,8 @@ class SysconfigsController < ApplicationController
 	@newconfig.sut_id = @selectsut
 	@newconfig.user_id = current_user.id
 	@newconfig.save
+	
+	self.createsvn @newconfig
 	
 	allrelationships = Sysconfigrelationship.find_all_by_sysconfig_id(@currentsysconfig_id)
 	hwrelationships = allrelationships.select {|r| r.device.devicetype.devicecate == "Hardware"}
