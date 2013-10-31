@@ -4,8 +4,9 @@ class TasksController < ApplicationController
   end
   
   def createsvn task
-	@svnpath = "anton/projects/project-"+ task.id.to_s
-	`rendersvn create @svnpath`
+	svnpath = "anton/projects/project-"+ task.id.to_s
+	@linuxcmd = "rendersvn create " + svnpath
+	`@linuxcmd`
   end
   
   def selectuser
