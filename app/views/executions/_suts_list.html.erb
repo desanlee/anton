@@ -40,7 +40,7 @@
 						,<%= hwc.position.to_s if hwc.position != nil %>
 						<% @tmp = hwc %>
 					<% else %>
-						</li><li><%= hwc.device.devicetype.name + "-" + hwc.device.name if hwc.device != nil %><%= " on " +hwc.device.devicetype.positionname + hwc.position.to_s if hwc.position != nil%>
+						</li><li><%= hwc.device.devicetype.name if hwc.device.devicetype != nil%> <%= hwc.device.name if hwc.device != nil %> on <%= hwc.device.devicetype.positionname if hwc.device.devicetype != nil %> <%= hwc.position.to_s if hwc.position != nil%>
 						<% @tmp = hwc %>
 					<% end %>
 				<% end %>
