@@ -2,8 +2,8 @@
 <div class="weeklystatus">
 
 	<% if @userexecution != nil then %>
+		<% tmpos = "" %>
 		<% @userexecution.each do |result| %>
-			<% tmpos = "" %>
 			<% if result[:os] != tmpos then %>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <%= result[:os] %> <%= result[:bios] %> <%= result[:biosmode]%><br>
 				<% tmpos = result[:os] %>
