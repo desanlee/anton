@@ -26,9 +26,9 @@ class AchivementsController < ApplicationController
 				secondtmp[:bios] = ""
 				secondtmp[:biosmode] = ""
 				me.realconfig.each do |rd|
-					secondtmp[:os] = "On " + rd.name if rd.devicetype.name == "OS"
-					secondtmp[:bios] = "Using" + rd.name if rd.devicetype.name == "SP_BIOS"
-					secondtmp[:biosmode] = "In" + rd.name if rd.devicetype.name == "BIOS Mode Setting"
+					secondtmp[:os] = rd.name if rd.devicetype.name == "OS"
+					secondtmp[:bios] = rd.name if rd.devicetype.name == "SP_BIOS"
+					secondtmp[:biosmode] = rd.name if rd.devicetype.name == "BIOS Mode Setting"
 				end
 				resultarray << secondtmp
 			end
