@@ -31,7 +31,7 @@ class DevicesController < ApplicationController
 	if @selecttype == nil then @selecttype = @typelist.first.id if @typelist.first != nil end
 
     @catelist = self.catelist 
-	@devicelist = Device.find_all_by_devicetype_id_and_user_id(@selecttype, current_user.id)
+	@devicelist = Device.find_all_by_devicetype_id(@selecttype)
   end
 
   def selectcate

@@ -12,7 +12,7 @@ class SystemsController < ApplicationController
 	
 	@devicetypes = Devicetype.all.sort_by{|s| s.longname}
 	if @selecttype == nil then @selecttype = @devicetypes.first.id if @devicetypes.first != nil end
-	@devices = Device.find_all_by_devicetype_id_and_user_id(@selecttype, current_user.id)
+	@devices = Device.find_all_by_devicetype_id(@selecttype)
 	
     @catelist = self.catelist
 	@systemlist = System.all
