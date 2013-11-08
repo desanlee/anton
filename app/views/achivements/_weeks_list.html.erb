@@ -1,0 +1,14 @@
+<h2>Weeks</h2><hr>
+
+<%= form_tag controller: "achivements", action: "selectweek" do %>
+
+	<% @weeklist.each do |t| %>
+		<div class="row">
+			<%= radio_button_tag "selectedweek", t.strftime("%W"), if @selectedweek == t.strftime("%W") then true else false end, onchange: "this.form.submit();", class: "span3"  %>
+			Week <%= t.strftime("%W") %>,  
+			From: <%= t.at_beginning_of_week.strftime("%m.%d") %>  
+			To: <%= (t.at_beginning_of_week + 4.day).strftime("%m.%d") %>
+		</div>
+	<% end %>
+
+<% end %>

@@ -2,27 +2,17 @@
 <div class="weeklystatus">
 
 	<% if @userexecution != nil then %>
-		<% @userexecution[:resultarray].each do |result| %>
+		<% @userexecution.each do |result| %>
 			<% tmpos = "" %>
-			&nbsp;&nbsp;&nbsp;* <%= result[:title] %><br>
-			<% result[:secondlevel].each do |secondresult|%>
-				<% if secondresult[:os] != tmpos then %>
-					<% tmpos = secondresult[:os] %>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <%= secondresult[:os] %><br>
-				<% end %>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <%= secondresult[:title] %><br>
+			<% if result[:os] != tmpos then %>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <%= result[:os] %> <%= result[:bios] %> <%= result[:biosmode]%><br>
+				<% tmpos = result[:os] %>
 			<% end %>
-		<% end %>
-		
-		<% if @userexecution[:leftarray] != nil then %>
-			&nbsp;&nbsp;&nbsp;* Other testcases executed<br>
-			<% @userexecution[:leftarray].each do |result| %>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <%= result.testcase.name %> <%= result.device.name if result.device != nil %> on server:<%= result.sysconfig.sut.name %> <br>
-			<% end %>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <%= result[:title] %><br>		
 		<% end %>
 		
 	<% else %>
-		<div class="span8">Never Run Any Testcases</div>
+		<div class="span8">Never Run Any Testcases In This Week</div>
 	<% end %>
 	
 </div>

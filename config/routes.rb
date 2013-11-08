@@ -97,6 +97,7 @@ Anton::Application.routes.draw do
   post '/achivements/lastweek'
   post '/achivements/thisweek'
   post '/achivements/addteammember'
+  post '/achivements/selectweek'
 
   resources :searches
   match '/searches/', to: 'searches#index'

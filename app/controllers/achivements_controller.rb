@@ -1,67 +1,46 @@
 class AchivementsController < ApplicationController
 
-	def userexecution(user)
-		if !@lastweek
-			@currentweek = (Time.now).strftime("%W")
-			@currentweekbegin = (Time.now).at_beginning_of_week.strftime("%m.%d")
-			@currentweekend = ((Time.now).at_beginning_of_week + 4.day).strftime("%m.%d")
-		end
+	def selectweek
+		@selectedweek = params[:selectedweek]
+		session[:selectedweek] = @selectedweek
 		
-		usertargets = user.targets
-		if usertargets != nil then
-			usertargets = usertargets.select{|t| t.active?}
-		end
+		self.index
+		render 'achivements/index'
+	end
+	
+	def userexecution(user)
+
+		@currentweek = session[:selectedweek]
+
 		userexecutions = Array.new
 		user.executions.each do |e|
 			userexecutions << e if e.created_at.strftime("%W") == @currentweek
 		end
 		resultarray = Array.new
-		usedarray = Array.new
-		leftarray = Array.new
-		if usertargets != nil then
-			if userexecutions != nil then
-				usertargets.each do |target| 
-					firstlevel = Hash.new
-					secondlevel = Array.new
-					firstlevel[:title] = target.name
-					firstlevel[:title] = target.task.name + " - " + firstlevel[:title] if target.task != nil
-					if target.env != nil then 
-						userexecutions.each do |me|
-							secondtmp = Hash.new
-							if target.env.testcases.include? me.testcase and !(target.env.devices & me.realconfig).empty? then
-								secondtmp[:title] = me.testcase.name
-								secondtmp[:title] = secondtmp[:title] + " on server: " + me.sysconfig.sut.name if me.sysconfig != nil
-								secondtmp[:os] = "None OS related Test Cases"
-								me.realconfig.each do |rd|
-									secondtmp[:os] = "On " + rd.name if rd.devicetype.name == "OS"
-								end
-								secondlevel << secondtmp
-								usedarray << me
-							end
-						end
-						firstlevel[:secondlevel] = secondlevel.sort_by{|e| e[:os]}
-						resultarray << firstlevel
-					end
-				end 
-				userexecutions.each do |me|
-					if !usedarray.include? me then
-						leftarray << me
-					end
+
+		if userexecutions != nil then
+			userexecutions.each do |me|
+				secondtmp = Hash.new
+				secondtmp[:title] = me.testcase.name + " on server: " + me.sysconfig.sut.name if me.sysconfig != nil
+				secondtmp[:os] = "None OS related Test Cases"
+				secondtmp[:bios] = ""
+				secondtmp[:biosmode] = ""
+				me.realconfig.each do |rd|
+					secondtmp[:os] = "On " + rd.name if rd.devicetype.name == "OS"
+					secondtmp[:bios] = "Using" + rd.name if rd.devicetype.name == "SP_BIOS"
+					secondtmp[:biosmode] = "In" + rd.name if rd.devicetype.name == "BIOS Mode Setting"
 				end
+				resultarray << secondtmp
 			end
+			resultarray = resultarray.sort_by{|e| e[:os]}
 		end
-		rtnexecutions = Hash.new
-		rtnexecutions[:resultarray] = resultarray
-		rtnexecutions[:leftarray] = leftarray.uniq
-		return rtnexecutions
+		
+		return resultarray
 	end
 
 	def leadachieve(user)
-		if !@lastweek
-			@currentweek = (Time.now).strftime("%W")
-			@currentweekbegin = (Time.now).at_beginning_of_week.strftime("%m.%d")
-			@currentweekend = ((Time.now).at_beginning_of_week + 4.day).strftime("%m.%d")
-		end
+
+		@currentweek = session[:selectedweek]
 		
 		createdprojects = Array.new
 		createdtasks = Array.new
@@ -85,42 +64,29 @@ class AchivementsController < ApplicationController
 	
 	def index
 		@users = User.all
+		@tmpweek = Time.now
+		weekindex = 16
+		@weeklist = Array.new
+		while weekindex > 0 do
+			@weeklist << @tmpweek
+			@tmpweek = @tmpweek - 7.days
+			weekindex = weekindex - 1
+		end
 		
-		if current_user.engineer? then
-			@mysysconfigurations = Array.new
-			current_user.sysconfigs.each do |c|
-				@mysysconfigurations << c if c.created_at.strftime("%W") == @currentweek
-			end
+		@currentweek = session[:selectedweek]
+		@currentweek = Time.now.strftime("%W") if @currentweek == nil
+		
+		@mysysconfigurations = Array.new
+		current_user.sysconfigs.each do |c|
+			@mysysconfigurations << c if c.created_at.strftime("%W") == @currentweek
+		end
 			
-			@userexecution = userexecution current_user
-		end
-		
-		if current_user.lead? then
-			current_user.engineers.each do |euser|
-				@userexecution[euser.id] = userexecution euser
-			end
-			@leadachieve = leadachieve current_user
-		end
+		@userexecution = userexecution current_user
 		
 	end
 	
-	def lastweek
-		@lastweek = true
-		@currentweek = (Time.now - 7.days).strftime("%W")
-		@currentweekbegin = (Time.now - 7.days).at_beginning_of_week.strftime("%m.%d")
-		@currentweekend = ((Time.now - 7.days).at_beginning_of_week + 4.day).strftime("%m.%d")
-		
-		self.index
-		render 'achivements/index'
-	end
 	
-	def thisweek
-		@lastweek = false
-		self.index
-		render 'achivements/index'
-	end
-	
-	def addteammember
+def addteammember
 	teammember = Teamrelationship.new
 	teammember.lead_id = current_user.id
 	teammember.engineer_id = params[:member]

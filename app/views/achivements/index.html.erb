@@ -1,14 +1,11 @@
 <% provide(:achivepage, 'btn-large') %>
-<div class="row">
-	<div class="bkgrd span12">
-		<%= render 'achivements/header_list' %>
+
+<div id="allcontent" class="row-fluid">
+	<div id="leftcontent" class="bkgrd span3">
+		<%= render 'achivements/weeks_list' %>
 	</div>
 
-	<div class="bkgrd span12">
-		<% if current_user.lead? then %>
-			<%= render 'achivements/lead' %>
-		<% else %>
-			<%= render 'achivements/engineer' %>
-		<% end %>
+	<div id="rightcontent" class="bkgrd span9">
+		<%= render 'achivements/engineer' %>
 	</div>
 </div>
